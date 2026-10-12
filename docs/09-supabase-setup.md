@@ -3,6 +3,13 @@
 این راهنما طوری نوشته شده که حتی اگر اولین بار است Supabase می‌بینی، بدون سردرگمی جلو بروی.
 در پایان این مراحل: دیتابیس کامل + احراز هویت + امنیت RLS فعال است و کلیدهای امن اپ را داری.
 
+> **✅ وضعیت فعلی پروژه کیارا (اکتبر ۲۰۲۵):**
+> پروژه ساخته شده و لایو است — Project URL و کلید publishable گرفته شده و در
+> `local.properties` (بیلد لوکال) و GitHub Secrets به‌نام‌های `SUPABASE_URL` /
+> `SUPABASE_ANON_KEY` (بیلد CI) ثبت شده‌اند؛ تست دود Auth هم پاس شد.
+> **تنها قدم باقی‌مانده: گام ۲ — اجرای `bootstrap.sql` در SQL Editor.**
+> (تا قبل از آن، اپ وارد می‌شود ولی جداول کاربر هنوز وجود ندارند.)
+
 ---
 
 ## گام ۱ — ساخت پروژه
@@ -36,12 +43,15 @@
 
 ## گام ۳ — برداشتن کلیدهای امن (تنها چیزی که اپ لازم دارد)
 
-از منوی چپ: **Project Settings (⚙️) → API**
+از منوی چپ: **Project Settings (⚙️) → API Keys**
 
 | در Dashboard | در اپ / CI |
 |---|---|
-| **Project URL** | `kiara.supabase.url` یا Secret با نام `SUPABASE_URL` |
-| **anon / public** یا **publishable** key | `kiara.supabase.anonKey` یا Secret با نام `SUPABASE_ANON_KEY` |
+| **Project URL** (شکل `https://xxxx.supabase.co`) | `kiara.supabase.url` یا Secret با نام `SUPABASE_URL` |
+| کلید **publishable** (شکل `sb_publishable_...`) یا legacy **anon** | `kiara.supabase.anonKey` یا Secret با نام `SUPABASE_ANON_KEY` |
+
+> کلیدهای جدید Supabase با پیشوند `sb_publishable_` هستند و جایگزین anon قدیمی
+> (توکن JWT) شده‌اند؛ اپ هر دو فرمت را به‌شکل یکسان در هدر `apikey` می‌فرستد.
 
 ✅ کلید anon «عمومی‌پذیر» است؛ انتشارش به‌خودی‌خود خطرناک نیست چون RLS پشتش است.
 🚫 **service_role** هرگز: نه در اپ، نه در ریپو، نه در چت. این کلید از RLS عبور می‌کند.
