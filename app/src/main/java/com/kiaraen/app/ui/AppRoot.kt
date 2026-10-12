@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -27,6 +28,7 @@ import com.kiaraen.app.ui.collections.CollectionsScreen
 import com.kiaraen.app.ui.common.LocalAppContainer
 import com.kiaraen.app.ui.home.HomeScreen
 import com.kiaraen.app.ui.levels.LevelsScreen
+import com.kiaraen.app.ui.profile.ProfileScreen
 import com.kiaraen.app.ui.progress.ProgressScreen
 import com.kiaraen.app.ui.quiz.QuizScreen
 
@@ -44,6 +46,7 @@ private val TABS = listOf(
     Tab("levels", "سطح‌ها", Icons.Filled.MenuBook),
     Tab("collections", "مجموعه‌ها", Icons.Filled.CollectionsBookmark),
     Tab("progress", "پیشرفت", Icons.Filled.Insights),
+    Tab("profile", "من", Icons.Filled.Person),
 )
 
 @Composable
@@ -114,6 +117,16 @@ private fun MainTabs(navController: androidx.navigation.NavHostController) {
             composable("levels") { LevelsScreen(onOpenQuiz = { ref -> navController.navigate(Routes.quiz(ref)) }) }
             composable("collections") { CollectionsScreen(onOpenQuiz = { ref -> navController.navigate(Routes.quiz(ref)) }) }
             composable("progress") { ProgressScreen() }
+            composable("profile") {
+                ProfileScreen(
+                    onGoAuth = { navController.navigate(Routes.AUTH) },
+                    onSignedOut = {
+                        navController.navigate(Routes.AUTH) {
+                            popUpTo(Routes.MAIN) { inclusive = true }
+                        }
+                    },
+                )
+            }
         }
     }
 }

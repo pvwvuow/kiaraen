@@ -23,10 +23,15 @@ class AuthRemoteDataSource(private val client: SupabaseClient) {
     }
 
     suspend fun signIn(email: String, password: String) {
-        client.auth.loginWith(Email) {
+        client.auth.signInWith(Email) {
             this.email = email
             this.password = password
         }
+    }
+
+    /** Sends the "reset your password" email; the user finishes the flow in the browser. */
+    suspend fun resetPassword(email: String) {
+        client.auth.resetPasswordForEmail(email)
     }
 
     suspend fun signOut() {
@@ -35,6 +40,9 @@ class AuthRemoteDataSource(private val client: SupabaseClient) {
 
     suspend fun currentUserId(): String? =
         client.auth.currentSessionOrNull()?.user?.id
+
+    suspend fun userEmail(): String? =
+        client.auth.currentSessionOrNull()?.user?.email
 
     suspend fun isSignedIn(): Boolean = currentUserId() != null
 }

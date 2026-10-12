@@ -29,11 +29,11 @@ class ProgressRemoteDataSource(private val client: SupabaseClient) {
 
     suspend fun pullProgress(userId: String): List<ProgressDto> =
         client.from("user_word_progress")
-            .select { eq("user_id", userId) }
+            .select { filter { eq("user_id", userId) } }
             .decodeList()
 
     suspend fun pullStats(userId: String): UserStatsDto? =
         client.from("user_stats")
-            .select { eq("user_id", userId); limit(1) }
+            .select { filter { eq("user_id", userId) }; limit(1) }
             .decodeSingleOrNull<UserStatsDto>()
 }

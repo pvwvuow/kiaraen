@@ -106,7 +106,7 @@ interface ProgressDao {
 
     @Transaction
     suspend fun clearUserData(userId: String) {
-        clearProgress(); clearReviewLog(); clearQuizAttempts(); clearStats()
+        clearProgress(userId); clearReviewLog(userId); clearQuizAttempts(userId); clearStats(userId)
     }
 
     // ── local-mode → account linking: keep everything the user did offline ──

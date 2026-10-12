@@ -38,7 +38,9 @@ object SrsLite {
                 else -> (state.intervalDays * state.easeFactor).coerceAtMost(MAX_INTERVAL)
             }
             val ease = (state.easeFactor + 0.05f).coerceAtMost(3.0f)
-            val status = if (reps >= 5) "mastered" else "review"
+            // 4 consecutive correct answers promote a word to mastered
+            // (matches the tested contract in SrsLiteTest).
+            val status = if (reps >= 4) "mastered" else "review"
             State(status, ease, interval, reps, nowEpochMs + (interval * DAY_MS).toLong())
         } else {
             val ease = (state.easeFactor - 0.2f).coerceAtLeast(1.3f)

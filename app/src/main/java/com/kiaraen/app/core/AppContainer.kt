@@ -1,6 +1,7 @@
 package com.kiaraen.app.core
 
 import android.content.Context
+import com.kiaraen.app.data.local.AppPrefs
 import com.kiaraen.app.data.local.KiaraDatabase
 import com.kiaraen.app.data.remote.ContentRemoteDataSource
 import com.kiaraen.app.data.remote.ProgressRemoteDataSource
@@ -20,6 +21,8 @@ import com.kiaraen.app.data.sync.SyncWorker
 class AppContainer(context: Context) {
 
     val database: KiaraDatabase = KiaraDatabase.get(context)
+
+    val appPrefs = AppPrefs(context)
 
     private val supabase = SupabaseProvider.client
 

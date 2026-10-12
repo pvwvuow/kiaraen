@@ -6,6 +6,9 @@ name: Android Release
 #   ANDROID_KEYSTORE_PASSWORD keystore password
 #   ANDROID_KEY_ALIAS         key alias
 #   ANDROID_KEY_PASSWORD      key password
+# Optional (empty → app ships in guest/offline mode):
+#   SUPABASE_URL              https://YOUR-PROJECT.supabase.co
+#   SUPABASE_ANON_KEY         publishable anon key (public-safe behind RLS)
 # The keystore itself is NEVER committed (.gitignore blocks *.jks / *.keystore).
 
 on:
@@ -48,6 +51,8 @@ jobs:
           -Pkiara.signing.storePassword="$ANDROID_KEYSTORE_PASSWORD"
           -Pkiara.signing.keyAlias="$ANDROID_KEY_ALIAS"
           -Pkiara.signing.keyPassword="$ANDROID_KEY_PASSWORD"
+          -Pkiara.supabase.url="${{ secrets.SUPABASE_URL }}"
+          -Pkiara.supabase.anonKey="${{ secrets.SUPABASE_ANON_KEY }}"
 
       - name: Clean signing material
         if: always()

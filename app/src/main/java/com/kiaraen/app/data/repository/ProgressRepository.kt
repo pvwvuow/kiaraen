@@ -131,6 +131,13 @@ class ProgressRepository(
 
     suspend fun clearUserData(userId: String) = dao.clearUserData(userId)
 
+    /**
+     * Guest → account hand-off (idempotent): everything the user learned while
+     * offline under the "local" id is re-owned by the real account, keeping the
+     * pendingSync flags so the very next sync pushes it to Supabase.
+     */
+    suspend fun linkLocalData(userId: String) = dao.migrateLocalData(userId)
+
     /* ── helpers ──────────────────────────────────────────────────────────── */
 
     private fun toEpoch(iso: String): Long =

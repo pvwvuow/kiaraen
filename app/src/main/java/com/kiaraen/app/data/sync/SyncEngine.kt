@@ -3,6 +3,7 @@ package com.kiaraen.app.data.sync
 import android.util.Log
 import com.kiaraen.app.data.local.QuizAttemptEntity
 import com.kiaraen.app.data.local.ReviewLogEntity
+import com.kiaraen.app.data.remote.SupabaseProvider
 import com.kiaraen.app.data.repository.AuthRepository
 import com.kiaraen.app.data.repository.ContentRepository
 import com.kiaraen.app.data.repository.ProgressRepository
@@ -35,8 +36,15 @@ class SyncEngine(
     private val dao = db.progressDao()
 
     suspend fun syncAll(pullOnStart: Boolean = false): Boolean {
+        // Key-less build (guest/offline): nothing to sync, and touching the
+        // client would only produce DNS noise — exit cleanly instead.
+        if (!SupabaseProvider.isConfigured) return true
         val userId = auth.currentUserId() ?: return true   // not signed in → nothing to sync
         var ok = true
+
+        // One-time (idempotent) hand-off: offline "local" progress becomes
+        // the account's progress, so the pushes below carry it to Supabase.
+        ok = runStep("link-local") { progressRepo.linkLocalData(userId) } && ok
 
         ok = pushReviewLogs(userId) && ok
         ok = pushQuizAttempts(userId) && ok

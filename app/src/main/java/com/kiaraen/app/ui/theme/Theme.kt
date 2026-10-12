@@ -7,22 +7,32 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// Kiara gold identity (matches the HTML prototype)
-val Gold = Color(0xFFC9A227)
-val GoldDark = Color(0xFF8C6D1A)
-val Cream = Color(0xFFFFF8E7)
-val Ink = Color(0xFF2B2118)
+// Kiara gold identity — exact palette of the approved HTML prototype
+// (scripts/kiara-app-template.html :root vars)
+val Gold = Color(0xFFFEC60D)      // --gold
+val GoldDark = Color(0xFFF0A900)  // --gold-d
+val Cream = Color(0xFFFFFDF8)     // input/panel white-cream
+val Paper = Color(0xFFF7F6F3)     // --bg
+val Ink = Color(0xFF1C1A17)       // --ink
+val Muted = Color(0xFF9C968B)     // --mut
+val Line = Color(0xFFE3DFD2)      // input borders
 
 private val LightColors = lightColorScheme(
     primary = Gold,
-    onPrimary = Color.White,
-    primaryContainer = Cream,
+    onPrimary = Ink,
+    primaryContainer = Color(0xFFFFE68A),
     onPrimaryContainer = Ink,
     secondary = GoldDark,
-    background = Color(0xFFFFFCF5),
-    surface = Color.White,
+    onSecondary = Ink,
+    background = Paper,
     onBackground = Ink,
+    surface = Cream,
     onSurface = Ink,
+    surfaceVariant = Color(0xFFEFEAE0),
+    onSurfaceVariant = Muted,
+    outline = Line,
+    outlineVariant = Line,
+    error = Color(0xFFB3261E),
 )
 
 private val DarkColors = darkColorScheme(
@@ -30,10 +40,16 @@ private val DarkColors = darkColorScheme(
     onPrimary = Ink,
     primaryContainer = Color(0xFF3A301F),
     onPrimaryContainer = Cream,
+    secondary = GoldDark,
+    onSecondary = Ink,
     background = Color(0xFF171310),
-    surface = Color(0xFF201A15),
     onBackground = Cream,
+    surface = Color(0xFF201A15),
     onSurface = Cream,
+    surfaceVariant = Color(0xFF2B2318),
+    onSurfaceVariant = Color(0xFFB7B1A2),
+    outline = Color(0xFF4A4436),
+    outlineVariant = Color(0xFF4A4436),
 )
 
 @Composable
