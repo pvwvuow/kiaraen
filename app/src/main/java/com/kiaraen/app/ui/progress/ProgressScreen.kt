@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kiaraen.app.ui.common.LocalAppContainer
@@ -25,8 +26,13 @@ fun ProgressScreen() {
     val uid = rememberUserId()
     val dao = container.database.progressDao()
 
-    val stats by dao.stats(uid).collectAsState(initial = null)
-    val learned by dao.learnedCount(uid).collectAsState(initial = 0)
+    val statsFlow = remember(uid) { dao.stats(uid) }
+    val learnedFlow = remember(uid) { dao.learnedCount(uid) }
+    val stats by statsFlow.collectAsState(initial = null)
+    val learned by learnedFlow.collectAsState(initial = 0)
+
+    val reviews = stats?.totalReviews ?: 0
+    val correct = stats?.totalCorrect ?: 0
 
     Column(
         modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
@@ -35,37 +41,26 @@ fun ProgressScreen() {
         Text("پیشرفت من", style = MaterialTheme.typography.titleLarge)
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("واژه‌های یادگرفته")
-                    Text("${stats?.totalLearned ?: learned}", style = MaterialTheme.typography.titleMedium)
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("تسلط کامل")
-                    Text("${stats?.totalMastered ?: 0}", style = MaterialTheme.typography.titleMedium)
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("استریک فعلی")
-                    Text("${stats?.currentStreak ?: 0} روز", style = MaterialTheme.typography.titleMedium)
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("رکورد استریک")
-                    Text("${stats?.longestStreak ?: 0} روز", style = MaterialTheme.typography.titleMedium)
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("کل مرورها")
-                    Text("${stats?.totalReviews ?: 0}", style = MaterialTheme.typography.titleMedium)
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("دقت")
-                    val r = stats?.totalReviews ?: 0
-                    val c = stats?.totalCorrect ?: 0
-                    Text(if (r == 0) "-" else "${(c * 100) / r}%", style = MaterialTheme.typography.titleMedium)
-                }
+                StatRow("واژه‌های یادگرفته", "${maxOf(stats?.totalLearned ?: 0, learned)}")
+                StatRow("تسلط کامل", "${stats?.totalMastered ?: 0}")
+                StatRow("استریک فعلی", "${stats?.currentStreak ?: 0} روز")
+                StatRow("رکورد استریک", "${stats?.longestStreak ?: 0} روز")
+                StatRow("کل مرورها", "$reviews")
+                StatRow("دقت", if (reviews == 0) "-" else "${(correct * 100) / reviews}%")
+                StatRow("XP", "${stats?.totalXp ?: 0}")
             }
         }
         Text(
             "این آمار به‌صورت آفلاین از داده‌های محلی ساخته می‌شود و با ورود به حساب، بین دستگاه‌های شما همگام می‌شود.",
             style = MaterialTheme.typography.bodySmall,
         )
+    }
+}
+
+@Composable
+private fun StatRow(label: String, value: String) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Text(label)
+        Text(value, style = MaterialTheme.typography.titleMedium)
     }
 }

@@ -8,6 +8,7 @@ import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.gotrue.Auth
 import io.github.jan.supabase.gotrue.SettingsCodeVerifierCache
 import io.github.jan.supabase.gotrue.SettingsSessionManager
+import io.github.jan.supabase.gotrue.user.UserSession
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
 import io.ktor.client.engine.android.Android
@@ -35,6 +36,7 @@ import io.ktor.client.engine.android.Android
 object SupabaseProvider {
 
     @Volatile private var appContext: Context? = null
+    @Volatile private var sessionStore: SettingsSessionManager? = null
 
     /** Must run before anything touches [client] (called in Application.onCreate). */
     fun init(context: Context) {
@@ -61,11 +63,21 @@ object SupabaseProvider {
                 val settings = SharedPreferencesSettings(
                     ctx.getSharedPreferences("kiara_session", Context.MODE_PRIVATE),
                 )
-                sessionManager = SettingsSessionManager(settings)
+                val manager = SettingsSessionManager(settings)
+                sessionStore = manager
+                sessionManager = manager
                 codeVerifierCache = SettingsCodeVerifierCache(settings)
             }
             install(Postgrest)
             install(Storage)
         }
     }
+
+    /**
+     * The session persisted on this device, even while supabase-kt has not
+     * (yet) marked it Authenticated — cold start, or offline when the token
+     * refresh failed. Lets a signed-in user keep using their own data offline.
+     */
+    suspend fun storedSession(): UserSession? =
+        if (!isConfigured) null else runCatching { sessionStore?.loadSession() }.getOrNull()
 }
