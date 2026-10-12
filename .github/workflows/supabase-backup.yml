@@ -1,0 +1,48 @@
+name: Supabase Backup
+
+# Free-plan backups do NOT exist — this is the independent backup the docs demand.
+# Weekly full dump (schema + data) kept as artifacts; optionally attached to a
+# rolling release tag.
+# Required secrets:
+#   SUPABASE_ACCESS_TOKEN
+#   SUPABASE_PROJECT_ID
+#   SUPABASE_DB_PASSWORD
+
+on:
+  schedule:
+    - cron: '0 3 * * 1'   # Mondays 03:00 UTC
+  workflow_dispatch:
+
+jobs:
+  dump:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link project
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+        run: supabase link --project-ref "$SUPABASE_PROJECT_ID"
+
+      - name: Dump database
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+        run: |
+          STAMP=$(date -u +%Y%m%d-%H%M)
+          supabase db dump --file "backup-schema-$STAMP.sql"
+          supabase db dump --data-only --file "backup-data-$STAMP.sql"
+          echo "stamp=$STAMP" >> "$GITHUB_ENV"
+
+      - name: Upload artifacts (kept 90 days)
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ env.stamp }}
+          path: backup-*.sql
+          retention-days: 90
