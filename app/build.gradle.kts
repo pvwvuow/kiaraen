@@ -28,8 +28,8 @@ android {
         applicationId = "com.kiaraen.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.1"
+        versionCode = 4
+        versionName = "0.2.2"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
@@ -71,6 +71,11 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    testOptions {
+        // Robolectric UI tests render real resources (khead.png, strings, themes)
+        unitTests.isIncludeAndroidResources = true
     }
 }
 
@@ -115,4 +120,8 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.junit)
+    // Compose UI tests on Robolectric (NavigationSmokeTest)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
