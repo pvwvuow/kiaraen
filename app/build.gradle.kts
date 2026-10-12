@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// CI diagnostics: register a problem matcher so compiler/KSP/test failures
+// show up as annotations on the (public) run page — no workflow change needed.
+if (System.getenv("GITHUB_ACTIONS") == "true") {
+    println("::add-matcher::" + rootProject.file("scripts/ci/kotlin-problem-matcher.json").absolutePath)
+}
+
 // Gradle does NOT expose local.properties as project properties (AGP only reads
 // sdk.dir from it) — load it explicitly so the documented workflow
 // (local.properties.example) actually takes effect. Command-line -P and
@@ -76,6 +82,14 @@ android {
     testOptions {
         // Robolectric UI tests render real resources (khead.png, strings, themes)
         unitTests.isIncludeAndroidResources = true
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    testLogging {
+        events("failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showStandardStreams = false
     }
 }
 

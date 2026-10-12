@@ -1,0 +1,52 @@
+{
+  "problemMatcher": [
+    {
+      "owner": "kotlinc",
+      "pattern": [
+        {
+          "regexp": "^e: file://(.+?):(\\d+):(\\d+) (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "owner": "ksp",
+      "pattern": [
+        {
+          "regexp": "^e: \\[ksp\\] (.+?):(\\d+): (.+)$",
+          "file": 1,
+          "line": 2,
+          "message": 3
+        }
+      ]
+    },
+    {
+      "owner": "gradle-test",
+      "pattern": [
+        {
+          "regexp": "^(\\S+ > .+) FAILED$",
+          "code": 1
+        },
+        {
+          "regexp": "^\\s+(\\S.*)$",
+          "message": 1
+        }
+      ]
+    },
+    {
+      "owner": "gradle-wrong",
+      "pattern": [
+        {
+          "regexp": "^\\* What went wrong:$"
+        },
+        {
+          "regexp": "^(.+)$",
+          "message": 1
+        }
+      ]
+    }
+  ]
+}
