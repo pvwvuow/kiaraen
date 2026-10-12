@@ -8,6 +8,12 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// CI diagnostics: register a problem matcher so compiler/KSP/test failures
+// show up as annotations on the (public) run page — no workflow change needed.
+if (System.getenv("GITHUB_ACTIONS") == "true") {
+    println("::add-matcher::" + rootProject.file("scripts/ci/kotlin-problem-matcher.json").absolutePath)
+}
+
 // Gradle does NOT expose local.properties as project properties (AGP only reads
 // sdk.dir from it) — load it explicitly so the documented workflow
 // (local.properties.example) actually takes effect. Command-line -P and
@@ -28,8 +34,8 @@ android {
         applicationId = "com.kiaraen.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.1"
+        versionCode = 4
+        versionName = "0.2.2"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
@@ -71,6 +77,19 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    testOptions {
+        // Robolectric UI tests render real resources (khead.png, strings, themes)
+        unitTests.isIncludeAndroidResources = true
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    testLogging {
+        events("failed")
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        showStandardStreams = false
     }
 }
 
@@ -115,4 +134,8 @@ dependencies {
     testImplementation(libs.robolectric)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.androidx.test.junit)
+    // Compose UI tests on Robolectric (NavigationSmokeTest)
+    testImplementation(platform(libs.androidx.compose.bom))
+    testImplementation(libs.androidx.compose.ui.test.junit4)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }

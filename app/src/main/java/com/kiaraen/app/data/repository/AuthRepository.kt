@@ -3,7 +3,10 @@ package com.kiaraen.app.data.repository
 import com.kiaraen.app.data.remote.AuthRemoteDataSource
 import com.kiaraen.app.data.remote.SupabaseProvider
 import io.github.jan.supabase.SupabaseClient
+import io.github.jan.supabase.gotrue.SessionStatus
 import io.github.jan.supabase.gotrue.auth
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
 
 /** Raised when an auth action is attempted while no Supabase keys are wired in. */
 class NotConfiguredException :
@@ -22,7 +25,18 @@ class AuthRepository(private val client: SupabaseClient) {
     /** Cold-start only: reading sessionStatus touches the client lazily. */
     val sessionChanges by lazy { client.auth.sessionStatus }
 
-    suspend fun restoreSession(): String? = currentUserId()
+    /**
+     * Cold start: supabase-kt loads the stored session ASYNCHRONOUSLY, so an
+     * immediate currentSessionOrNull() returns null for a signed-in user.
+     * Wait (bounded) until loading from storage has finished.
+     */
+    suspend fun restoreSession(): String? {
+        if (!SupabaseProvider.isConfigured) return null
+        withTimeoutOrNull(SESSION_LOAD_TIMEOUT_MS) {
+            client.auth.sessionStatus.first { it !is SessionStatus.LoadingFromStorage }
+        }
+        return currentUserId()
+    }
 
     suspend fun signUp(email: String, password: String, displayName: String?): Result<Unit> =
         guarded { remote.signUp(email, password, displayName) }
@@ -44,4 +58,8 @@ class AuthRepository(private val client: SupabaseClient) {
     private inline fun guarded(block: () -> Unit): Result<Unit> =
         if (!SupabaseProvider.isConfigured) Result.failure(NotConfiguredException())
         else runCatching(block)
+
+    private companion object {
+        const val SESSION_LOAD_TIMEOUT_MS = 4_000L
+    }
 }

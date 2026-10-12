@@ -95,8 +95,21 @@ interface ContentDao {
     @Query("SELECT COUNT(*) FROM words WHERE levelId = :levelId")
     fun wordCountOf(levelId: String): Flow<Int>
 
+    /** Keep [ids] small (≤ 500): SQLite on Android 8-10 allows only 999 variables. */
     @Query("SELECT * FROM words WHERE id IN (:ids)")
     suspend fun wordsByIds(ids: List<Long>): List<WordEntity>
+
+    /** Collection words via JOIN — no variable-count limit, whatever the size. */
+    @Query(
+        "SELECT words.* FROM words " +
+            "INNER JOIN collection_words ON collection_words.wordId = words.id " +
+            "WHERE collection_words.collectionId = :collectionId ORDER BY words.id",
+    )
+    suspend fun wordsOfCollectionOnce(collectionId: Long): List<WordEntity>
+
+    /** Random drill pool (review fallback when nothing is due yet). */
+    @Query("SELECT * FROM words WHERE meaningFa IS NOT NULL AND meaningFa != '' ORDER BY RANDOM() LIMIT :limit")
+    suspend fun randomWords(limit: Int): List<WordEntity>
 
     @Query("SELECT * FROM words WHERE word LIKE :query || '%' ORDER BY word LIMIT 50")
     fun searchWords(query: String): Flow<List<WordEntity>>

@@ -1,5 +1,6 @@
 package com.kiaraen.app.ui.collections
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,14 +14,17 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.kiaraen.app.data.local.WordEntity
 import com.kiaraen.app.ui.common.LocalAppContainer
 
 /**
@@ -31,23 +35,29 @@ import com.kiaraen.app.ui.common.LocalAppContainer
 fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
     val contentDao = LocalAppContainer.current.database.contentDao()
 
-    var expanded by remember { mutableStateOf(false) }
-    var selected by remember { mutableStateOf<Long?>(null) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
+    var selected by rememberSaveable { mutableStateOf<Long?>(null) }
 
-    val all by contentDao.collections().collectAsState(initial = emptyList())
+    val allFlow = remember { contentDao.collections() }
+    val all by allFlow.collectAsState(initial = emptyList())
     val visible = if (expanded) all else all.take(3)
 
-    if (selected == null) {
+    // system back closes the detail view instead of leaving the tab
+    BackHandler(enabled = selected != null) { selected = null }
+
+    val colId = selected
+    if (colId == null) {
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Text("مجموعه‌ها", style = MaterialTheme.typography.titleLarge) }
-            items(visible) { col ->
+            items(visible, key = { it.id }) { col ->
                 Card(onClick = { selected = col.id }, modifier = Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp)) {
                         Text(col.title, style = MaterialTheme.typography.titleMedium)
-                        val size by contentDao.collectionSize(col.id).collectAsState(initial = 0)
+                        val sizeFlow = remember(col.id) { contentDao.collectionSize(col.id) }
+                        val size by sizeFlow.collectAsState(initial = 0)
                         Text("$size واژه", style = MaterialTheme.typography.bodySmall)
                     }
                 }
@@ -61,27 +71,28 @@ fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
             }
         }
     } else {
-        val colId = selected!!
-        val col = all.first { it.id == colId }
-        val words by remember(colId) {
-            kotlinx.coroutines.flow.flow {
-                emit(contentDao.wordsByIds(contentDao.wordIdsOfCollection(colId)))
-            }
-        }.collectAsState(initial = emptyList())
+        // the list may still be loading (or a content refresh replaced it)
+        val col = all.firstOrNull { it.id == colId }
+        var words by remember(colId) { mutableStateOf<List<WordEntity>>(emptyList()) }
+        LaunchedEffect(colId) {
+            // JOIN query: an IN (:ids) list of a big collection can exceed
+            // SQLite's 999-variable limit on Android 8-10 and crash
+            words = runCatching { contentDao.wordsOfCollectionOnce(colId) }.getOrDefault(emptyList())
+        }
 
         Column(Modifier.fillMaxSize().padding(16.dp)) {
-            Text(col.title, style = MaterialTheme.typography.titleLarge)
+            Text(col?.title.orEmpty(), style = MaterialTheme.typography.titleLarge)
             LazyColumn(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 val byLevel = words.groupBy { it.levelId }
                 byLevel.entries.sortedBy { it.key }.forEach { (lv, ws) ->
-                    item {
+                    item(key = "h_$lv") {
                         Text(
                             "سطح $lv · ${ws.size} واژه",
                             style = MaterialTheme.typography.titleSmall,
                             fontWeight = FontWeight.Bold,
                         )
                     }
-                    items(ws) { w ->
+                    items(ws, key = { it.id }) { w ->
                         Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
                             Text("${w.word} — ${w.meaningFa ?: ""}")
                         }

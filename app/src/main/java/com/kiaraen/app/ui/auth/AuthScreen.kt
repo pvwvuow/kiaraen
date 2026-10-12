@@ -46,7 +46,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kiaraen.app.R
-import com.kiaraen.app.data.remote.SupabaseProvider
 import com.kiaraen.app.data.repository.NotConfiguredException
 import com.kiaraen.app.data.sync.SyncWorker
 import com.kiaraen.app.ui.common.LocalAppContainer
@@ -63,9 +62,15 @@ private enum class AuthMode { LOGIN, SIGNUP, FORGOT }
 /**
  * Kiara auth gate: ورود / ثبت‌نام / فراموشی رمز + «ادامه بدون حساب».
  * Without Supabase keys everything except guest mode explains itself politely.
+ *
+ * [skipGuestRedirect] = opened on purpose from the «من» tab: a remembered
+ * guest must SEE the form here instead of being bounced straight back.
  */
 @Composable
-fun AuthScreen(onAuthenticated: () -> Unit) {
+fun AuthScreen(
+    onAuthenticated: () -> Unit,
+    skipGuestRedirect: Boolean = false,
+) {
     val container = LocalAppContainer.current
     val scope = rememberCoroutineScope()
     val context = androidx.compose.ui.platform.LocalContext.current
@@ -83,9 +88,15 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
     var error by remember { mutableStateOf<String?>(null) }
     var info by remember { mutableStateOf<String?>(null) }
 
+    fun switchTo(next: AuthMode) {
+        mode = next
+        error = null
+        info = null
+    }
+
     suspend fun enter() {
-        container.appPrefs.setGuestMode(false)
-        SyncWorker.enqueueOneShot(context, pull = true)
+        runCatching { container.appPrefs.setGuestMode(false) }
+        runCatching { SyncWorker.enqueueOneShot(context, pull = true) }
         onAuthenticated()
     }
 
@@ -93,28 +104,34 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
         // A cold-start network/storage hiccup here must show the login form,
         // never kill the app (guests can always continue offline).
         val restored = runCatching { container.authRepository.restoreSession() }.getOrNull()
-        if (restored != null) {
-            enter()
-        } else if (container.appPrefs.isGuest()) {
-            onAuthenticated()      // remembered guest → straight in
-        } else {
-            checking = false
+        val rememberedGuest = !skipGuestRedirect &&
+            runCatching { container.appPrefs.isGuest() }.getOrDefault(false)
+        when {
+            restored != null -> enter()
+            rememberedGuest -> onAuthenticated()      // remembered guest → straight in
+            else -> checking = false
         }
     }
 
     fun fail(t: Throwable) {
+        val msg = t.message.orEmpty()
         error = when {
             t is NotConfiguredException ->
                 "اتصال به سرور هنوز تنظیم نشده؛ فعلاً با «ادامه بدون حساب» وارد شو"
-            t.message.orEmpty().contains("Invalid login credentials", true) ->
+            msg.contains("Invalid login credentials", true) ->
                 "ایمیل یا رمز عبور اشتباه است"
-            t.message.orEmpty().contains("already registered", true) ->
+            msg.contains("already registered", true) ->
                 "این ایمیل قبلاً ثبت شده؛ وارد شو"
-            t.message.orEmpty().contains("Email not confirmed", true) ->
+            msg.contains("Email not confirmed", true) ->
                 "اول ایمیلت را تأیید کن"
-            t.message.orEmpty().contains("rate limit", true) ->
+            msg.contains("rate limit", true) ->
                 "چند تلاش ناموفق؛ کمی بعد دوباره امتحان کن"
-            else -> "خطا: ${t.message}"
+            msg.contains("Unable to resolve host", true) ||
+                msg.contains("timeout", true) ||
+                msg.contains("Failed to connect", true) ||
+                t is java.io.IOException ->
+                "اینترنت وصل نیست یا سرور در دسترس نیست؛ دوباره امتحان کن"
+            else -> "خطا: $msg"
         }
     }
 
@@ -151,7 +168,7 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                         fontWeight = FontWeight.Bold,
                         color = Ink,
                         modifier = Modifier
-                            .clickable { mode = AuthMode.LOGIN; error = null; info = null }
+                            .clickable { switchTo(AuthMode.LOGIN) }
                             .padding(8.dp),
                     )
                 }
@@ -275,7 +292,7 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                     color = Ink,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { mode = AuthMode.FORGOT; error = null; info = null }
+                        .clickable { switchTo(AuthMode.FORGOT) }
                         .padding(vertical = 6.dp),
                 )
             }
@@ -330,41 +347,62 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                     onClick = {
                         busy = true; error = null; info = null
                         scope.launch {
-                            when (mode) {
-                                AuthMode.LOGIN -> {
-                                    if (email.isBlank() || password.isBlank()) {
-                                        error = "ایمیل و رمز عبور رو بنویس"
-                                    } else {
-                                        container.authRepository.signIn(email.trim(), password)
-                                            .onSuccess { enter() }
-                                            .onFailure { fail(it) }
+                            try {
+                                when (mode) {
+                                    AuthMode.LOGIN -> {
+                                        if (email.isBlank() || password.isBlank()) {
+                                            error = "ایمیل و رمز عبور رو بنویس"
+                                        } else {
+                                            container.authRepository.signIn(email.trim(), password)
+                                                .onSuccess { enter() }
+                                                .onFailure { fail(it) }
+                                        }
+                                    }
+                                    AuthMode.SIGNUP -> {
+                                        when {
+                                            name.isBlank() -> error = "نامت رو بنویس"
+                                            email.isBlank() -> error = "ایمیلت رو بنویس"
+                                            password.length < 8 -> error = "رمز حداقل ۸ کاراکتر باشه"
+                                            !terms -> error = "قوانین رو بپذیر تا ادامه بدیم"
+                                            else -> container.authRepository
+                                                .signUp(email.trim(), password, name.trim())
+                                                .onSuccess {
+                                                    // "Confirm email" ON → account exists but has
+                                                    // no session yet: explain instead of entering
+                                                    // the app half-signed-in.
+                                                    val uid = runCatching {
+                                                        container.authRepository.currentUserId()
+                                                    }.getOrNull()
+                                                    if (uid != null) {
+                                                        enter()
+                                                    } else {
+                                                        password = ""
+                                                        switchTo(AuthMode.LOGIN)
+                                                        info = "حساب ساخته شد؛ لینک تأیید به ایمیلت رفت. بعد از تأیید همین‌جا وارد شو"
+                                                    }
+                                                }
+                                                .onFailure { fail(it) }
+                                        }
+                                    }
+                                    AuthMode.FORGOT -> {
+                                        if (email.isBlank()) {
+                                            error = "ایمیلت رو بنویس"
+                                        } else {
+                                            container.authRepository.resetPassword(email.trim())
+                                                .onSuccess {
+                                                    info = "لینک بازیابی به ایمیلت اومد"
+                                                }
+                                                .onFailure { fail(it) }
+                                        }
                                     }
                                 }
-                                AuthMode.SIGNUP -> {
-                                    when {
-                                        name.isBlank() -> error = "نامت رو بنویس"
-                                        email.isBlank() -> error = "ایمیلت رو بنویس"
-                                        password.length < 8 -> error = "رمز حداقل ۸ کاراکتر باشه"
-                                        !terms -> error = "قوانین رو بپذیر تا ادامه بدیم"
-                                        else -> container.authRepository
-                                            .signUp(email.trim(), password, name.trim())
-                                            .onSuccess { enter() }
-                                            .onFailure { fail(it) }
-                                    }
-                                }
-                                AuthMode.FORGOT -> {
-                                    if (email.isBlank()) {
-                                        error = "ایمیلت رو بنویس"
-                                    } else {
-                                        container.authRepository.resetPassword(email.trim())
-                                            .onSuccess {
-                                                info = "لینک بازیابی به ایمیلت اومد"
-                                            }
-                                            .onFailure { fail(it) }
-                                    }
-                                }
+                            } catch (c: kotlinx.coroutines.CancellationException) {
+                                throw c
+                            } catch (t: Throwable) {
+                                fail(t)
+                            } finally {
+                                busy = false
                             }
-                            busy = false
                         }
                     },
                     shape = RoundedCornerShape(16.dp),
@@ -424,12 +462,27 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                     Spacer(Modifier.height(20.dp))
 
                     if (mode == AuthMode.LOGIN) {
-                        Text(
-                            "حساب نداری؟ ثبت‌نام کن",
-                            fontSize = 14.sp,
-                            color = Muted,
-                        )
-                        Spacer(Modifier.height(6.dp))
+                        // was plain text in 0.2.1 → the signup form was unreachable
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .clickable { switchTo(AuthMode.SIGNUP) }
+                                .padding(horizontal = 10.dp, vertical = 6.dp),
+                        ) {
+                            Text(
+                                "حساب نداری؟ ",
+                                fontSize = 14.sp,
+                                color = Muted,
+                            )
+                            Text(
+                                "ثبت‌نام کن",
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Ink,
+                                textDecoration = TextDecoration.Underline,
+                            )
+                        }
+                        Spacer(Modifier.height(2.dp))
                         Text(
                             "ادامه بدون حساب",
                             fontSize = 14.sp,
@@ -439,7 +492,7 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                             modifier = Modifier
                                 .clickable {
                                     scope.launch {
-                                        container.appPrefs.setGuestMode(true)
+                                        runCatching { container.appPrefs.setGuestMode(true) }
                                         onAuthenticated()
                                     }
                                 }
@@ -459,7 +512,7 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
                             color = Ink,
                             textDecoration = TextDecoration.Underline,
                             modifier = Modifier
-                                .clickable { mode = AuthMode.LOGIN; error = null; info = null }
+                                .clickable { switchTo(AuthMode.LOGIN) }
                                 .padding(10.dp),
                         )
                     }

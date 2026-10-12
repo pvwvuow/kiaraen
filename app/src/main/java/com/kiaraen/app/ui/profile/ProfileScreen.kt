@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -34,11 +36,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.content.Context
 import com.kiaraen.app.BuildConfig
 import com.kiaraen.app.KiaraApplication
 import com.kiaraen.app.R
 import com.kiaraen.app.data.remote.SupabaseProvider
+import com.kiaraen.app.ui.common.LOCAL_USER_ID
 import com.kiaraen.app.ui.common.LocalAppContainer
 import com.kiaraen.app.ui.common.rememberUserId
 import com.kiaraen.app.ui.theme.GoldDark
@@ -61,12 +63,15 @@ fun ProfileScreen(
     val scope = rememberCoroutineScope()
     val context = androidx.compose.ui.platform.LocalContext.current
     val userId = rememberUserId()
+    // LocalContext is the Activity, never the Application → use the singleton
+    val app = KiaraApplication.instance
 
     var email by remember { mutableStateOf<String?>(null) }
     var busy by remember { mutableStateOf(false) }
+    var crashReport by remember { mutableStateOf(app?.lastCrashReport()) }
 
     LaunchedEffect(userId) {
-        if (SupabaseProvider.isConfigured && userId != "local") {
+        if (SupabaseProvider.isConfigured && userId != LOCAL_USER_ID) {
             runCatching { container.authRepository.userEmail() }.getOrNull()
                 ?.let { email = it }
         }
@@ -76,6 +81,7 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -103,7 +109,7 @@ fun ProfileScreen(
             color = Ink,
         )
         Text(
-            if (userId == "local") "پیشرفتت روی همین دستگاه ذخیره می‌شه"
+            if (userId == LOCAL_USER_ID) "پیشرفتت روی همین دستگاه ذخیره می‌شه"
             else "حسابت متصله؛ پیشرفتت همه‌جا همگام می‌شه",
             fontSize = 13.sp,
             color = Muted,
@@ -112,7 +118,7 @@ fun ProfileScreen(
 
         Spacer(Modifier.height(26.dp))
 
-        if (userId == "local") {
+        if (userId == LOCAL_USER_ID) {
             Button(
                 onClick = onGoAuth,
                 shape = RoundedCornerShape(16.dp),
@@ -135,9 +141,12 @@ fun ProfileScreen(
                 onClick = {
                     busy = true
                     scope.launch {
-                        container.authRepository.signOut()
-                        container.appPrefs.setGuestMode(false)
-                        busy = false
+                        try {
+                            container.authRepository.signOut()
+                            runCatching { container.appPrefs.setGuestMode(false) }
+                        } finally {
+                            busy = false
+                        }
                         onSignedOut()
                     }
                 },
@@ -160,23 +169,21 @@ fun ProfileScreen(
 
         // Field debugging: after a crash the report is stored on-device; the
         // user can forward it to us with two taps (only shown while it exists).
-        val crashReport = remember { (context as? KiaraApplication)?.lastCrashReport() }
-        if (crashReport != null) {
-            val share = remember {
-                android.content.Intent(android.content.Intent.ACTION_SEND).apply {
-                    type = "text/plain"
-                    putExtra(android.content.Intent.EXTRA_SUBJECT, "Kiaraen crash report")
-                    putExtra(android.content.Intent.EXTRA_TEXT, crashReport.take(4000))
-                }
-            }
+        crashReport?.let { report ->
             OutlinedButton(
                 onClick = {
+                    val share = android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                        type = "text/plain"
+                        putExtra(android.content.Intent.EXTRA_SUBJECT, "Kiaraen crash report")
+                        putExtra(android.content.Intent.EXTRA_TEXT, report.take(4000))
+                    }
                     runCatching {
                         context.startActivity(
                             android.content.Intent.createChooser(share, "گزارش خطا"),
                         )
                     }
-                    (context as? KiaraApplication)?.clearCrashReport()
+                    app?.clearCrashReport()
+                    crashReport = null
                 },
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
@@ -209,5 +216,6 @@ fun ProfileScreen(
                 color = Muted,
             )
         }
+        Spacer(Modifier.height(24.dp))
     }
 }

@@ -1,6 +1,7 @@
 package com.kiaraen.app.data.sync
 
 import android.content.Context
+import android.util.Log
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -24,17 +25,22 @@ class SyncWorker(appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
-        val engine = (applicationContext as? KiaraApplication)?.container?.syncEngine
-            ?: return Result.failure()
         val pull = inputData.getBoolean(KEY_PULL, false)
         return try {
+            // building the container touches Room/DataStore/Supabase → inside try
+            val engine = (applicationContext as? KiaraApplication)?.container?.syncEngine
+                ?: return Result.failure()
             if (engine.syncAll(pullOnStart = pull)) Result.success() else Result.retry()
+        } catch (c: kotlinx.coroutines.CancellationException) {
+            throw c
         } catch (t: Throwable) {
+            Log.w(TAG, "sync failed, will retry", t)
             Result.retry()
         }
     }
 
     companion object {
+        private const val TAG = "SyncWorker"
         const val KEY_PULL = "pull"
         private const val ONE_SHOT = "kiara-sync-once"
         private const val PERIODIC = "kiara-sync-periodic"
