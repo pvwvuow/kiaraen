@@ -1,27 +1,32 @@
 package com.kiaraen.app.ui
 
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Insights
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.kiaraen.app.core.AppContainer
 import com.kiaraen.app.ui.auth.AuthScreen
 import com.kiaraen.app.ui.collections.CollectionsScreen
@@ -33,10 +38,12 @@ import com.kiaraen.app.ui.progress.ProgressScreen
 import com.kiaraen.app.ui.quiz.QuizScreen
 
 object Routes {
-    const val AUTH = "auth"
+    /** fresh=true → opened on purpose (profile CTA): never auto-skip for guests. */
+    const val AUTH = "auth?fresh={fresh}"
     const val MAIN = "main"
     const val QUIZ = "quiz/{quizRef}"
-    fun quiz(ref: String) = "quiz/$ref"
+    fun auth(fresh: Boolean) = "auth?fresh=$fresh"
+    fun quiz(ref: String) = "quiz/" + Uri.encode(ref)
 }
 
 private data class Tab(val route: String, val label: String, val icon: ImageVector)
@@ -49,80 +56,117 @@ private val TABS = listOf(
     Tab("profile", "من", Icons.Filled.Person),
 )
 
+/**
+ * Two-level navigation:
+ *   root  → auth | main | quiz          (rootNav)
+ *   main  → home | levels | ... tabs    (tabsNav, its OWN controller)
+ *
+ * ⚠️ Never hand the root controller to the inner NavHost: a NavController
+ * can drive exactly one NavHost. Sharing it makes the inner host call
+ * setViewModelStore() after setGraph() → IllegalStateException ("ViewModelStore
+ * should be set before setGraph call") the moment MAIN opens, and replaces the
+ * root graph so quiz/auth routes stop existing. That was the v0.2.1 crash.
+ */
 @Composable
 fun AppRoot(container: AppContainer) {
     CompositionLocalProvider(LocalAppContainer provides container) {
-        val navController = rememberNavController()
-        // AuthScreen redirects automatically when a stored session exists.
-        val start = Routes.AUTH
+        val rootNav = rememberNavController()
 
-        NavHost(navController = navController, startDestination = start) {
-            composable(Routes.AUTH) {
-                AuthScreen(
-                    onAuthenticated = {
-                        navController.navigate(Routes.MAIN) {
-                            popUpTo(Routes.AUTH) { inclusive = true }
-                        }
+        NavHost(navController = rootNav, startDestination = Routes.AUTH) {
+            composable(
+                route = Routes.AUTH,
+                arguments = listOf(
+                    navArgument("fresh") {
+                        type = NavType.BoolType
+                        defaultValue = false
                     },
+                ),
+            ) { entry ->
+                AuthScreen(
+                    skipGuestRedirect = entry.arguments?.getBoolean("fresh") ?: false,
+                    onAuthenticated = { rootNav.openMain() },
                 )
             }
             composable(Routes.MAIN) {
-                MainTabs(navController)
+                MainTabs(rootNav)
             }
             composable(Routes.QUIZ) { entry ->
                 QuizScreen(
-                    quizRef = entry.arguments?.getString("quizRef") ?: "",
-                    onExit = { navController.popBackStack() },
+                    quizRef = entry.arguments?.getString("quizRef").orEmpty(),
+                    onExit = {
+                        // double-tap on «بازگشت» must not pop MAIN as well
+                        if (rootNav.currentDestination?.route == Routes.QUIZ) rootNav.popBackStack()
+                    },
                 )
             }
         }
     }
 }
 
+/** MAIN becomes the only root entry (no way "back" into the auth gate). */
+private fun NavHostController.openMain() {
+    navigate(Routes.MAIN) {
+        popUpTo(graph.id) { inclusive = true }
+        launchSingleTop = true
+    }
+}
+
 @Composable
-private fun MainTabs(navController: androidx.navigation.NavHostController) {
+private fun MainTabs(rootNav: NavHostController) {
+    val tabsNav = rememberNavController()
+
+    fun selectTab(route: String) {
+        if (tabsNav.currentDestination?.route == route) return
+        tabsNav.navigate(route) {
+            popUpTo(tabsNav.graph.findStartDestination().id) { saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    val openQuiz: (String) -> Unit = { ref ->
+        rootNav.navigate(Routes.quiz(ref)) { launchSingleTop = true }
+    }
+
     Scaffold(
         bottomBar = {
-            val backStack by navController.currentBackStackEntryAsState()
+            val backStack by tabsNav.currentBackStackEntryAsState()
             val current = backStack?.destination?.route
             NavigationBar {
                 TABS.forEach { tab ->
                     NavigationBarItem(
                         selected = current == tab.route,
-                        onClick = {
-                            navController.navigate(tab.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
+                        onClick = { selectTab(tab.route) },
                         icon = { Icon(tab.icon, contentDescription = tab.label) },
                         label = { Text(tab.label) },
+                        modifier = Modifier.testTag("tab_${tab.route}"),
                     )
                 }
             }
         },
     ) { padding ->
         NavHost(
-            navController = navController,
+            navController = tabsNav,
             startDestination = "home",
             modifier = Modifier.padding(padding),
         ) {
             composable("home") {
                 HomeScreen(
-                    onOpenQuiz = { ref -> navController.navigate(Routes.quiz(ref)) },
-                    onOpenLevels = { navController.navigate("levels") },
+                    onOpenQuiz = openQuiz,
+                    onOpenLevels = { selectTab("levels") },
                 )
             }
-            composable("levels") { LevelsScreen(onOpenQuiz = { ref -> navController.navigate(Routes.quiz(ref)) }) }
-            composable("collections") { CollectionsScreen(onOpenQuiz = { ref -> navController.navigate(Routes.quiz(ref)) }) }
+            composable("levels") { LevelsScreen(onOpenQuiz = openQuiz) }
+            composable("collections") { CollectionsScreen(onOpenQuiz = openQuiz) }
             composable("progress") { ProgressScreen() }
             composable("profile") {
                 ProfileScreen(
-                    onGoAuth = { navController.navigate(Routes.AUTH) },
+                    onGoAuth = {
+                        rootNav.navigate(Routes.auth(fresh = true)) { launchSingleTop = true }
+                    },
                     onSignedOut = {
-                        navController.navigate(Routes.AUTH) {
-                            popUpTo(Routes.MAIN) { inclusive = true }
+                        rootNav.navigate(Routes.auth(fresh = false)) {
+                            popUpTo(rootNav.graph.id) { inclusive = true }
                         }
                     },
                 )

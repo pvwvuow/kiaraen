@@ -10,6 +10,7 @@ import io.github.jan.supabase.gotrue.SettingsCodeVerifierCache
 import io.github.jan.supabase.gotrue.SettingsSessionManager
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.storage.Storage
+import io.ktor.client.engine.android.Android
 
 /**
  * Single Supabase client. Only the anon (publishable) key is used here —
@@ -27,6 +28,9 @@ import io.github.jan.supabase.storage.Storage
  * creation (= crash on every launch). We therefore wire an explicit
  * SharedPreferences-backed manager with our application context — the exact
  * fix recommended by supabase-kt's "Session Saving" wiki page.
+ *
+ * ⚠️ HTTP engine: set explicitly instead of ktor's ServiceLoader discovery,
+ * which is fragile in R8-minified release builds.
  */
 object SupabaseProvider {
 
@@ -49,6 +53,7 @@ object SupabaseProvider {
             supabaseUrl = if (isConfigured) url else "https://placeholder.supabase.invalid",
             supabaseKey = if (isConfigured) anonKey else "placeholder-anon-key",
         ) {
+            httpEngine = Android.create()
             install(Auth) {
                 // both the session manager AND the PKCE code-verifier cache
                 // default to a no-arg Settings() that cannot obtain a Context
@@ -61,7 +66,6 @@ object SupabaseProvider {
             }
             install(Postgrest)
             install(Storage)
-            // ktor Android engine is auto-detected from the classpath
         }
     }
 }
