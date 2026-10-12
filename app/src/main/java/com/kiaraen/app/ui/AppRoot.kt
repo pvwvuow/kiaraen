@@ -1,6 +1,8 @@
 package com.kiaraen.app.ui
 
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
@@ -56,6 +58,17 @@ private val TABS = listOf(
     Tab("profile", "من", Icons.Filled.Person),
 )
 
+private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
+
+/**
+ * NavController must only be touched on the main thread. Auth/sign-out
+ * callbacks fire after suspend calls (DataStore, supabase session status)
+ * that can resume on a worker thread → hop to main before navigating.
+ */
+private fun onMain(block: () -> Unit) {
+    if (Looper.myLooper() == Looper.getMainLooper()) block() else mainHandler.post(block)
+}
+
 /**
  * Two-level navigation:
  *   root  → auth | main | quiz          (rootNav)
@@ -84,7 +97,7 @@ fun AppRoot(container: AppContainer) {
             ) { entry ->
                 AuthScreen(
                     skipGuestRedirect = entry.arguments?.getBoolean("fresh") ?: false,
-                    onAuthenticated = { rootNav.openMain() },
+                    onAuthenticated = { onMain { rootNav.openMain() } },
                 )
             }
             composable(Routes.MAIN) {
@@ -105,6 +118,7 @@ fun AppRoot(container: AppContainer) {
 
 /** MAIN becomes the only root entry (no way "back" into the auth gate). */
 private fun NavHostController.openMain() {
+    if (currentDestination?.route == Routes.MAIN) return
     navigate(Routes.MAIN) {
         popUpTo(graph.id) { inclusive = true }
         launchSingleTop = true
@@ -165,8 +179,10 @@ private fun MainTabs(rootNav: NavHostController) {
                         rootNav.navigate(Routes.auth(fresh = true)) { launchSingleTop = true }
                     },
                     onSignedOut = {
-                        rootNav.navigate(Routes.auth(fresh = false)) {
-                            popUpTo(rootNav.graph.id) { inclusive = true }
+                        onMain {
+                            rootNav.navigate(Routes.auth(fresh = false)) {
+                                popUpTo(rootNav.graph.id) { inclusive = true }
+                            }
                         }
                     },
                 )
