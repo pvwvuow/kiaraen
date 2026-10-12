@@ -1,0 +1,15 @@
+# Copy this file to `local.properties` (it is gitignored — never committed) and
+# paste your own project values from:
+#   Supabase Dashboard → Project Settings → API
+#
+#   Project URL  →  kiara.supabase.url
+#   anon public  →  kiara.supabase.anonKey      (publishable key — safe behind RLS)
+#
+# NEVER put the service_role key in this file or anywhere in the app.
+# Leave both values empty to build the app in guest/offline mode.
+
+kiara.supabase.url=https://YOUR-PROJECT-REF.supabase.co
+kiara.supabase.anonKey=YOUR-ANON-PUBLISHABLE-KEY
+
+# Also keep your Android SDK path here (Android Studio writes it automatically):
+# sdk.dir=/path/to/android-sdk
