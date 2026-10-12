@@ -1,0 +1,179 @@
+#health|سلامت و پزشکی|g-heart|8
+appointment doctor|n|وقت پزشک
+waiting room|n|اتاق انتظار
+medical history|n|سابقه پزشکی
+insurance|n|بیمه
+health insurance|n|بیمه درمان
+clinic|n|کلینیک
+surgeon|n|جراح
+pediatrician|n|پزشک کودکان
+cardiologist|n|متخصص قلب
+dermatologist|n|متخصص پوست
+psychiatrist|n|روان‌پزشک
+psychologist|n|روان‌شناس
+physician|n|پزشک عمومی
+pharmacist|n|داروساز
+dosage|n|مقدار مصرف
+side effect|n|عوارض جانبی
+antibiotic|n|آنتی‌بیوتیک
+painkiller|n|مسکن
+vitamin pill|n|قرص ویتامین
+syringe|n|سرنگ
+stethoscope|n|گوشی پزشک
+thermometer|n|دماسنج
+wheelchair|n|صندلی چرخ‌دار
+crutches|n|عصای زیربغل
+plaster cast|n|گچ شکستگی
+stitches|n|بخیه
+fracture|n|شکستگی
+sprain|n|پیچ‌خوردگی
+bruise|n|کبودی
+burn injury|n|سوختگی
+scar|n|جای زخم
+rash|n|جوش پوستی
+itching|n|خارش
+swelling|n|تورم
+inflammation|n|التهاب
+infection|n|عفونت
+cancer treatment|n|درمان سرطان
+chemotherapy|n|شیمی‌درمانی
+transplant|n|پیوند
+donor|n|اهداکننده
+blood donation|n|اهدای خون
+blood type|n|گروه خونی
+pulse|n|نبض
+breathing|n|تنفس
+digestion|n|گوارش
+metabolism|n|سوخت‌وساز
+posture|n|طرز ایستادن
+balanced meal|n|وعده متعادل
+#edu|آموزش و دانشگاه|a-wotd|9
+tutorial|n|کلاس رفع اشکال
+debate|n|مناظره
+presentation skill|n|مهارت ارائه
+public speaking|n|سخنرانی عمومی
+critical thinking|n|تفکر انتقادی
+problem-solving|n|حل مسئله
+analysis|n|تحلیل
+argument|n|استدلال
+evidence|n|شواهد
+conclusion|n|نتیجه‌گیری
+summary|n|خلاصه
+outline|n|طرح کلی
+draft|n|پیش‌نویس
+bibliography|n|کتاب‌شناسی
+citation|n|ارجاع
+plagiarism|n|سرقت علمی
+academic|adj|آکادمیک
+scholarly|adj|علمی
+grant|n|کمک‌هزینه
+academic year|n|سال تحصیلی
+midterm|n|میان‌ترم
+final exam|n|امتحان پایان‌ترم
+oral exam|n|آزمون شفاهی
+multiple choice|n|تستی
+essay question|n|سوال تشریحی
+GPA|n|معدل
+transcript|n|ریزنمرات
+attendance|n|حضور و غیاب
+discipline|n|نظم
+major|n|رشته اصلی
+minor|n|رشته فرعی
+prerequisite|n|پیش‌نیاز
+credit|n|واحد درسی
+faculty|n|هیئت علمی
+dean|n|رئیس دانشکده
+rector|n|رئیس دانشگاه
+#tech|تکنولوژی و اینترنت|a-eye|10
+browser|n|مرورگر
+search engine|n|موتور جست‌وجو
+homepage|n|صفحه اصلی
+hyperlink|n|پیوند
+link|n|لینک
+domain|n|دامنه
+hosting|n|هاست
+server|n|سرور
+encryption|n|رمزنگاری
+firewall|n|دیوار آتش
+malware|n|بدافزار
+phishing|n|فیشینگ
+spam|n|هرزنامه
+cookie|n|کوکی
+cache|n|حافظه پنهان
+algorithm|n|الگوریتم
+artificial intelligence|n|هوش مصنوعی
+machine learning|n|یادگیری ماشین
+virtual reality|n|واقعیت مجازی
+augmented reality|n|واقعیت افزوده
+drone|n|پهپاد
+robot|n|ربات
+sensor|n|حسگر
+smart device|n|دستگاه هوشمند
+wearable|n|پوشیدنی هوشمند
+bluetooth|n|بلوتوث
+wireless|adj|بی‌سیم
+broadband|n|اینترنت پرسرعت
+bandwidth|n|پهنای باند اینترنت
+gaming|n|بازی رایانه‌ای
+console|n|کنسول بازی
+e-commerce|n|تجارت الکترونیک
+fintech|n|فین‌تک
+cryptocurrency|n|رمزارز
+blockchain|n|زنجیره بلوکی
+app store|n|فروشگاه اپلیکیشن
+operating system|n|سیستم‌عامل
+software update|n|به‌روزرسانی
+backup|n|پشتیبان‌گیری
+restore|v|بازیابی کردن
+debug|v|اشکال‌زدایی کردن
+code|n|کد
+programming|n|برنامه‌نویسی
+developer|n|توسعه‌دهنده
+user interface|n|رابط کاربری
+user experience|n|تجربه کاربری
+#env|محیط‌زیست و انرژی|globe|11
+climate change|n|تغییر اقلیم
+global warming|n|گرمایش جهانی
+greenhouse effect|n|اثر گلخانه‌ای
+carbon footprint|n|ردپای کربن
+emission|n|انتشار
+pollution|n|آلودگی
+air pollution|n|آلودگی هوا
+water pollution|n|آلودگی آب
+soil pollution|n|آلودگی خاک
+noise pollution|n|آلودگی صوتی
+plastic waste|n|زباله پلاستیکی
+recycling|n|بازیافت
+compost|n|کمپوست
+landfill|n|محل دفن زباله
+deforestation|n|قطع درختان
+erosion|n|فرسایش
+conservation|n|حفاظت
+sustainability|n|پایداری
+renewable|adj|تجدیدپذیر
+solar energy|n|انرژی خورشیدی
+wind energy|n|انرژی باد
+hydroelectric|adj|برق‌آبی
+nuclear energy|n|انرژی هسته‌ای
+fossil fuel|n|سوخت فسیلی
+natural gas|n|گاز طبیعی
+coal|n|زغال‌سنگ
+petroleum|n|نفت
+power plant|n|نیروگاه
+grid|n|شبکه برق
+biofuel|n|زیست‌سوخت
+ecosystem|n|اکوسیستم
+biodiversity|n|تنوع زیستی
+wildlife reserve|n|منطقه حفاظت‌شده
+national park|n|پارک ملی
+nature reserve|n|پناهگاه حیات وحش
+wetland|n|تالاب
+rainforest|n|جنگل بارانی
+glacier|n|یخچال طبیعی
+volcano|n|آتشفشان
+earthquake|n|زمین‌لرزه
+tsunami|n|سونامی
+oxygen|n|اکسیژن
+carbon dioxide|n|دی‌اکسید کربن
+green energy|n|انرژی سبز
+eco-friendly|adj|دوستدار محیط‌زیست

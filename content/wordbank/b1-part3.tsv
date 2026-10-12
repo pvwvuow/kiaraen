@@ -1,0 +1,222 @@
+#food|غذا و رستوران|mouth|3
+cuisine|n|سبک آشپزی
+appetizer|n|پیش‌غذا
+main course|n|غذای اصلی
+side dish|n|دستپرخوردنی کنار غذا
+portion|n|پرس
+serving|n|سرو غذا
+menu|n|منو
+waiter|n|گارسون
+waitress|n|گارسون زن
+chef|n|سرآشپز
+head chef|n|شف اصلی
+sous chef|n|معاون شف
+tip|n|انعام
+bill restaurant|n|صورت‌حساب رستوران
+takeout|n|بیرون‌بر
+delivery food|n|ارسال غذا
+buffet|n|بوفه
+barbecue|n|باربیکیو
+steak|n|استیک
+seafood|n|غذای دریایی
+shrimp|n|میگو
+lobster|n|خرچنگ دریایی
+crab|n|خرچنگ
+clam|n|صدف خوراکی
+salmon|n|ماهی سالمون
+tuna|n|ماهی تن
+bacon|n|بیکن
+sausage|n|سوسیس
+ham|n|ژامبون
+turkey bird|n|بوقلمون
+lamb|n|گوشت بره
+venison|n|گوشت آهو
+tofu|n|توفو
+soybean|n|سویا
+lentil|n|عدس
+chickpea|n|نخود
+barley|n|جو
+oat|n|جو دوسر
+wheat|n|گندم
+cereal|n|غلات صبحانه
+croissant|n|نان کروسان
+bagel|n|بیگل
+muffin|n|کاپ‌کیک
+donut|n|دونات
+waffle|n|وافل
+syrup sweet|n|شیره
+smoothie|n|اسموتی
+milkshake|n|میلک‌شیک
+soda|n|نوشابه
+lemonade|n|لیموناد
+sparkling water|n|آب گازدار
+mineral water|n|آب معدنی
+espresso|n|اسپرسو
+latte|n|کافه لاته
+cappuccino|n|کاپوچینو
+herbal tea|n|دمنوش
+spices|n|ادویه‌جات
+cinnamon|n|دارچین
+turmeric|n|زردچوبه
+cumin|n|زیره
+saffron|n|زعفران
+#lawcity|شهر، قانون و مقررات|a-clock|
+citizenship|n|تابعیت
+mayor|n|شهردار
+municipality|n|شهرداری
+council|n|شورا
+district|n|منطقه
+suburb|n|حومه شهر
+downtown|n|مرکز شهر
+infrastructure|n|زیرساخت
+public transport|n|حمل‌ونقل عمومی
+metro|n|مترو
+tram|n|تراموا
+commute|n|رفت‌وآمد روزانه
+commuter|n|مسافر روزانه
+license|n|گواهینامه
+driver's license|n|گواهینامه رانندگی
+parking|n|پارکینگ
+parking ticket|n|جریمه پارکینگ
+fine|n|جریمه
+penalty|n|جریمه نقدی
+violation|n|تخلف
+law|n|قانون
+lawyer|n|وکیل
+attorney|n|وکیل دادگستری
+judge|n|قاضی
+trial|n|محاکمه
+courtroom|n|دادگاه
+verdict|n|حکم
+sentence|n|محکومیت
+jury|n|هیئت منصفه
+witness|n|شاهد
+testimony|n|شهادت
+defendant|n|متهم
+plaintiff|n|شاکی
+evidence law|n|مدارک قانونی
+guilty|adj|مقصر
+innocent|adj|بی‌گناه
+crime|n|جرم
+criminal|n|مجرم
+theft|n|سرقت
+robbery|n|راهزنی
+burglary|n|سرقت منزل
+shoplifting|n|سرقت از فروشگاه
+fraud|n|کلاهبرداری
+vandalism|n|خرابکاری
+arson|n|آتش‌سوزی عمدی
+assault|n|حمله و ضرب‌وجرح
+murder|n|قتل
+kidnapping|n|آدم‌ربایی
+smuggling|n|قاچاق
+bribery|n|رشوه‌خواری
+corruption|n|فساد
+police|n|پلیس
+police officer|n|افسر پلیس
+arrest|v|دستگیر کردن
+investigate|v|تحقیق کردن
+prosecute|v|تعقیب قانونی کردن
+sentence|v|محکوم کردن
+release|v|آزاد کردن
+#phrv|افعال عبارتی|g-play|5
+give up|v|تسلیم شدن
+give back|v|پس دادن
+give in|v|تنزل کردن
+take after|v|شبیه بودن به
+take back|v|پس گرفتن
+take off clothes|v|لباس درآوردن
+take up|v|شروع کردن سرگرمی
+put off|v|به تعویق انداختن
+put up with|v|تحمل کردن
+look after|v|مراقبت کردن
+look for|v|دنبال گشتن
+look forward to|v|مشتاقانه منتظر بودن
+look up|v|جست‌وجو کردن
+look down on|v|تحقیر کردن
+come across|v|برخوردن به
+come up with|v|به فکر رسیدن
+come over|v|سر زدن
+come back|v|برگشتن
+get along with|v|رابطه خوب داشتن
+get up|v|بلند شدن
+get over|v|از سر گذراندن
+get rid of|v|خلاص شدن از
+get used to|v|عادت کردن به
+run out of|v|تمام شدن
+run into|v|به‌طور تصادفی دیدن
+run away|v|فرار کردن
+turn up|v|ظاهر شدن
+turn down|v|رد کردن پیشنهاد
+break down|v|از کار افتادن
+break up|v|به هم خوردن رابطه
+break into|v|خورده وارد شدن
+call off|v|لغو کردن
+call back|v|پاسخ تلفنی دادن
+carry on|v|ادامه دادن
+carry out|v|انجام دادن مأموریت
+check in|v|پذیرش هتل
+check out|v|تخلیه هتل
+find out|v|مطلع شدن
+figure out|v|سر در آوردن
+fill in|v|پر کردن فرم
+fill out|v|تکمیل کردن
+point out|v|تذکر دادن
+work out|v|جواب دادن
+set up|v|راه‌اندازی کردن
+set off|v|به راه افتادن
+show off|v|پز دادن
+show up|v|حاضر شدن
+sort out|v|حل‌وفصل کردن
+throw away|v|دور انداختن
+#expr|اصطلاحات و تعبیرها|chat|5
+piece of cake|expr|خیلی آسان
+under the weather|expr|کمی مریض
+break the ice|expr|یخ فضا را شکستن
+hit the road|expr|راه افتادن
+once in a while|expr|هر از گاهی
+on purpose|expr|عمداً
+by accident|expr|تصادفاً
+in a hurry|expr|با عجله
+at the moment|expr|در حال حاضر
+right away|expr|بلافاصله
+as soon as|conj|به محض اینکه
+in fact|expr|در واقع
+to be honest|expr|راستش را بخواهید
+by the way|expr|راستی
+as usual|expr|طبق معمول
+no wonder|expr|تعجبی ندارد
+make sense|expr|قابل درک بودن
+make up mind|expr|تصمیم گرفتن
+take place|expr|برگزار شدن
+take part|expr|شرکت کردن
+take care|expr|مراقب خودت باش
+take it easy|expr|آسان بگیر
+keep in touch|expr|در تماس بودن
+keep an eye on|expr|مواظب بودن
+calm down|expr|آرام گرفتن
+cheer up|expr|شاد شدن
+grow up|v|بزرگ شدن
+wake up early|expr|سحرخیز بودن
+fall asleep|expr|به خواب رفتن
+feel like|expr|هوس کردن
+look out|expr|مراقب باش
+watch out|expr|حواست باشد
+hang on|expr|صبر کن
+hold on|expr|صبر داشتن
+come on|expr|بیا
+go ahead|expr|بفرما
+of course not|expr|البته که نه
+so far|expr|تا اینجا
+at least|expr|حداقل
+at last|expr|بالاخره
+in general|expr|در کل
+in common|expr|مشترک
+for instance|expr|برای مثال
+for good|expr|برای همیشه
+step by step|expr|گام‌به‌گام
+bit by bit|expr|ذره‌ذره
+sooner or later|expr|دیر یا زود
+more or less|expr|بیش‌تر یا کم‌تر
+day by day|expr|روزبه‌روز
+one by one|expr|یکی‌یکی

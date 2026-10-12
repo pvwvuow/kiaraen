@@ -1,0 +1,161 @@
+#law|قانون و جنایت|a-clock|
+statute|n|قانون مدون
+ordinance|n|آیین‌نامه
+jurisdiction|n|صلاحیت قضایی
+litigation|n|دادرسی
+lawsuit|n|دعوای حقوقی
+sue|v|شکایت قانونی کردن
+plead|v|ادعا کردن در دادگاه
+appeal|n|درخواست تجدیدنظر
+bail|n|وثیقه
+probation law|n|حبس تعزیری
+parole|n|آزادی مشروط
+conviction|n|محکومیت
+acquittal|n|تبرئه
+felony|n|جرم سنگین
+misdemeanor|n|جرم سبک
+perjury|n|شهادت دروغ
+extortion|n|اخاذی
+money laundering|n|پول‌شویی
+cybercrime|n|جرایم سایبری
+identity theft|n|سرقت هویت
+forgery|n|جعل
+trespassing|n|ورود غیرمجاز
+loitering|n|ول‌گردی
+harassment|n|آزار و اذیت
+stalking|n|تعقیب و مراقبت مزاحم
+domestic violence|n|خشونت خانگی
+juvenile|adj|مربوط به نوجوانان
+detention|n|بازداشت
+custody|n|حضانت
+interrogation|n|بازجویی
+confession|n|اعتراف
+forensics|n|جنایی
+detective|n|کارآگاه
+investigation|n|تحقیقات
+surveillance camera|n|دوربین نظارتی
+patrol|n|گشت‌زنی
+handcuffs|n|دستبند پلیسی
+jail|n|زندان
+prison|n|زندان
+inmate|n|زندانی
+sentence prison|n|حکم زندان
+parole officer|n|ناظر آزادی مشروط
+#mkt|بازاریابی و رسانه|headphones|1
+marketing|n|بازاریابی
+advertising|n|تبلیغات
+advertisement|n|آگهی
+billboard|n|بیلبورد
+flyer|n|بروشور
+brochure|n|راهنمای تبلیغاتی
+slogan|n|شعار تبلیغاتی
+brand identity|n|هویت برند
+brand awareness|n|آگاهی از برند
+target audience|n|مخاطب هدف
+market research|n|تحقیق بازار
+consumer behavior|n|رفتار مصرف‌کننده
+demographics|n|جمعیت‌شناسی
+market share|n|سهم بازار
+penetration|n|نفوذ بازار
+positioning|n|جایگاه‌یابی
+differentiation|n|تمایز
+value proposition|n|ارزش پیشنهادی
+customer loyalty|n|وفاداری مشتری
+customer retention|n|نگهداری مشتری
+customer acquisition|n|جذب مشتری
+conversion|n|تبدیل
+lead generation|n|تولید سرنخ
+influencer|n|اینفلوئنسر
+endorsement|n|تأییدیه
+sponsorship|n|حمایت مالی
+public relations|n|روابط عمومی
+press release|n|بیانیه مطبوعاتی
+media coverage|n|پوشش رسانه‌ای
+viral|adj|وایرال
+buzz|n|هیجان رسانه‌ای
+campaign|n|کمپین تبلیغاتی
+digital marketing|n|بازاریابی دیجیتال
+search optimization|n|بهینه‌سازی جست‌وجو
+email marketing|n|بازاریابی ایمیلی
+content creation|n|تولید محتوا
+user engagement|n|تعامل کاربر
+analytics|n|تحلیل داده‌ها
+metrics|n|شاخص‌ها
+click-through|n|نرخ کلیک
+#med|پزشکی و بدن|g-heart|8
+anatomy|n|کالبدشناسی
+physiology|n|فیزیولوژی
+immune response|n|پاسخ ایمنی
+antibody|n|پادتن
+pathogen|n|عامل بیماری‌زا
+bacteria|n|باکتری
+virus|n|ویروس
+fungus|n|قارچ
+parasite|n|انگل
+epidemic|n|بیماری همه‌گیر
+outbreak|n|شیوع
+incubation|n|دوره نهفتگی
+mortality|n|مرگ‌ومیر
+morbidity|n|بیماری‌زایی
+chronic disease|n|بیماری مزمن
+terminal illness|n|بیماری لاعلاج
+benign|adj|خوش‌خیم
+malignant|adj|بدخیم
+tumor|n|تومور
+biopsy|n|نمونه‌برداری
+screening|n|غربالگری
+vaccination|n|واکسیناسیون
+immunity|n|ایمنی
+anesthesia|n|بی‌هوشی
+transplant surgery|n|جراحی پیوند
+prosthesis|n|اندام مصنوعی
+physiotherapy|n|فیزیوتراپی
+chiropractic|n|کایروپراکتیک
+acupuncture|n|طب سوزنی
+homeopathy|n|هومیوپاتی
+medication|n|دارو درمانی
+supplement|n|مکمل
+placebo|n|دارونما
+clinical trial|n|آزمایش بالینی
+dosage intake|n|دوز مصرف
+withdrawal|n|علائم ترک
+addiction|n|اعتیاد
+relapse|n|بازگشت بیماری
+recovery|n|بهبودی
+prognosis|n|پیش‌آگهی
+#tech|فناوری و دیجیتال|a-eye|10
+innovation tech|n|نوآوری فناوری
+automation|n|اتوماسیون
+robotics|n|رباتیک
+cybersecurity|n|امنیت سایبری
+data breach|n|نفوذ به داده‌ها
+ransomware|n|باج‌گیری رایانه‌ای
+biometrics|n|زیست‌سنجی
+facial recognition|n|بازشناسی چهره
+voice assistant|n|دستیار صوتی
+chatbot|n|چت‌بات
+big data|n|کلان‌داده
+data mining|n|داده‌کاوی
+machine algorithm|n|الگوریتم یادگیری
+neural network|n|شبکه عصبی
+deep learning|n|یادگیری عمیق
+predictive|adj|پیش‌بینانه
+cloud computing|n|رایانش ابری
+edge computing|n|رایانش لبه
+virtual machine|n|ماشین مجازی
+firmware|n|میان‌افزار
+open source|n|متن‌باز
+repository|n|مخزن کد
+framework|n|چارچوب
+frontend|n|فرانت‌اند
+backend|n|بک‌اند
+database|n|پایگاه داده
+query|n|کوئری
+encryption key|n|کلید رمزنگاری
+two-factor|n|تأیید دومرحله‌ای
+5g network|n|شبکه ۵ جی
+satellite|n|ماهواره
+aerospace|n|هوانوردی و فضا
+rocket|n|موشک
+spacecraft|n|فضاپیما
+orbit|n|مدار

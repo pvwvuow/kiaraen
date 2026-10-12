@@ -1,0 +1,169 @@
+#commute|رفت‌وآمد و سفر شهری|a-clock|4
+rush hour|n|ساعت شلوغی
+peak time|n|زمان اوج
+transit card|n|کارت حمل‌ونقل
+monthly pass|n|بلیط ماهانه
+single ticket|n|بلیط تک‌سفر
+return ticket|n|بلیط رفت‌وبرگشت
+platform|n|سکوی قطار
+concourse|n|راهرو ایستگاه
+escalator|n|پله برقی
+moving walkway|n|نوار متحرک
+taxi rank|n|صف تاکسی
+hail a cab|expr|تاکسی گرفتن
+meter|n|تاکسی‌متر
+carpool|n|هم‌سفری خودرویی
+ride-share|n|سفر اینترنتی
+shuttle bus|n|اتوبوس خط ویژه
+express train|n|قطار تندرو
+local train|n|قطار درون‌شهری
+night bus|n|اتوبوس شبانه
+bike lane|n|مسیر دوچرخه
+pedestrian zone|n|منطقه پیاده
+one-way street|n|خیابان یک‌طرفه
+roundabout|n|میدان ترافیکی
+bypass|n|جاده کمربندی
+toll road|n|جاده عوارضی
+highway|n|بزرگراه
+freeway|n|اتوبان
+service road|n|جاده خدماتی
+detour|n|مسیر انحرافی
+roadblock|n|بازدارنده راه
+traffic congestion|n|ازدحام ترافیک
+gridlock|n|قفل‌شدگی ترافیک
+road rage|n|خشم رانندگی
+#phone|مکالمه تلفنی|chat|5
+phone call|n|تماس تلفنی
+dial|v|شماره‌گیری کردن
+hang up|v|تلفن را قطع کردن
+pick up phone|v|تلفن را جواب دادن
+put through|v|وصل کردن تماس
+hold the line|expr|روی خط بمانید
+call waiting|n|تماس در انتظار
+voicemail|n|پیام صوتی
+ringtone|n|زنگ گوشی
+silent mode|n|حالت بی‌صدا
+speakerphone|n|بلندگوی تلفن
+missed call|n|تماس بی‌پاسخ
+dialed number|n|شماره تماس
+contact list|n|لیست مخاطبین
+phone book|n|دفتر تلفن
+area code|n|کد منطقه
+country code|n|کد کشور
+long distance|n|مکالمه بین‌شهری
+roaming|n|رومینگ
+call drop|n|قطع تماس
+bad reception|n|آنتن‌دهی ضعیف
+signal bars|n|نماد آنتن
+leave a message|expr|پیام گذاشتن
+text message|n|پیام کوتاه
+send a text|expr|پیامک فرستادن
+reply|v|پاسخ دادن
+forward message|v|پیام ارجاع دادن
+emoji|n|شکلک
+sticker|n|استیکر
+voice note|n|یادداشت صوتی
+video message|n|پیام ویدیویی
+screen call|v|تماس را فیلتر کردن
+block number|v|شماره را مسدود کردن
+unblock|v|رفع مسدودی
+caller ID|n|شناسه تماس‌گیرنده
+#jobs2|حرفه‌ها و تخصص‌ها|target|2
+architect|n|معمار
+engineer|n|مهندس
+electrician|n|برق‌کار
+plumber|n|لوله‌کش
+carpenter|n|نجار
+mason|n|بنّا
+painter|n|نقاش ساختمان
+mechanic|n|مکانیک
+welder|n|جوشکار
+blacksmith|n|آهنگر
+tailor|n|خیاط
+barber|n|آرایشگر مردانه
+hairdresser|n|آرایشگر زنانه
+beautician|n|پیرایشگر
+florist|n|گل‌فروش
+baker|n|نانوا
+butcher job|n|قصاب
+chef cook|n|آشپز
+bartender|n|متصدی بار
+barista|n|قهوه‌چی
+librarian|n|کتابدار
+secretary|n|منشی
+receptionist|n|مسئول پذیرش
+accountant|n|حسابدار
+bookkeeper|n|حساب‌دار ساده
+auditor|n|حسابرس
+actuary|n|ریاضی‌دان بیمه
+firefighter|n|آتش‌نشان
+soldier|n|سرباز
+sailor|n|ملوان
+fisherman|n|ماهیگیر
+farmer|n|کشاورز
+shepherd|n|شبان
+gardener|n|باغبان
+miner|n|معدنچی
+oil worker|n|کارگر نفتی
+translator|n|مترجم
+interpreter|n|مترجم شفاهی
+tour guide job|n|راهنمای تور
+#food2|خوردن بیرون|mouth|3
+dine out|v|بیرون غذا خوردن
+reservation|n|رزرو میز
+table for two|expr|میز برای دو نفر
+window seat|n|میز کنار پنجره
+special of the day|n|غذای ویژه روز
+set menu|n|منوی ثابت
+all you can eat|expr|بوفه آزاد
+tasting menu|n|منوی چشایی
+vegetarian|n|گیاه‌خوار
+vegan|n|گیاه‌خوار کامل
+gluten-free|adj|بدون گلوتن
+lactose intolerant|adj|حساس به لاکتوز
+allergy food|n|حساسیت غذایی
+halal|adj|حلال
+kosher|adj|کوشر
+starter|n|پیش‌غذا
+dessert menu|n|منوی دسر
+house wine|n|شراب خانه
+soft drink|n|نوشیدنی گازدار
+refill|n|پرکردن مجدد
+doggy bag|n|بسته باقی غذا
+takeaway|n|برداشت غذا
+curbside pickup|n|تحویل در ماشین
+tip jar|n|ظرف انعام
+complimentary|adj|مهمان‌نوازی رایگان
+house specialty|n|تخصص خانه
+dish of the house|n|غذای ویژه رستوران
+chef's recommendation|n|پیشنهاد سرآشپز
+#body2|اندام و حرکت|g-heart|8
+gait|n|طرز راه‌رفتن
+flexibility|n|انعطاف‌پذیری
+stamina|n|استقامت
+endurance|n|مقاومت بدنی
+agility|n|چابکی
+balance body|n|تعادل بدنی
+coordination|n|هماهنگی حرکتی
+reflex|n|واکنش بدنی
+grip|n|قدرت چنگ
+core muscles|n|عضلات مرکزی
+torso|n|تنه
+abdomen|n|شکم
+ribs|n|دنده‌ها
+spine|n|ستون فقرات
+vertebrae|n|مهره‌ها
+joints|n|مفاصل
+ligament|n|رباط
+tendon|n|تاندون
+cartilage|n|غضروف
+marrow|n|مغز استخوان
+pulse rate|n|ضربان نبض
+breathing rate|n|نرخ تنفس
+flex|v|خم کردن
+extend|v|صاف کردن
+rotate|v|چرخاندن
+bend|v|خم شدن
+stretch arms|v|دست‌ها را کش دادن
+warm muscles|v|گرم کردن عضلات
+cool down|v|سرد کردن بدن

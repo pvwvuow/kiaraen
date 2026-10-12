@@ -1,0 +1,225 @@
+#work|کار و اداره|target|2
+employment|n|اشتغال
+recruitment|n|بازگشت نیرو
+vacancy|n|موقعیت شغلی خالی
+candidate|n|کاندید
+cover letter|n|نامه معرفی
+portfolio|n|نمونه‌کار
+trainee|n|کارآموز تازه‌کار
+probation|n|دوره آزمایشی
+notice|n|اخطار
+resignation|n|استعفا
+layoff|n|تعدیل نیرو
+workload|n|حجم کار
+productivity|n|بهره‌وری
+efficiency|n|کارایی
+performance|n|عملکرد
+appraisal|n|ارزیابی عملکرد
+feedback|n|بازخورد
+brainstorming|n|طوفان فکری
+collaboration|n|همکاری
+teamwork|n|کار تیمی
+leadership|n|رهبری
+delegation|n|واگذاری مسئولیت
+hierarchy|n|سلسله‌مراتب
+department|n|دپارتمان
+branch office|n|شعبه
+headquarters|n|دفتر مرکزی
+franchise|n|نمایندگی انحصاری
+shareholder|n|سهام‌دار
+stakeholder|n|ذی‌نفع
+board of directors|n|هیئت مدیره
+executive|n|مدیر اجرایی
+entrepreneur|n|کارآفرین
+freelancer|n|فریلنسر
+consultant|n|مشاور
+contractor|n|پیمانکار
+vendor|n|تأمین‌کننده
+supplier|n|عرضه‌کننده
+merchandise|n|کالا
+inventory|n|موجودی انبار
+logistics|n|لجستیک
+procurement|n|خرید سازمانی
+invoice|n|صورت‌حساب
+quotation|n|استعلام قیمت
+estimate|n|برآورد
+appointment|n|قرار ملاقات
+memo|n|یاداشت داخلی
+circular|n|بخشنامه
+policy|n|خط‌مشی
+procedure|n|رویه
+protocol|n|پروتکل
+compliance|n|انطباق
+regulation work|n|مقررات
+workshop|n|کارگاه
+seminar|n|سمینار
+conference|n|کنفرانس
+convention|n|گردهمایی بزرگ
+trade fair|n|نمایشگاه تجاری
+networking|n|برقراری ارتباط
+outsource|v|برون‌سپاری کردن
+delegate|v|سپردن کار
+supervise|v|نظارت کردن
+evaluate|v|ارزیابی کردن
+recruit|v|جذب کردن
+relocate|v|جابه‌جا کردن محل کار
+retire|v|بازنشسته شدن
+promote|v|ارتقا دادن
+#travel|سفر و گردشگری|globe|4
+tourism|n|گردشگری
+tour guide|n|راهنمای تور
+excursion|n|گردش کوتاه
+getaway|n|فرار تعطیلات
+backpacking|n|سفر کوله‌پشتی
+safari|n|سافاری حیات وحش
+voyage|n|سفر دریایی
+expedition|n|سفر اکتشافی
+landmark|n|بنای دیدنی
+monument|n|بنای تاریخی
+heritage|n|میراث فرهنگی
+architecture|n|معماری
+cathedral|n|کلیسای بزرگ
+temple|n|معبد
+palace|n|کاخ
+castle|n|قلعه
+ruins|n|ویرانه‌ها
+statue|n|مجسمه
+fountain|n|آبنما
+boulevard|n|خیابان عریض
+pedestrian|n|پیاده
+promenade|n|بلوار پیاده‌روی
+pier|n|اسکله
+harbor|n|بندرگاه
+port|n|بندر
+dock|n|اسکله کشتی
+ferry|n|کشتی مسافری
+yacht|n|قایق بادبانی لوکس
+canoe|n|قایق پارویی
+rowboat|n|قایق پاروئی
+transit|n|عبور
+layover|n|توقف بین پرواز
+jet lag|n|اختلاف ساعت سفر
+time zone|n|منطقه زمانی
+currency exchange|n|صرافی
+travel light|expr|سفر با چمدان کم
+compass|n|قطب‌نما
+binoculars|n|دوربین دوچشمی
+souvenir shop|n|فروشگاه سوغات
+local cuisine|n|غذاهای محلی
+street food|n|غذای خیابانی
+all-inclusive|adj|همه‌چیز شامل
+round trip|n|رفت و برگشت
+one-way ticket|n|بلیط یک‌طرفه
+direct flight|n|پرواز مستقیم
+charter flight|n|پرواز چارتر
+travel document|n|مدارک سفر
+#media|فیلم، موسیقی و رسانه|headphones|1
+movie|n|فیلم
+film|n|فیلم سینمایی
+documentary|n|مستند
+animation|n|انیمیشن
+sitcom|n|سریال کمدی
+series|n|سریال
+episode|n|قسمت
+season media|n|فصل سریال
+trailer|n|پیش‌نمایش فیلم
+subtitle|n|زیرنویس
+dubbed|adj|دوبله‌شده
+cast|n|بازیگران
+actor|n|بازیگر مرد
+actress|n|بازیگر زن
+director media|n|کارگردان
+producer|n|تهیه‌کننده
+screenplay|n|فیلمنامه
+script|n|متن
+scene|n|صحنه
+soundtrack|n|موسیقی متن
+genre|n|ژانر
+thriller|n|هیجانی
+comedy|n|کمدی
+drama|n|درام
+horror|n|ترسناک
+romance|n|عاشقانه
+action movie|n|اکشن
+science fiction|n|علمی‌تخیلی
+fantasy|n|فانتزی
+musical|n|موزیکال
+concert|n|کنسرت
+live show|n|اجرای زنده
+audience|n|تماشاگران
+applause|n|تشویق
+encore|n|دوباره‌خوانی
+band|n|گروه موسیقی
+orchestra|n|ارکستر
+singer|n|خواننده
+songwriter|n|ترانه‌سرا
+lyrics|n|متن ترانه
+melody|n|ملودی
+rhythm|n|ریتم
+beat|n|ضرب
+chorus|n|همخوان
+guitar|n|گیتار
+piano|n|پیانو
+violin|n|ویولن
+drums|n|درامز
+microphone|n|میکروفن
+stage|n|صحنه نمایش
+backstage|n|پشت صحنه
+ticket|n|بلیط سینما
+premiere|n|اکران نخست
+box office|n|گیشه
+streaming|n|پخش آنلاین
+podcast|n|پادکست
+broadcast|n|پخش
+channel|n|کانال
+news program|n|برنامه خبری
+#society|جامعه و مسائل اجتماعی|g-chart|
+society|n|جامعه
+community|n|اجتماع
+population|n|جمعیت
+citizen|n|شهروند
+resident|n|ساکن
+immigrant|n|مهاجر
+refugee|n|پناهجو
+equality|n|برابری
+inequality|n|نابرابری
+discrimination|n|تبعیض
+racism|n|نژادپرستی
+poverty|n|فقر
+wealth|n|ثروت
+homelessness|n|بی‌خانمانی
+welfare|n|رفاه
+charity|n|خیریه
+volunteer|n|داوطلب
+donation|n|کمک مالی
+fundraiser|n|جمع‌آوری کمک
+nonprofit|n|غیرانتفاعی
+government|n|دولت
+authority|n|مرجع رسمی
+institutions|n|نهادها
+tradition|n|سنت
+custom|n|رسم
+culture|n|فرهنگ
+generation|n|نسل
+ancestor|n|جد
+identity|n|هویت
+diversity|n|تنوع
+migration|n|مهاجرت
+urbanization|n|شهری‌شدن
+overpopulation|n|تراکم جمعیت
+social media society|n|شبکه‌های اجتماعی
+public opinion|n|افکار عمومی
+protest|n|اعتراض
+demonstration|n|تظاهرات
+strike|n|اعتصاب
+campaign|n|کمپین
+movement|n|جنبش
+reform|n|اصلاحات
+revolution|n|انقلاب
+democracy|n|دموکراسی
+vote|n|رأی
+election|n|انتخابات
+ballot|n|ورقه رأی
+rights|n|حقوق
+freedom|n|آزادی
+justice|n|عدالت

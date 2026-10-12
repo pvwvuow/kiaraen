@@ -1,0 +1,237 @@
+#biz|کسب‌وکار و مدیریت|target|2
+corporation|n|شرکت بزرگ
+enterprise|n|بنگاه اقتصادی
+venture|n|مجموعه ریسک‌پذیر
+merger|n|ادغام
+acquisition|n|تصاحب
+bankruptcy|n|ورشکستگی
+liquidation|n|انحلال
+monopoly|n|انحصار
+competition|n|رقابت
+competitor|n|رقبای تجاری
+stake|n|سهام
+equity|n|حق‌السهام
+asset|n|دارایی
+capital|n|سرمایه
+liability|n|بدهی
+revenue|n|درآمد کل
+turnover|n|گردش مالی
+overhead|n|هزینه‌های جاری
+cash flow|n|جریان نقدی
+balance sheet|n|ترازنامه
+accounting|n|حسابداری
+audit|n|حسابرسی
+bookkeeping|n|ثبت حساب‌ها
+payroll|n|لیست حقوق‌وارزی
+share price|n|قیمت سهم
+stock market|n|بورس
+dividend|n|سود سهام
+interest rate|n|نرخ بهره
+inflation|n|تورم
+recession|n|رکود اقتصادی
+// depression removed: dup with b2-part3 (health sense kept); econ sense = recession
+growth|n|رشد
+forecast|n|پیش‌بینی مالی
+strategy|n|استراتژی
+tactics|n|تاکتیک
+objective|n|هدف‌گذاری
+milestone|n|نقطه عطف
+benchmark|n|معیار سنجش
+feasibility|n|امکان‌سنجی
+proposal|n|پیشنهاد
+sales pitch|n|ارائه فروش
+negotiation|n|مذاکره
+settlement|n|توافق
+arbitration|n|داوری
+partnership|n|شراکت
+joint venture|n|سرمایه‌گذاری مشترک
+subsidiary|n|شرکت زیرمجموعه
+outsource biz|v|خارج‌سپاری کردن
+restructure|v|بازسازماندهی کردن
+downsize|v|کوچک‌سازی کردن
+streamline|v|بهینه‌سازی کردن
+launch product|v|عرضه کردن
+roll out|v|اجرا کردن
+#pol|سیاست و حکومت|g-chart|
+politics|n|سیاست
+politician|n|سیاستمدار
+diplomacy|n|دیپلماسی
+diplomat|n|دیپلمات
+ambassador|n|سفیر
+treaty|n|پیمان‌نامه
+agreement|n|توافق
+summit|n|نشست سران
+delegation pol|n|هیئت اعزامی
+sanction|n|تحریم
+embargo|n|ممنوعیت تجاری
+tariff|n|تعرفه گمرکی
+trade agreement|n|توافق تجاری
+bilateral|adj|دوجانبه
+multilateral|adj|چندجانبه
+sovereignty|n|حاکمیت
+independence|n|استقلال
+constitution|n|قانون اساسی
+parliament|n|پارلمان
+congress|n|کنگره
+senate|n|سنا
+legislature|n|قوه مقننه
+legislation|n|قانون‌گذاری
+bill|n|لایحه
+amendment|n|اصلاحیه
+executive branch|n|قوه مجریه
+judiciary|n|قوه قضاییه
+administration|n|دولت اجرایی
+regime|n|رژیم
+dictatorship|n|دیکتاتوری
+monarchy|n|سلطنت
+republic|n|جمهوری
+federation|n|فدراسیون
+province|n|استان
+governor|n|فرماندار
+senator|n|سناتور
+representative|n|نماینده
+constituency|n|حوزه انتخاباتی
+referendum|n|همه‌پرسی
+petition|n|دادخواست
+asylum|n|پناهندگی
+opposition|n|اپوزیسیون
+ideology|n|ایدئولوژی
+propaganda|n|تبلیغات سیاسی
+censorship|n|سانسور
+surveillance|n|نظارت
+#sci|علم و پژوهش|a-chest|15
+laboratory|n|آزمایشگاه
+researcher|n|پژوهشگر
+scientist|n|دانشمند
+physicist|n|فیزیک‌دان
+chemist|n|شیمی‌دان
+biologist|n|زیست‌شناس
+astronomer|n|ستاره‌شناس
+geologist|n|زمین‌شناس
+archaeologist|n|باستان‌شناس
+hypothesis|n|فرضیه
+theory|n|نظریه
+law of physics|n|قانون فیزیک
+experiment|n|آزمایش
+observation|n|مشاهده
+measurement|n|اندازه‌گیری
+variable|n|متغیر
+sample|n|نمونه
+data analysis|n|تحلیل داده
+statistics|n|آمار
+probability|n|احتمال
+correlation|n|همبستگی
+causation|n|علت‌ومعلولی
+peer review|n|داوری علمی
+journal|n|مجله علمی
+publication|n|انتشار
+breakthrough|n|پیشرفت چشمگیر
+discovery|n|کشف
+invention|n|اختراع
+innovation|n|نوآوری
+molecule|n|مولکول
+atom|n|اتم
+particle|n|ذره
+electron|n|الکترون
+neutron|n|نوترون
+nucleus|n|هسته
+gravity|n|گرانش
+relativity|n|نسبیت
+quantum|n|کوانتوم
+radiation|n|پرتو
+ultrasound|n|فراصوت
+magnetism|n|مغناطیس
+electricity|n|الکتریسیته
+circuit|n|مدار
+voltage|n|ولتاژ
+genome|n|ژنوم
+genetics|n|ژنتیک
+dna|n|دی‌ان‌ای
+cell|n|سلول
+evolution|n|تکامل
+microscope|n|میکروسکوپ
+telescope|n|تلسکوپ
+#art|هنر و ادبیات|g-star|1
+art|n|هنر
+artist|n|هنرمند
+painting|n|نقاشی
+portrait|n|پرتره
+landscape art|n|منظره‌نگاری
+sculpture|n|مجسمه‌سازی
+exhibition|n|نمایشگاه
+gallery|n|گالری
+masterpiece|n|شاهکار
+canvas|n|بوم نقاشی
+watercolor|n|آبرنگ
+sketch|n|طرح اولیه
+abstract art|n|هنر انتزاعی
+contemporary|adj|معاصر
+classical|adj|کلاسیک
+literature|n|ادبیات
+poetry|n|شعر
+poem|n|سروده
+poet|n|شاعر
+novel|n|رمان
+fiction|n|داستان غیرواقعی
+nonfiction|n|غیرداستانی
+biography|n|زندگی‌نامه
+autobiography|n|خودزندگی‌نامه
+narrative|n|روایت
+plot|n|طرح داستان
+character|n|شخصیت
+protagonist|n|شخصیت اصلی
+antagonist|n|شخصیت منفی
+theme|n|مضمون
+symbolism|n|نمادگرایی
+metaphor|n|استعاره
+simile|n|تشبیه
+irony|n|طعنه
+satire|n|طنز
+parody|n|پارودی
+tragedy|n|تراژدی
+myth|n|اسطوره
+legend|n|افسانه
+fable|n|حکایت
+folklore|n|فولکلور
+epic|n|حماسه
+prose|n|نثر
+verse|n|بیت
+stanza|n|بند شعر
+rhyme|n|قافیه
+manuscript|n|دست‌نوشته
+anthology|n|گلچین آثار
+critique|n|نقد
+#env|محیط‌زیست و اقلیم|globe|11
+atmosphere|n|اتمسفر
+ozone layer|n|لایه ازون
+ultraviolet|adj|فرابنفش
+acid rain|n|باران اسیدی
+smog|n|دود و مه
+carbon emission|n|انتشار کربن
+carbon neutral|adj|کربن خنثی
+sea level|n|سطح دریا
+ice cap|n|کلاهک یخی
+melting ice|n|ذوب یخ‌ها
+desertification|n|بیابان‌زایی
+soil degradation|n|تخریب خاک
+water scarcity|n|کم‌آبی
+groundwater|n|آب زیرزمینی
+aquifer|n|سفره آب زیرزمینی
+watershed|n|حوضه آبخیز
+irrigation|n|آبیاری
+pesticide|n|آفت‌کش
+fertilizer|n|کود شیمیایی
+genetically modified|adj|تراریخته
+crop yield|n|عملکرد محصول
+food security|n|امنیت غذایی
+urban sprawl|n|گسترش شهری
+green space|n|فضای سبز
+carbon tax|n|مالیات کربن
+cap and trade|n|محدودیت و تجارت آلودگی
+clean energy|n|انرژی پاک
+photovoltaic|adj|فتوولتائیک
+turbine|n|توربین
+wind turbine|n|توربین بادی
+carbon capture|n|جذب کربن
+sustainable|adj|پایدار
+habitat loss|n|از بین رفتن زیستگاه

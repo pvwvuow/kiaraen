@@ -1,0 +1,275 @@
+#travel|سفر و تعطیلات|globe|4
+travel|n|سفر
+trip|n|سفر کوتاه
+journey|n|سفر طولانی
+tour|n|تور
+tourist|n|گردشگر
+vacation|n|تعطیلات
+holiday|n|روز تعطیل
+adventure|n|ماجراجویی
+passport|n|گذرنامه
+visa|n|ویزا
+luggage|n|چمدان
+suitcase|n|چمدان بزرگ
+backpack|n|کوله سفر
+souvenir|n|یادگاری
+camera|n|دوربین
+photograph|n|عکس
+postcard|n|کارت پستال
+guide|n|راهنما
+guidebook|n|کتاب راهنما
+itinerary|n|برنامه سفر
+destination|n|مقصد
+booking|n|رزرو
+reservation|n|رزرواسیون
+check-in|n|پذیرش
+boarding pass|n|کارت پرواز
+departure|n|عزیمت
+arrival|n|ورود
+flight|n|پرواز
+airline|n|شرکت هواپیمایی
+pilot|n|خلبان
+flight attendant|n|مهماندار
+gate|n|گیت
+terminal|n|ترمینال
+customs|n|گمرک
+immigration|n|مهاجرت
+abroad|adv|خارج از کشور
+foreign|adj|خارجی
+tourist attraction|n|جاذبه گردشگری
+resort|n|اقامتگاه تفریحی
+hostel|n|هتل ارزان
+camping|n|چادرزنی
+tent|n|چادر
+campfire|n|آتش جنگلی
+hiking|n|کوه‌پیمایی
+sightseeing|n|بازدید از جاذبه‌ها
+picnic|n|پیک‌نیک
+sunbathe|v|آفتاب گرفتن
+explore|v|کاوش کردن
+book hotel|v|رزرو کردن
+pack|v|چمدان بستن
+unpack|v|خالی کردن چمدان
+board|v|سوار هواپیما شدن
+land|v|فرود آمدن
+depart|v|عازم شدن
+stay|v|ماندن
+travel agent|n|آژانس مسافرتی
+traveler|n|مسافر
+passenger|n|مسافر
+ticket|n|بلیط
+fare|n|کرایه
+exchange money|v|پول تبدیل کردن
+currency|n|واحد پول
+travel insurance|n|بیمه سفر
+emergency|n|اورژانس
+embassy|n|سفارت
+abroad trip|n|سفر خارجی
+road trip|n|سفر جاده‌ای
+cruise|n|کروز دریایی
+luggage tag|n|برچسب چمدان
+hotel room|n|اتاق هتل
+reception|n|پذیرش هتل
+lobby|n|لابی
+elevator|n|آسانسور
+view|n|منظره
+landscape|n|چشم‌انداز
+amazing|adj|شگفت‌انگیز
+memorable|adj|به‌یادماندنی
+unforgettable|adj|فراموش‌نشدنی
+comfortable trip|adj|راحت
+exotic|adj|غریب و زیبا
+#weather|آب‌وهوا و فصل‌ها|a-clock|13
+weather|n|آب‌وهوا
+temperature|n|دما
+degree|n|درجه
+forecast|n|پیش‌بینی هوا
+rain|n|باران
+rainfall|n|میزان بارش
+drizzle|n|نم‌نم باران
+shower rain|n|رگبار
+downpour|n|بارش شدید
+thunder|n|رعد
+lightning|n|برق
+storm|n|طوفان
+hurricane|n|گردباد
+snow|n|برف
+snowflake|n|دانه برف
+frost|n|یخ‌زدگی
+ice|n|یخ
+hail|n|تگرگ
+fog|n|مه
+mist|n|غبار رطوبتی
+wind|n|باد
+breeze|n|نسیم
+gust|n|وزش شدید باد
+cloud|n|ابر
+cloudy|adj|ابری
+sunny|adj|آفتابی
+rainy|adj|بارانی
+snowy|adj|برفی
+windy|adj|بادی
+foggy|adj|مه‌آلود
+icy|adj|یخ‌زده
+humid|adj|مرطوب
+dry weather|adj|خشک
+mild|adj|معتدل
+freezing|adj|بسیار سرد
+boiling|adj|بسیار گرم
+chilly|adj|سرد و نمناک
+heat wave|n|موج گرما
+cold wave|n|موج سرما
+drought|n|خشکسالی
+flood|n|سیل
+rainbow|n|رنگین‌کمان
+sunshine|n|تابش آفتاب
+shadow|n|سایه
+raincoat|n|بارانی
+weather report|n|گزارش هوا
+#sports|ورزش و بازی|g-star|12
+sport|n|ورزش
+football|n|فوتبال
+soccer|n|فوتبال
+basketball|n|بسکتبال
+volleyball|n|والیبال
+tennis|n|تنیس
+baseball|n|بیسبال
+golf|n|گلف
+boxing|n|مشت‌زنی
+wrestling|n|کشتی
+swimming|n|شنا
+running|n|دویدن
+marathon|n|ماراتن
+cycling|n|دوچرخه‌سواری
+skiing|n|اسکی
+skating|n|اسکیت
+gym|n|باشگاه
+fitness|n|تناسب اندام
+exercise|n|ورزش کردن
+workout|n|تمرین بدنی
+stretching|n|حرکات کششی
+warm-up|n|گرم کردن
+coach|n|مربی
+player|n|بازیکن
+athlete|n|ورزشکار
+team|n|تیم
+opponent|n|حریف
+match|n|مسابقه
+game|n|بازی
+tournament|n|مسابقات
+championship|n|قهرمانی
+champion|n|قهرمان
+medal|n|مدال
+trophy|n|جام
+score|n|امتیاز
+goal|n|گل
+point|n|امتیاز
+victory|n|پیروزی
+lose game|v|باختن
+draw|n|تساوی
+referee|n|داور
+stadium|n|ورزشگاه
+field|n|زمین بازی
+court|n|زمین تنیس
+pitch|n|چمن زمین فوتبال
+track|n|پیست
+net|n|تور
+ball|n|توپ
+bat|n|چوب بیسبال
+racket|n|راکت
+helmet|n|کلاه‌خود
+uniform|n|لباس ورزشی
+fans|n|هواداران
+spectator|n|تماشاچی
+cheer|v|تشویق کردن
+train|v|تمرین کردن
+compete|v|رقابت کردن
+race|n|مسابقه سرعت
+high jump|n|پرش ارتفاع
+throw|n|پرتاب
+catch ball|v|گرفتن توپ
+kick|v|شوت کردن
+hit|v|زدن
+dribble|v|دریبل زدن
+pass ball|v|پاس دادن
+defend|v|دفاع کردن
+attack|v|حمله کردن
+stretch|v|کشش دادن
+lift weights|v|وزنه زدن
+jogging|n|آهسته دویدن
+yoga|n|یوگا
+pilates|n|پیلاتس
+aerobics|n|ایروبیک
+push-up|n|شنا سوئدی
+sit-up|n|دراز نشست
+squat|n|اسکوات
+#feelings|احساسات و شخصیت|g-gift|14
+feeling|n|احساس
+emotion|n|هیجان
+mood|n|حال و هوا
+happiness|n|شادی
+joy|n|شادی و سرور
+sadness|n|غم
+sorrow|n|اندوه
+grief|n|سوگ
+fear|n|ترس
+worry|n|نگرانی
+anxiety|n|اضطراب
+stress|n|استرس
+surprise|n|تعجب
+shock|n|شوک
+anger|n|خشم
+fury|n|خشم شدید
+annoyance|n|آزردگی
+irritation|n|رنجش
+disgust|n|انزجار
+shame|n|شرم
+embarrassment|n|خجالت
+guilt|n|احساس گناه
+regret|n|پشیمانی
+envy|n|حسادت
+pride|n|غرور
+modesty|n|فروتنی
+confidence|n|اعتماد به نفس
+doubt|n|تردید
+trust|n|اعتماد
+hope|n|امید
+despair|n|ناامیدی
+optimism|n|خوش‌بینی
+pessimism|n|بدبینی
+excitement|n|هیجان
+boredom|n|کسالت
+satisfaction|n|رضایت
+disappointment|n|ناامیدی
+frustration|n|سرخوردگی
+loneliness|n|تنهایی
+affection|n|محبت
+sympathy|n|همدلی
+empathy|n|همدلی عمیق
+compassion|n|شفقت
+gratitude|n|سپاسگزاری
+appreciation|n|قدردانی
+envious|adj|حسود
+grumpy|adj|عبوس
+cheerful|adj|شاد
+gloomy|adj|گرفته
+moody|adj|دل‌مویو
+sensitive|adj|حساس
+sensible|adj|عاقل
+optimistic|adj|خوش‌بین
+pessimistic|adj|بدبین
+selfish|adj|خودخواه
+honest|adj|صادق
+dishonest|adj|فریبکار
+loyal|adj|وفادار
+faithful|adj|باوفا
+reliable|adj|قابل اعتماد
+patient|adj|صبور
+impatient|adj|بی‌صبر
+curious|adj|کنجکاو
+ambitious|adj|جاه‌طلب
+confident|adj|با اعتماد به نفس
+coward|adj|ترسو
+stubborn|adj|یک‌دنده
+easygoing|adj|بی‌قید
+cheerful person|n|آدم شاد

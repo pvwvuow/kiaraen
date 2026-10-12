@@ -1,0 +1,101 @@
+#press|رسانه و ژورنالیسم|headphones|1
+journalism|n|روزنامه‌نگاری
+journalist|n|روزنامه‌نگار
+reporter|n|گزارشگر
+correspondent|n|خبرنگار
+editor|n|سردبیر
+editorial|n|سرمقاله
+columnist|n|ستون‌نویس
+headline|n|تیتر
+byline|n|نام نویسنده زیر تیتر
+scoop|n|خبر دست‌اول
+exclusive|n|خبر انحصاری
+lead story|n|خبر اصلی
+breaking news|n|خبر فوری
+deadline press|n|مهلت تحویل خبر
+fact-checking|n|راستی‌آزمایی خبر
+misinformation|n|دروغ‌پراکنی
+disinformation|n|تبلیغ دروغ
+fake news|n|خبر جعلی
+tabloid|n|روزنامه زرد
+broadsheet|n|روزنامه رسمی
+press conference|n|کنفرانس خبری
+press freedom|n|آزادی مطبوعات
+media bias|n|سوگیری رسانه‌ای
+sensationalism|n|احساسات‌گرایی خبری
+yellow journalism|n|ژورنالیسم زرد
+investigative journalism|n|ژورنالیسم تحقیقی
+citizen journalism|n|ژورنالیسم شهروندی
+news outlet|n|رسانه خبری
+coverage|n|پوشش خبری
+soundbite|n|نقل کوتاه
+newsroom|n|اتاق خبر
+archive press|n|بایگانی رسانه
+broadcast journalism|n|ژورنالیسم رادیویی‌تلویزیونی
+infotainment|n|خبر سرگرم‌کننده
+#law|حقوق و اقتصاد|a-coin|16
+jurisprudence|n|فقه حقوقی
+constitutional law|n|حقوق اساسی
+criminal law|n|حقوق جزا
+civil law|n|حقوق مدنی
+commercial law|n|حقوق تجارت
+international law|n|حقوق بین‌الملل
+human rights|n|حقوق بشر
+intellectual law|n|قانون مالکیت
+statutory|adj|قانونی
+case law|n|رویه قضایی
+precedent|n|رویه پیشین
+due process|n|رویه قانونی برخورد
+liability law|n|مسئولیت حقوقی
+indemnity|n|خسارت‌زدایی
+compensation|n|جبران خسارت
+damages|n|خسارت پرداختی
+breach of contract|n|نقض قرارداد
+tort|n|شبه‌جرم
+negligence|n|بی‌احتیاطی
+injunction|n|حکم منع
+subpoena|n|احضاریه
+indictment|n|لایحه اتهام
+arraignment|n|قرائت اتهام
+litigant|n|طرف دادرسی
+counsel|n|وکیل مدافع
+prosecutor|n|دادستان
+magistrate|n|قاضی صلحیه
+notary|n|سردفتر اسناد
+affidavit|n|گواهی محضری
+deposition|n|ادای شهادت کتبی
+#sci|مرزهای علم|a-chest|15
+astrophysics|n|اخترفیزیک
+cosmology|n|کیهان‌شناسی
+dark matter|n|ماده تاریک
+dark energy|n|انرژی تاریک
+black hole|n|سیاهچاله
+nebula|n|سحابی
+supernova|n|ابرنواختر
+pulsar|n|پولسار
+exoplanet|n|بیرون‌سیاره
+gravitational wave|n|موج گرانشی
+higgs boson|n|بوزون هیگز
+antimatter|n|پادماده
+string theory|n|نظریه ریسمان
+multiverse|n|چندجهانی
+singularity|n|تکینگی
+entanglement|n|درهم‌تنیدگی کوانتومی
+superposition|n|برهام‌نهی
+thermodynamics|n|ترمودینامیک
+entropy|n|آنتروپی
+chaos theory|n|نظریه آشوب
+emergence|n|پیدایش
+synthetic biology|n|زیست‌شناسی مصنوعی
+proteomics|n|پروتئومیکس
+metabolomics|n|متابولومیکس
+neuroplasticity|n|انعطاف‌پذیری عصبی
+connectome|n|پیوندنگاره مغز
+epigenetics|n|فراژنتیک
+telomere|n|تلومر
+mitochondria|n|میتوکندری
+apoptosis|n|مرگ سلولی برنامه‌ریزی‌شده
+homeostasis|n|ایستایی
+symbiosis|n|هم‌زیستی
+mutualism|n|هم‌سودگری
+parasitism|n|انگل‌گری

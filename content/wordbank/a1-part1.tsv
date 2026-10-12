@@ -1,0 +1,277 @@
+#conv|مکالمه روزمره|chat|5
+hello|int|سلام
+hi|int|سلام
+goodbye|int|خداحافظ
+bye|int|فعلاً
+please|adv|لطفاً
+thanks|n|متشکرم
+thank you|expr|ممنون
+sorry|int|ببخشید
+excuse me|expr|ببخشید
+yes|int|بله
+no|int|نه
+okay|int|باشه
+welcome|int|خواهش می‌کنم
+good morning|expr|صبح بخیر
+good afternoon|expr|عصر بخیر
+good night|expr|شب بخیر
+see you|expr|می‌بینمت
+what|pron|چه
+who|pron|چه کسی
+where|adv|کجا
+when|adv|کی
+why|adv|چرا
+how|adv|چگونه
+which|pron|کدام
+this|pron|این
+that|pron|آن
+these|pron|این‌ها
+those|pron|آن‌ها
+I|pron|من
+you|pron|تو
+he|pron|او
+she|pron|او
+we|pron|ما
+they|pron|آن‌ها
+it|pron|آن
+my|det|مال من
+your|det|مال تو
+his|det|مال او
+her|det|مال او
+our|det|مال ما
+their|det|مال آن‌ها
+be|v|بودن
+have|v|داشتن
+do|v|انجام دادن
+can|v|توانستن
+will|v|خواهد
+should|v|باید
+must|v|ضرورت دارد
+may|v|ممکن است
+name|n|اسم
+friend|n|دوست
+neighbor|n|همسایه
+guest|n|مهمان
+birthday|n|تولد
+present|n|هدیه
+help|n|کمک
+problem|n|مشکل
+question|n|سؤال
+answer|n|پاسخ
+word|n|واژه
+sentence|n|جمله
+language|n|زبان
+message|n|پیام
+story|n|داستان
+joke|n|جک
+talk|v|صحبت کردن
+speak|v|حرف زدن
+say|v|گفتن
+tell|v|گفتن
+ask|v|پرسیدن
+listen|v|گوش دادن
+hear|v|شنیدن
+understand|v|فهمیدن
+know|v|دانستن
+think|v|فکر کردن
+mean|v|منظورش بودن
+remember|v|یادآوری کردن
+forget|v|فراموش کردن
+agree|v|موافقت کردن
+maybe|adv|شاید
+of course|expr|البته
+really|adv|واقعاً
+very|adv|خیلی
+too|adv|بیش از حد
+also|adv|همچنین
+again|adv|دوباره
+now|adv|الان
+later|adv|بعداً
+sometimes|adv|گاهی اوقات
+always|adv|همیشه
+never|adv|هرگز
+#family|مردم و خانواده|house|6
+family|n|خانواده
+mother|n|مادر
+father|n|پدر
+mom|n|مامان
+dad|n|بابا
+parents|n|پدر و مادر
+son|n|پسر
+daughter|n|دختر
+brother|n|برادر
+sister|n|خواهر
+grandmother|n|مادربزرگ
+grandfather|n|پدربزرگ
+child|n|کودک
+baby|n|نوزاد
+boy|n|پسر
+girl|n|دختر
+man|n|مرد
+woman|n|زن
+people|n|مردم
+person|n|شخص
+husband|n|شوهر
+wife|n|همسر
+couple|n|زوج
+marriage|n|ازدواج
+uncle|n|عمو
+aunt|n|خاله
+cousin|n|عموزاده
+nephew|n|پسربرادرزاده
+niece|n|دختربرادرزاده
+relative|n|خویشاوند
+twin|n|دوقلو
+old|adj|پیر
+young|adj|جوان
+adult|n|بزرگسال
+teenager|n|نوجوان
+friendship|n|دوستی
+love|n|عشق
+hate|n|نفرت
+respect|n|احترام
+kind|adj|مهربان
+nice|adj|دوست‌داشتنی
+polite|adj|مؤدب
+rude|adj|بی‌ادب
+happy|adj|خوشحال
+sad|adj|غمگین
+angry|adj|عصبانی
+tired|adj|خسته
+hungry|adj|گرسنه
+thirsty|adj|تشنه
+sleepy|adj|خواب‌آلود
+sick|adj|مریض
+healthy|adj|سالم
+strong|adj|قوی
+weak|adj|ضعیف
+tall|adj|بلندقد
+short|adj|کوتاه
+beautiful|adj|زیبا
+handsome|adj|خوش‌قیافه
+ugly|adj|زشت
+fat|adj|چاق
+thin|adj|لاغر
+smart|adj|باهوش
+stupid|adj|احمق
+funny|adj|بامزه
+serious|adj|جدی
+quiet|adj|ساکت
+loud|adj|بلندصدا
+shy|adj|خجالتی
+friendly|adj|صمیمی
+famous|adj|مشهور
+rich|adj|ثروتمند
+poor|adj|فقیر
+lucky|adj|خوش‌شانس
+alive|adj|زنده
+dead|adj|مرده
+born|v|به دنیا آمدن
+live|v|زندگی کردن
+die|v|مردن
+marry|v|ازدواج کردن
+grow|v|رشد کردن
+raise|v|بزرگ کردن
+adopt|v|به فرزندی پذیرفتن
+care|v|مراقبت کردن
+share|v|به اشتراک گذاشتن
+kiss|v|بوسیدن
+hug|v|در آغوش گرفتن
+#food|غذا و نوشیدنی|mouth|3
+food|n|غذا
+meal|n|وعده غذایی
+breakfast|n|صبحانه
+lunch|n|ناهار
+dinner|n|شام
+snack|n|میان‌وعده
+bread|n|نان
+rice|n|برنج
+pasta|n|ماکارونی
+soup|n|سوپ
+salad|n|سالاد
+meat|n|گوشت
+chicken|n|مرغ
+beef|n|گوشت گوساله
+fish|n|ماهی
+egg|n|تخم‌مرغ
+cheese|n|پنیر
+butter|n|کره
+yogurt|n|ماست
+milk|n|شیر
+water|n|آب
+juice|n|آبمیوه
+tea|n|چای
+coffee|n|قهوه
+sugar|n|شکر
+salt|n|نمک
+pepper|n|فلفل
+oil|n|روغن
+honey|n|عسل
+jam|n|مربا
+sauce|n|سس
+fruit|n|میوه
+vegetable|n|سبزیجات
+apple|n|سیب
+banana|n|موز
+orange|n|پرتقال
+grape|n|انگور
+melon|n|خربزه
+watermelon|n|هندوانه
+strawberry|n|توت‌فرنگی
+cherry|n|گیلاس
+peach|n|هلو
+pear|n|گلابی
+lemon|n|لیمو
+mango|n|انبه
+potato|n|سیب‌زمینی
+tomato|n|گوجه‌فرنگی
+cucumber|n|خیار
+carrot|n|هویج
+onion|n|پیاز
+garlic|n|سیر
+lettuce|n|کاهو
+corn|n|ذرت
+bean|n|لوبیا
+pea|n|نخودفرنگی
+nut|n|آجیل
+almond|n|بادام
+walnut|n|گردو
+peanut|n|بادام‌زمینی
+dessert|n|دسر
+cake|n|کیک
+cookie|n|بیسکویت
+chocolate|n|شکلات
+candy|n|آب‌نبات
+ice cream|n|بستنی
+pie|n|پای
+pizza|n|پیتزا
+burger|n|همبرگر
+sandwich|n|ساندویچ
+fries|n|سیب‌زمینی سرخ‌کرده
+popcorn|n|پاپ‌کورن
+chips|n|چیپس
+delicious|adj|خوشمزه
+tasty|adj|خوش‌طعم
+sweet|adj|شیرین
+sour|adj|ترش
+salty|adj|شور
+spicy|adj|تند
+bitter|adj|تلخ
+fresh|adj|تازه
+raw|adj|خام
+cooked|adj|پخته
+fried|adj|سرخ‌شده
+boiled|adj|آب‌پز
+baked|adj|فرپز
+frozen|adj|یخ‌زده
+full|adj|سیر
+eat|v|خوردن
+drink|v|نوشیدن
+cook|v|پختن
+bake|v|در فر پختن
+taste|v|چشیدن
+pour|v|ریختن
+cut|v|بریدن
+chew|v|جویدن
+swallow|v|قورت دادن
+serve|v|سرو کردن

@@ -1,0 +1,230 @@
+#animals|حیوانات و طبیعت|globe|11
+animal|n|حیوان
+pet|n|حیوان خانگی
+dog|n|سگ
+cat|n|گربه
+bird|n|پرنده
+fish animal|n|ماهی
+horse|n|اسب
+cow|n|گاو
+sheep|n|گوسفند
+goat|n|بز
+pig|n|خوک
+duck|n|اردک
+hen|n|مرغ
+rooster|n|خروس
+rabbit|n|خرگوش
+mouse|n|موش
+rat|n|موش صحرایی
+squirrel|n|سنجاب
+deer|n|آهو
+bear|n|خرس
+wolf|n|گرگ
+fox|n|روباه
+lion|n|شیر
+tiger|n|ببر
+elephant|n|فیل
+giraffe|n|زرافه
+monkey|n|میمون
+camel|n|شتر
+zebra|n|گورخر
+hippo|n|اسب آبی
+rhino|n|کرگدن
+kangaroo|n|کانگورو
+panda|n|پاندا
+snake|n|مار
+lizard|n|مارمولک
+frog|n|قورباغه
+turtle|n|لاک‌پشت
+crocodile|n|تمساح
+shark|n|کوسه
+whale|n|نهنگ
+dolphin|n|دلفین
+bee|n|زنبور عسل
+butterfly|n|پروانه
+ant|n|مورچه
+fly|n|مگس
+mosquito|n|پشه
+spider|n|عنکبوت
+worm|n|کرم
+snail|n|حلزون
+insect|n|حشره
+tree|n|درخت
+flower|n|گل
+grass|n|چمن
+leaf|n|برگ
+plant|n|گیاه
+forest|n|جنگل
+jungle|n|جنگل استوایی
+desert|n|بیابان
+mountain|n|کوه
+hill|n|تپه
+valley|n|دره
+river|n|رود
+lake|n|دریاچه
+sea|n|دریا
+ocean|n|اقیانوس
+beach|n|ساحل
+island|n|جزیره
+waterfall|n|آبشار
+cave|n|غار
+stone|n|سنگ
+soil|n|خاک
+sand|n|شن
+seed|n|دانه
+root|n|ریشه
+branch|n|شاخه
+#city|شهر و حمل‌ونقل|a-clock|4
+city|n|شهر
+town|n|شهرک
+village|n|روستا
+country|n|کشور
+capital city|n|پایتخت
+street|n|خیابان
+road|n|جاده
+avenue|n|بلوار
+alley|n|کوچه
+bridge|n|پل
+plaza|n|میدان
+park|n|پارک
+playground|n|زمین بازی
+zoo|n|باغ‌وحش
+museum|n|موزه
+cinema|n|سینما
+theater|n|تئاتر
+restaurant|n|رستوران
+cafe|n|کافه
+hotel|n|هتل
+bank|n|بانک
+post office|n|دفتر پست
+pharmacy|n|داروخانه
+supermarket|n|فروشگاه بزرگ
+mall|n|مرکز خرید
+market|n|بازار
+store|n|مغازه
+station|n|ایستگاه
+bus stop|n|ایستگاه اتوبوس
+airport|n|فرودگاه
+train station|n|ایستگاه قطار
+bus|n|اتوبوس
+car|n|ماشین
+taxi|n|تاکسی
+train|n|قطار
+plane|n|هواپیما
+ship|n|کشتی
+boat|n|قایق
+bicycle|n|دوچرخه
+motorcycle|n|موتورسیکلت
+truck|n|کامیون
+van|n|ون
+subway|n|مترو
+helicopter|n|هلیکوپتر
+traffic|n|ترافیک
+jam traffic|n|بسته‌شدن راه
+drive|v|رانندگی کردن
+ride|v|سوار شدن
+fly|v|پرواز کردن
+walk|v|پیاده رفتن
+run|v|دویدن
+cross|v|عبور کردن
+turn|v|پیچیدن
+stop|v|توقف کردن
+arrive|v|رسیدن
+leave|v|ترک کردن
+park|v|پارک کردن
+speed|n|سرعت
+direction|n|جهت
+map|n|نقشه
+sign|n|تابلو
+traffic light|n|چراغ راهنمایی
+sidewalk|n|پیاده‌رو
+corner|n|گوشه
+address|n|نشانی
+distance|n|فاصله
+near|adj|نزدیک
+far|adj|دور
+crowded|adj|شلوغ
+empty|adj|خالی
+#clothes|پوشاک و خرید|a-coin|7
+clothes|n|لباس
+shirt|n|پیراهن
+t-shirt|n|تی‌شرت
+pants|n|شلوار
+jeans|n|شلوار جین
+skirt|n|دامن
+dress|n|پیراهن زنانه
+suit|n|کت‌وشلوار
+jacket|n|کاپشن
+coat|n|پالتو
+sweater|n|پلیور
+hoodie|n|هودی
+vest|n|جلیقه
+socks|n|جوراب
+shoes|n|کفش
+boots|n|چکمه
+sneakers|n|کتانی
+slippers|n|دمپایی
+sandals|n|صندل
+hat|n|کلاه
+cap|n|کلاه نقابی
+scarf|n|شالگردن
+gloves|n|دستکش
+belt|n|کمربند
+tie|n|کراوات
+glasses|n|عینک
+sunglasses|n|عینک آفتابی
+watch|n|ساعت مچی
+jewelry|n|جواهرات
+ring|n|انگشتر
+necklace|n|گردنبند
+bracelet|n|دستبند
+earring|n|گوشواره
+purse|n|کیف دستی
+wallet|n|کیف پول
+umbrella|n|چتر
+handbag|n|کیف زنانه
+button|n|دکمه
+zipper|n|زیپ
+pocket|n|جیب
+sleeve|n|آستین
+collar|n|یقه
+cotton|n|پنبه
+wool|n|پشم
+leather|n|چرم
+silk|n|ابریشم
+size clothes|n|سایز
+wear|v|پوشیدن
+put on|v|پوشیدن
+take off|v|درآوردن
+try on|v|پرو کردن
+fit|v| اندازه بودن
+match|v|هماهنگ بودن
+dress up|v|شیک پوشیدن
+change clothes|v|تغییر لباس دادن
+shop|n|فروشگاه
+shopping|n|خرید
+customer|n|مشتری
+seller|n|فروشنده
+price|n|قیمت
+cost|n|هزینه
+discount|n|تخفیف
+sale|n|حراج
+cheap|adj|ارزان
+expensive|adj|گران
+free of charge|adj|رایگان
+pay|v|پرداخت کردن
+buy|v|خریدن
+sell|v|فروختن
+spend|v|خرج کردن
+money|n|پول
+coin|n|سکه
+bill|n|اسکناس
+cash|n|نقد
+credit card|n|کارت اعتباری
+receipt|n|رسید
+bag shopping|n|کیف خرید
+brand|n|برند
+fashion|n|مد
+style|n|سبک
+trendy|adj|مُدار
+old-fashioned|adj|قدیمی

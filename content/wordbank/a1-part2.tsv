@@ -1,0 +1,293 @@
+#school|مدرسه و آموزش|a-wotd|9
+school|n|مدرسه
+class|n|کلاس
+classroom|n|کلاس درس
+teacher|n|معلم
+student|n|دانش‌آموز
+lesson|n|درس
+subject|n|موضوع درسی
+homework|n|تکلیف
+exam|n|آزمون
+test|n|آزمونک
+grade|n|نمره
+mark|n|علامت
+notebook|n|دفتر
+book|n|کتاب
+pen|n|خودکار
+pencil|n|مداد
+eraser|n|پاک‌کن
+ruler|n|خط‌کش
+scissors|n|قیچی
+glue|n|چسب
+paper|n|کاغذ
+page|n|صفحه
+letter|n|حرف
+alphabet|n|الفبا
+spell|v|هجی کردن
+read|v|خواندن
+write|v|نوشتن
+draw|v|نقاشی کشیدن
+paint|v|رنگ آمیزی کردن
+color|n|رنگ
+learn|v|یاد گرفتن
+teach|v|درس دادن
+study|v|درس خواندن
+practice|v|تمرین کردن
+review|v|مرور کردن
+repeat|v|تکرار کردن
+copy|v|رونویسی کردن
+count|v|شمردن
+math|n|ریاضی
+science|n|علوم
+history|n|تاریخ
+geography|n|جغرافی
+break|n|زنگ تفریح
+desk|n|میز تحریر
+chair|n|صندلی
+bag|n|کیف
+backpack|n|کوله‌پشتی
+dictionary|n|فرهنگ لغت
+library|n|کتابخانه
+example|n|مثال
+exercise|n|تمرین
+mistake|n|اشتباه
+correct|adj|درست
+wrong|adj|غلط
+difficulty|n|سختی
+important|adj|مهم
+difficult|adj|سخت
+interesting|adj|جالب
+boring|adj|حوصله‌سربر
+useful|adj|مفید
+useless|adj|بی‌فایده
+diploma|n|دیپلم
+graduate|v|فارغ‌التحصیل شدن
+pass|v|قبول شدن
+fail|v|مردود شدن
+uniform|n|یونیفرم
+rule|n|قانون
+punish|v|تنبیه کردن
+praise|v|تشویق کردن
+#body|بدن و سلامت|g-heart|8
+body|n|بدن
+head|n|سر
+hair|n|مو
+face|n|صورت
+eye|n|چشم
+ear|n|گوش
+nose|n|بینی
+mouth|n|دهان
+tooth|n|دندان
+tongue|n|زبان
+lip|n|لب
+chin|n|چانه
+cheek|n|گونه
+neck|n|گردن
+shoulder|n|شانه
+arm|n|بازو
+elbow|n|آرنج
+hand|n|دست
+finger|n|انگشت
+thumb|n|شست
+nail|n|ناخن
+chest|n|قفسه سینه
+back|n|کمر
+stomach|n|شکم
+waist|n|کمر (میان)
+leg|n|پا
+knee|n|زانو
+foot|n|پا
+toe|n|انگشت پا
+skin|n|پوست
+bone|n|استخوان
+blood|n|خون
+heart|n|قلب
+brain|n|مغز
+lung|n|ریه
+muscle|n|ماهیچه
+doctor|n|پزشک
+nurse|n|پرستار
+dentist|n|دندانپزشک
+patient|n|بیمار
+hospital|n|بیمارستان
+clinic|n|درمانگاه
+medicine|n|دارو
+pill|n|قرص
+injection|n|تزریق
+bandage|n|باند
+wound|n|زخم
+pain|n|درد
+headache|n|سردرد
+stomachache|n|دل‌درد
+toothache|n|دندان‌درد
+fever|n|تب
+cough|n|سرفه
+cold|n|سرماخوردگی
+flu|n|آنفولانزا
+allergy|n|حساسیت
+injury|n|آسیب
+broken|adj|شکسته
+bleed|v|خونریزی کردن
+hurt|v|درد دادن
+ache|v|درد داشتن
+cure|v|درمان کردن
+treat|v|مداوا کردن
+recover|v|بهبود پیدا کردن
+rest|v|استراحت کردن
+breathe|v|نفس کشیدن
+sneeze|v|عطسه کردن
+weight|n|وزن
+height|n|قد
+hygiene|n|بهداشت
+#home|خانه و وسایل|a-chest|6
+house|n|خانه
+home|n|خانه
+apartment|n|آپارتمان
+building|n|ساختمان
+room|n|اتاق
+bedroom|n|اتاق خواب
+bathroom|n|حمام
+kitchen|n|آشپزخانه
+living room|n|اتاق نشیمن
+garden|n|باغچه
+yard|n|حیاط
+balcony|n|بالکن
+stairs|n|پله
+roof|n|سقف
+wall|n|دیوار
+floor|n|کف
+door|n|در
+window|n|پنجره
+ceiling|n|سقف
+gate|n|دروازه
+garage|n|گاراژ
+furniture|n|اثاثیه
+table|n|میز
+sofa|n|مبل
+bed|n|تخت
+wardrobe|n|کمد لباس
+shelf|n|قفسه
+mirror|n|آینه
+carpet|n|فرش
+rug|n|قالیچه
+curtain|n|پرده
+lamp|n|چراغ
+light|n|نور
+candle|n|شمع
+clock|n|ساعت دیواری
+key|n|کلید
+lock|n|قفل
+fridge|n|یخچال
+freezer|n|فریزر
+stove|n|اجاق
+oven|n|فر
+microwave|n|مایکروویو
+sink|n|سینک
+tap|n|شیر آب
+pot|n|قابلمه
+pan|n|تابه
+plate|n|بشقاب
+bowl|n|کاسه
+cup|n|فنجان
+glass|n|لیوان
+fork|n|چنگال
+knife|n|چاقو
+spoon|n|قاشق
+towel|n|حوله
+soap|n|صابون
+shampoo|n|شامپو
+toothbrush|n|مسواک
+broom|n|جارو
+trash|n|زباله
+bucket|n|سطل
+ladder|n|نردبان
+toolbox|n|جعبه ابزار
+hammer|n|چکش
+screwdriver|n|پیچ‌گوشتی
+screw|n|پیچ
+rope|n|طناب
+wire|n|سیم
+pipe|n|لوله
+switch|n|کلید برق
+plug|n|پریز
+blanket|n|پتو
+pillow|n|بالش
+sheet|n|ملحفه
+drawer|n|کشو
+clean|v|تمیز کردن
+wash|v|شستن
+sweep|v|جارو کردن
+tidy|adj|مرتب
+messy|adj|نامرتب
+cozy|adj|دنج
+spacious|adj|آباد و بزرگ
+#numcol|اعداد، رنگ‌ها و شکل‌ها|g-star|7
+zero|num|صفر
+one|num|یک
+two|num|دو
+three|num|سه
+four|num|چهار
+five|num|پنج
+six|num|شش
+seven|num|هفت
+eight|num|هشت
+nine|num|نه
+ten|num|ده
+eleven|num|یازده
+twelve|num|دوازده
+thirteen|num|سیزده
+fourteen|num|چهارده
+fifteen|num|پانزده
+twenty|num|بیست
+thirty|num|سی
+forty|num|چهل
+fifty|num|پنجاه
+sixty|num|شصت
+seventy|num|هفتاد
+eighty|num|هشتاد
+ninety|num|نود
+hundred|num|صد
+thousand|num|هزار
+million|num|میلیون
+first|num|اول
+second|num|دوم
+third|num|سوم
+half|n|نصف
+quarter|n|ربع
+double|adj|دوتایی
+single|adj|تکی
+red|adj|قرمز
+blue|adj|آبی
+green|adj|سبز
+yellow|adj|زرد
+black|adj|سیاه
+white|adj|سفید
+brown|adj|قهوه‌ای
+pink|adj|صورتی
+purple|adj|بنفش
+gray|adj|خاکستری
+orange color|n|نارنجی
+golden|adj|طلایی
+silver|adj|نقره‌ای
+dark|adj|تیره
+bright|adj|روشن
+pale|adj|رنگ‌پریده
+circle|n|دایره
+square|n|مربع
+triangle|n|مثلث
+rectangle|n|مستطیل
+line|n|خط
+dot|n|نقطه
+shape|n|شکل
+size|n|اندازه
+big|adj|بزرگ
+small|adj|کوچک
+long|adj|بلند
+wide|adj|پهن
+narrow|adj|باریک
+deep|adj|عمیق
+high|adj|بلند
+low|adj|پایین
+heavy|adj|سنگین
+lightweight|adj|سبک
+thick|adj|ضخیم

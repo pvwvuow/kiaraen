@@ -1,0 +1,194 @@
+#edu|تحصیل و یادگیری|a-wotd|9
+university|n|دانشگاه
+college|n|دانشکده
+campus|n|محوطه دانشگاه
+lecture|n|سخنرانی
+professor|n|استاد
+certification|n|مدرک
+bachelor|n|کارشناسی
+master|n|کارشناسی ارشد
+phd|n|دکتری
+scholarship|n|بورسیه
+tuition|n|شهریه
+semester|n|ترم
+course|n|دوره
+curriculum|n|برنامه درسی
+syllabus|n|سرفصل
+assignment|n|تکلیف دانشگاهی
+essay|n|انشا
+thesis|n|پایان‌نامه
+research|n|تحقیق
+knowledge|n|دانش
+wisdom|n|حکمت
+intelligence|n|هوش
+talent|n|استعداد
+creativity|n|خلاقیت
+imagination|n|تخیل
+memory|n|حافظه
+attention|n|توجه
+concentration|n|تمرکز
+motivation|n|انگیزه
+progress|n|پیشرفت
+achievement|n|دستاورد
+success|n|موفقیت
+failure|n|شکست
+effort|n|تلاش
+improvement|n|بهبود
+vocabulary|n|واژگان
+grammar|n|گرامر
+pronunciation|n|تلفظ
+translation|n|ترجمه
+translate|v|ترجمه کردن
+memorize|v|حفظ کردن
+revise|v|بازبینی کردن
+take notes|v|یادداشت برداشتن
+attend class|v|در کلاس حاضر شدن
+enroll|v|ثبت‌نام کردن
+textbook|n|کتاب درسی
+reference book|n|کتاب مرجع
+#nature|طبیعت و حیوانات|globe|11
+nature|n|طبیعت
+environment|n|محیط‌زیست
+wildlife|n|حیات وحش
+habitat|n|زیستگاه
+species|n|گونه
+mammal|n|پستاندار
+reptile|n|خزنده
+amphibian|n|دوزیست
+predator|n|شکارچی
+prey|n|طعمه
+hunt|v|شکار کردن
+nest|n|لانه
+feather|n|پر
+fur|n|پوست خز
+wing|n|بال
+tail|n|دُم
+paw|n|پنجه
+horn|n|شاخ
+hoof|n|سُم
+whiskers|n|سبیل گربه
+beak|n|منقار
+claw|n|چنگال حیوان
+mane|n|یال
+herd|n|گله
+flock|n|گله پرندگان
+swarm|n|دسته حشرات
+cage|n|قفس
+stable|n|طویله
+kennel|n|لانه سگ
+veterinarian|n|دامپزشک
+endangered|adj|در خطر انقراض
+extinct|adj|منقرض‌شده
+domestic|adj|اهلی
+wild|adj|وحشی
+tame|adj|رام
+migrate|v|مهاجرت کردن
+hibernate|v|خواب زمستانی
+bark|v|پارس کردن
+meow|v|میو کردن
+roar|v|غریدن
+buzz|v|وزوز کردن
+tweet|v|چهچهه زدن
+graze|v|چرا کردن
+gallop|v|چهارنعل رفتن
+#verbs2|افعال و عبارت‌ها|g-play|5
+accept|v|پذیرفتن
+refuse|v|رد کردن
+allow|v|اجازه دادن
+prevent|v|جلوگیری کردن
+avoid|v|پرهیز کردن
+deny|v|انکار کردن
+admit|v|قبول کردن
+suggest|v|پیشنهاد دادن
+recommend|v|توصیه کردن
+complain|v|شکایت کردن
+apologize|v|عذرخواهی کردن
+thank|v|تشکر کردن
+congratulate|v|تبریک گفتن
+greet|v|سلام کردن
+introduce|v|معرفی کردن
+announce|v|اعلام کردن
+mention|v|اشاره کردن
+discuss|v|بحث کردن
+argue|v|دعوا کردن
+shout at|v|سر دادن فریاد
+whisper|v|نجوا کردن
+interrupt|v|قطع کردن
+promise|v|قول دادن
+offer|v|پیشنهاد کردن
+borrow money|v|قرض گرفتن
+owe|v|بدهکار بودن
+afford|v|توان مالی داشتن
+cost verb|v|قیمت داشتن
+spend money|v|خرج کردن
+waste|v|هدر دادن
+save money|v|پس‌انداز کردن
+earn|v|درآمد داشتن
+invest|v|سرمایه‌گذاری کردن
+donate|v|اهدا کردن
+collect|v|جمع‌آوری کردن
+choose between|v|انتخاب کردن
+compare|v|مقایسه کردن
+measure|v|اندازه گرفتن
+weigh|v|وزن کردن
+wrap|v|پیچیدن
+untie|v|باز کردن گره
+tie knot|v|گره زدن
+fold|v|تا کردن
+hang|v|آویزان کردن
+separate|v|جدا کردن
+combine|v|ترکیب کردن
+mix up|v|قاطی کردن
+fill|v|پر کردن
+empty verb|v|خالی کردن
+pour out|v|سرریز کردن
+spill|v|ریختن مایع
+spread|v|پخش کردن
+cover|v|پوشاندن
+reveal|v|آشکار کردن
+hide|v|پنهان کردن
+#social|روابط و مهمانی|chat|14,5
+invitation|n|دعوت‌نامه
+host|n|میزبان
+visitor|n|بازدیدکننده
+gathering|n|گردهمایی
+celebration|n|جشن
+ceremony|n|مراسم
+wedding|n|عروسی
+engagement|n|نامزدی
+anniversary|n|سالگرد
+reunion|n|دیدار خانوادگی
+farewell|n|بدرقه
+greeting|n|سلام و احوالپرسی
+handshake|n|دست‌دادن
+conversation|n|گفت‌وگو
+dialog|n|دیالوگ
+small talk|n|گپ کوتاه
+gossip|n|غیبت
+rumor|n|شایعه
+secret|n|راز
+discretion|n|رازداری
+date|v|قرار گذاشتن
+hang out|v|وقت گذراندن
+get together|v|جمع شدن
+catch up|v|هم‌خبر شدن
+visit someone|v|مهمان رفتن
+host guest|v|میزبانی کردن
+welcome guest|v|خوش‌آمد گفتن
+see off|v|بدرقه کردن
+say goodbye|expr|خداحافظی کردن
+make friends|v|دوست پیدا کردن
+get along|v|کنار آمدن
+fall out|v|قهر کردن
+make up|v|آشتی کردن
+support|v|حمایت کردن
+encourage|v|تشویق کردن
+comfort|v|دلداری دادن
+console|v|تسلی دادن
+flatter|v|چاپلوسی کردن
+tease|v|سربه‌سر گذاشتن
+bully|v|قلدری کردن
+respect|v|احترام گذاشتن
+trust|v|اعتماد کردن
+betray|v|خیانت کردن
+forgive|v|بخشیدن

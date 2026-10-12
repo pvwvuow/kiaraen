@@ -1,0 +1,213 @@
+#verbs|افعال پرکاربرد|g-play|5
+go|v|رفتن
+come|v|آمدن
+get|v|گرفتن
+give|v|دادن
+take|v|بردن
+make|v|ساختن
+want|v|خواستن
+need|v|لازم داشتن
+like|v|دوست داشتن
+enjoy|v|لذت بردن
+love|v|عاشق بودن
+hope|v|امیدوار بودن
+wish|v|آرزو کردن
+try|v|تلاش کردن
+use|v|استفاده کردن
+work|v|کار کردن
+play|v|بازی کردن
+view|v|تماشا کردن
+see|v|دیدن
+look|v|نگاه کردن
+show|v|نشان دادن
+find|v|پیدا کردن
+lose|v|گم کردن
+search|v|جست‌وجو کردن
+open|v|باز کردن
+close|v|بستن
+start|v|شروع کردن
+finish|v|تمام کردن
+end|v|پایان دادن
+continue|v|ادامه دادن
+wait|v|منتظر ماندن
+help|v|کمک کردن
+change|v|تغییر دادن
+choose|v|انتخاب کردن
+decide|v|تصمیم گرفتن
+plan|v|برنامه‌ریزی کردن
+prepare|v|آماده کردن
+put|v|گذاشتن
+bring|v|آوردن
+carry|v|حمل کردن
+hold|v|نگه داشتن
+throw|v|انداختن
+catch|v|گرفتن
+drop|v|انداختن پایین
+lift|v|بلند کردن
+push|v|هل دادن
+pull|v|کشیدن
+break|v|شکستن
+fix|v|درست کردن
+build|v|ساختن
+send|v|فرستادن
+receive|v|دریافت کردن
+call|v|تماس گرفتن
+turn on|v|روشن کردن
+turn off|v|خاموش کردن
+sit|v|نشستن
+stand|v|ایستادن
+stand up|v|بلند شدن
+lie down|v|دراز کشیدن
+wake up|v|بیدار شدن
+sleep|v|خوابیدن
+dream|v|خواب دیدن
+laugh|v|خندیدن
+cry|v|گریه کردن
+smile|v|لبخند زدن
+shout|v|فریاد زدن
+sing|v|آواز خواندن
+dance|v|رقصیدن
+jump|v|پریدن
+climb|v|بالارفتن
+swim|v|شنا کردن
+skate|v|اسکیت سواری
+meet|v|ملاقات کردن
+visit|v|دیدار کردن
+invite|v|دعوت کردن
+celebrate|v|جشن گرفتن
+win|v|بردن
+beat|v|شکست دادن
+guess|v|حدس زدن
+explain|v|توضیح دادن
+describe|v|توصیف کردن
+borrow|v|قرض گرفتن
+lend|v|قرض دادن
+return|v|برگرداندن
+move|v|جابه‌جا شدن
+follow|v|دنبال کردن
+lead|v|رهبری کردن
+teach verb|v|یاد دادن
+pay attention|expr|توجه کردن
+hurry|v|عجله کردن
+relax|v|آرام بودن
+#adj|صفت‌های پایه|g-gift|14
+good|adj|خوب
+bad|adj|بد
+great|adj|عالی
+terrible|adj|افتضاح
+fine|adj|خوب
+right|adj|درست
+left|adj|چپ
+new|adj|نو
+clean|adj|تمیز
+dirty|adj|کثیف
+hot|adj|گرم
+cold|adj|سرد
+warm|adj|معتدل
+cool|adj|خنک
+wet|adj|خیس
+dry|adj|خشک
+soft|adj|نرم
+hard|adj|سخت
+smooth|adj|صاف
+rough|adj|زبر
+fast|adj|سریع
+slow|adj|آهسته
+quick|adj|تند
+safe|adj|ایمن
+dangerous|adj|خطرناک
+true|adj|درست
+false|adj|نادرست
+real|adj|واقعی
+fake|adj|تقلبی
+same|adj|یکسان
+different|adj|متفاوت
+similar|adj|مشابه
+opposite|adj|مخالف
+brave|adj|شجاع
+afraid|adj|ترسیده
+calm|adj|آرام
+excited|adj|هیجان‌زده
+bored|adj|خسته و کسل
+proud|adj|سربلند
+jealous|adj|حسود
+generous|adj|بخشنده
+lazy|adj|تنبل
+busy|adj|مشغول
+free|adj|آزاد
+possible|adj|ممکن
+impossible|adj|ناممکن
+necessary|adj|ضروری
+special|adj|ویژه
+normal|adj|معمولی
+strange|adj|عجیب
+simple|adj|ساده
+modern|adj|مدرن
+ancient|adj|باستانی
+comfortable|adj|راحت
+sure|adj|مطمئن
+ready|adj|آماده
+#time|زمان و روزها|bell|5
+time|n|زمان
+hour|n|ساعت
+minute|n|دقیقه
+second|n|ثانیه
+day|n|روز
+week|n|هفته
+month|n|ماه
+year|n|سال
+century|n|قرن
+morning|n|صبح
+noon|n|ظهر
+afternoon|n|بعدازظهر
+evening|n|عصر
+night|n|شب
+midnight|n|نیمه‌شب
+sunrise|n|طلوع خورشید
+sunset|n|غروب خورشید
+Monday|n|دوشنبه
+Tuesday|n|سه‌شنبه
+Wednesday|n|چهارشنبه
+Thursday|n|پنج‌شنبه
+Friday|n|جمعه
+Saturday|n|شنبه
+Sunday|n|یکشنبه
+weekend|n|آخر هفته
+today|adv|امروز
+tomorrow|adv|فردا
+yesterday|adv|دیروز
+tonight|adv|امشب
+last week|expr|هفته گذشته
+next week|expr|هفته آینده
+spring|n|بهار
+summer|n|تابستان
+autumn|n|پاییز
+winter|n|زمستان
+season|n|فصل
+date|n|تاریخ
+calendar|n|تقویم
+schedule|n|برنامه زمانی
+early|adv|زود
+late|adv|دیر
+soon|adv|به‌زودی
+moment|n|لحظه
+past|n|گذشته
+future|n|آینده
+beginning|n|شروع
+end|n|پایان
+before|prep|قبل از
+after|prep|بعد از
+during|prep|در طول
+while|conj|در حالی که
+until|prep|تا وقتی که
+since|prep|از زمانی که
+ago|adv|پیش
+on time|expr|سر وقت
+every day|expr|هر روز
+once|adv|یک بار
+twice|adv|دو بار
+daily|adj|روزانه
+weekly|adj|هفتگی
+monthly|adj|ماهانه
+yearly|adj|سالانه
+alarm|n|زنگ هشدار

@@ -1,0 +1,193 @@
+#finance2|سرمایه‌گذاری|a-coin|16
+investment|n|سرمایه‌گذاری
+investor|n|سرمایه‌گذار
+broker|n|کارگزار
+stock exchange|n|بورس اوراق
+blue-chip|adj|سهام مطمئن
+bull market|n|بازار صعودی
+bear market|n|بازار نزولی
+index fund|n|صندوق شاخصی
+mutual fund|n|صندوق مشترک
+exchange-traded|adj|قابل مبادله بورسی
+dividend yield|n|بازده سود
+capital gain|n|سود سرمایه‌ای
+capital loss|n|ضرر سرمایه‌ای
+tax return|n|اظهارنامه مالیاتی
+tax deduction|n|کسر مالیاتی
+tax credit|n|اعتبار مالیاتی
+VAT|n|مالیات بر ارزش افزوده
+income tax|n|مالیات بر درآمد
+estate tax|n|مالیات ارث
+inheritance|n|میراث مالی
+will document|n|وصیت‌نامه
+trust fund|n|صندوق امانی
+pension|n|بازنشستگی
+annuity|n|حق‌بیمه سالانه
+net worth|n|ثروت خالص
+gross income|n|درآمد ناخالص
+net income|n|درآمد خالص
+fiscal year|n|سال مالی
+quarterly report|n|گزارش فصلی
+annual report|n|گزارش سالانه
+financial statement|n|صورت‌های مالی
+cash reserve|n|ذخیره نقدی
+emergency fund|n|صندوق اضطراری
+compound interest|n|سود مرکب
+principal amount|n|مبلغ اصل
+credit rating|n|رتبه‌بندی اعتباری
+insolvency risk|n|ریسک اعسار
+hedge fund|n|صندوق پوشش ریسک
+private equity|n|سهام خصوصی
+venture capital|n|سرمایه‌گذاری مخاطره‌آمیز
+crowdfunding|n|جمع‌سپاری مالی
+initial offering|n|عرضه اولیه
+#intl|روابط بین‌الملل|g-chart|
+international relations|n|روابط بین‌الملل
+foreign affairs|n|امور خارجه
+diplomatic immunity|n|مصونیت دیپلماتیک
+consulate|n|کنسولگری
+consul|n|کنسول
+attaché|n|وابسته دیپلماتیک
+delegation intl|n|هیئت دیپلماتیک
+state visit|n|سفر رسمی دولتی
+statecraft|n|کشورداری
+geopolitics|n|ژئوپلیتیک
+sphere of influence|n|قلمرو نفوذ
+superpower|n|ابرقدرت
+developing nation|n|کشور در حال توسعه
+developed nation|n|کشور توسعه‌یافته
+third world|n|جهان سوم
+globalization|n|جهانی‌شدن
+interdependence|n|وابستگی متقابل
+multinational|adj|چندملیتی
+transnational|adj|فراملی
+nongovernmental|adj|غیردولتی
+humanitarian crisis|n|بحران انسانی
+asylum seeker|n|پناهنده‌جو
+repatriation|n|بازگردانی
+extradition|n|تحویل مجرم
+war crime|n|جنایت جنگی
+genocide|n|نسل‌کشی
+peacekeeping|n|حفظ صلح
+arms control|n|کنترل تسلیحات
+nuclear proliferation|n|گسترش سلاح هسته‌ای
+nonproliferation|adj|ضد گسترش
+trade embargo|n|تحریم تجاری
+diplomatic rupture|n|قطع روابط
+normalization|n|عادی‌سازی روابط
+#energy|انرژی و صنایع|globe|11
+industrial|adj|صناعتی
+manufacturing|n|تولید صنعتی
+assembly line|n|خط مونتاژ
+mass production|n|تولید انبوه
+output|n|بازده تولید
+raw material|n|ماده اولیه
+supply chain|n|زنجیره تأمین
+distribution|n|توزیع
+logistics energy|n|حمل‌ونقل صنعتی
+refinery|n|پالایشگاه
+drilling|n|حفاری
+extraction|n|استخراج
+mining|n|معدن‌کاری
+quarry|n|معدن سنگ
+smelting|n|ذوب فلز
+foundry|n|ریخته‌گری
+steel industry|n|صنعت فولاد
+petrochemical|adj|پتروشیمی
+pipeline|n|خط لوله
+power grid|n|شبکه برق‌رسانی
+voltage supply|n|تأمین ولتاژ
+blackout|n|قطع برق
+brownout|n|افت ولتاژ
+energy efficiency|n|بهره‌وری انرژی
+energy consumption|n|مصرف انرژی
+insulation|n|عایق‌بندی
+smart meter|n|کنتور هوشمند
+time-of-use|n|تعرفه زمانی مصرف
+off-grid|adj|خارج از شبکه
+backup generator|n|ژنراتور پشتیبان
+#art2|سینما و ادبیات پیشرفته|g-star|1
+cinematography|n|فیلم‌برداری
+montage|n|مونتاژ
+mise-en-scene|n|صحنه‌پردازی
+voice-over|n|صدای راوی
+flashforward|n|پرش به آینده
+cinematic|adj|سینمایی
+film noir|n|فیلم نوآر
+arthouse|n|سینمای هنری
+indie film|n|فیلم مستقل
+blockbuster|n|پرفروش‌ترین فیلم
+sequel|n|ادامه فیلم
+prequel|n|پیش‌درآمد
+remake|n|بازسازی
+adaptation|n|اقتباس
+box office hit|n|فیلم پر فروش
+critically acclaimed|adj|تحسین‌شده منتقدان
+award-winning|adj|برنده جایزه
+film festival|n|جشنواره فیلم
+red carpet|n|فرش قرمز
+cameraman|n|فیلم‌بردار
+cinematographer|n|فیلم‌بردار ارشد
+production designer|n|طراح صحنه
+costume designer|n|طراح لباس
+special effects|n|جلوه‌های ویژه
+computer graphics|n|گرافیک رایانه‌ای
+stop-motion|n|استاپ‌موشن
+#society2|مسائل شهری|g-chart|
+urban planning|n|برنامه‌ریزی شهری
+zoning|n|تفکیک مناطق
+gentrification|n|گسترش مدرن محله
+housing crisis|n|بحران مسکن
+affordable housing|n|مسکن ارزان
+homeless shelter|n|پناهگاه بی‌خانمان‌ها
+social services|n|خدمات اجتماعی
+food bank|n|بانک غذا
+soup kitchen|n|آشپزخانه خیریه
+food insecurity|n|ناامنی غذایی
+digital divide|n|شکاف دیجیتال
+digital literacy|n|سواد دیجیتال
+civic engagement|n|مشارکت شهروندی
+civic duty|n|وظیفه شهروندی
+community service|n|خدمات عمومی
+neighborhood watch|n|پاسگاه محله‌ای
+public safety|n|ایمنی عمومی
+crime rate|n|نرخ جرم
+recidivism|n|تکرار جرم
+rehabilitation social|n|توان‌بخشی اجتماعی
+youth outreach|n|برنامه حمایت جوانان
+mentoring|n|راهنمایی مربیگری
+advocacy|n|دعوت‌گری
+grassroots|adj|مردمی
+lobbying|n|لابی‌گری
+petition drive|n|کمپین دادخواست
+voter turnout|n|مشارکت رأی‌دهندگان
+polling station|n|شعبه رأی‌گیری
+#mind2|هوش و یادگیری|g-gift|14
+cognition mind|n|فرآیند شناختی
+intellect|n|عقل
+rationality|n|عقلانیت
+comprehension|n|درک
+retention|n|نگهداشت حافظه
+recall|n|بازخوانی حافظه
+recognition mind|n|بازشناسی
+long-term memory|n|حافظه بلندمدت
+short-term memory|n|حافظه کوتاه‌مدت
+working memory|n|حافظه فعال
+learning curve|n|منحنی یادگیری
+cognitive load|n|بار شناختی
+information processing|n|پردازش اطلاعات
+mental imagery|n|تصویرسازی ذهنی
+visualization|n|تجسم
+brainstorm|v|ایده‌پردازی کردن
+problem solve|v|مسئله‌گشایی کردن
+analytical|adj|تحلیلی
+critical|adj|نقادانه
+logical|adj|منطقی
+intuitive|adj|شهودی
+observant|adj|بینا
+perceptive|adj|زیرک
+insightful|adj|ژرف‌بین
+inquisitive|adj|پرسشگر
+reflective|adj|تأمل‌گر
+mindful|adj|آگاهانه
+absent-minded|adj|حواس‌پرت

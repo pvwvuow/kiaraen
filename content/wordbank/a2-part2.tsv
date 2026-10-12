@@ -1,0 +1,276 @@
+#tech|تکنولوژی و ارتباطات|a-eye|10
+technology|n|تکنولوژی
+computer|n|رایانه
+laptop|n|لپ‌تاپ
+tablet|n|تبلت
+smartphone|n|گوشی هوشمند
+screen|n|صفحه‌نمایش
+keyboard|n|کیبورد
+mouse|n|ماوس
+printer|n|چاپگر
+scanner|n|اسکنر
+camera tech|n|وبکم
+headphones|n|هدفون
+charger|n|شارژر
+cable|n|کابل
+usb|n|یو‌اس‌بی
+memory card|n|کارت حافظه
+hard drive|n|هارد دیسک
+software|n|نرم‌افزار
+hardware|n|سخت‌افزار
+program|n|برنامه
+application|n|اپلیکیشن
+website|n|وب‌سایت
+internet|n|اینترنت
+wifi|n|وای‌فای
+password|n|رمز عبور
+username|n|نام کاربری
+account|n|حساب کاربری
+email tech|n|ایمیل
+online|adj|آنلاین
+offline|adj|آفلاین
+download|v|دانلود کردن
+upload|v|آپلود کردن
+install|v|نصب کردن
+uninstall|v|حذف نرم‌افزار
+update|v|به‌روزرسانی کردن
+restart|v|راه‌اندازی مجدد
+shut down|v|خاموش کردن
+log in|v|وارد شدن
+log out|v|خارج شدن
+sign up|v|ثبت‌نام کردن
+browse|v|مرور کردن
+search online|v|جست‌وجو کردن
+click|v|کلیک کردن
+type|v|تایپ کردن
+save|v|ذخیره کردن
+delete|v|حذف کردن
+copy paste|v|کپی کردن
+attach|v|پیوست کردن
+send email|v|ارسال کردن
+message|v|پیام دادن
+chat|v|چت کردن
+video call|n|تماس تصویری
+social media|n|شبکه اجتماعی
+follower|n|دنبال‌کننده
+post|n|پست
+comment|n|نظر
+like|n|لایک
+share post|v|هم‌رسانی کردن
+notification|n|اعلان
+virus|n|ویروس
+hacker|n|هکر
+privacy|n|حریم خصوصی
+data|n|داده
+file|n|پرونده
+folder|n|پوشه
+digital|adj|دیجیتال
+#shopping|خرید و پول|a-coin|7,16
+mall shopping|n|مرکز خرید
+department store|n|فروشگاه زنجیره‌ای
+grocery store|n|خواروبارفروشی
+bakery|n|نانوایی
+butcher|n|قصابی
+bookstore|n|کتاب‌فروشی
+toy store|n|فروشگاه اسباب‌بازی
+clothing store|n|فروشگاه لباس
+shopping cart|n|چرخ خرید
+basket|n|سبد
+checkout|n|صندوق پرداخت
+cashier|n|صندوقدار
+shopping list|n|لیست خرید
+bargain|n|چانه‌زنی
+refund|n|بازپرداخت
+exchange item|v|تعویض کردن
+warranty|n|ضمانت‌نامه
+quality|n|کیفیت
+quantity|n|مقدار
+package|n|بسته‌بندی
+delivery|n|تحویل
+shipping|n|ارسال کالا
+order|n|سفارش
+online shopping|n|خرید آنلاین
+budget|n|بودجه
+expense|n|هزینه
+income|n|درآمد
+salary|n|حقوق
+wage|n|دستمزد
+savings|n|پس‌انداز
+debt|n|بدهی
+loan|n|وام
+installment|n|اقساط
+price tag|n|برچسب قیمت
+expensive item|adj|گران‌قیمت
+affordable|adj|به‌صرفه
+wholesale|n|عمده‌فروشی
+retail|n|خرده‌فروشی
+second-hand|adj|دست‌دوم
+counterfeit|adj|تقلبی
+discount code|n|کد تخفیف
+coupon|n|کوپن
+reward points|n|امتیاز هدیه
+loyalty card|n|کارت باشگاه مشتریان
+gift card|n|کارت هدیه
+wrap gift|v|کادوپیچ کردن
+purchase|v|خریداری کردن
+compare prices|v|مقایسه قیمت کردن
+pay cash|v|نقد پرداخت کردن
+pay by card|v|کارت کشیدن
+#health|سلامت و بهداشت|g-heart|8
+health|n|سلامت
+fitness health|n|تناسب اندام
+nutrition|n|تغذیه
+diet|n|رژیم غذایی
+vitamin|n|ویتامین
+protein|n|پروتئین
+calorie|n|کالری
+mental health|n|سلامت روان
+well-being|n|احساس خوب
+lifestyle|n|سبک زندگی
+checkup|n|چکاپ
+blood pressure|n|فشار خون
+blood test|n|آزمایش خون
+x-ray|n|رادیولوژی
+surgery|n|جراحی
+operation|n|عمل جراحی
+ambulance|n|آمبولانس
+emergency room|n|اورژانس بیمارستان
+first aid|n|کمک‌های اولیه
+ointment|n|پماد
+syrup|n|شربت دارویی
+prescription|n|نسخه پزشک
+symptom|n|علامت بیماری
+diagnosis|n|تشخیص
+treatment|n|درمان
+therapy|n|درمان روانی
+rehabilitation|n|توان‌بخشی
+vaccine|n|واکسن
+pandemic|n|همه‌گیری
+contagious|adj|مسری
+chronic|adj|مزمن
+severe|adj|شدید
+mild illness|adj|خفیف
+nausea|n|حالت تهوع
+dizziness|n|سرگیجه
+fatigue|n|خستگی مفرط
+insomnia|n|بی‌خوابی
+obesity|n|چاقی مفرط
+diabetes|n|دیابت
+cancer|n|سرطان
+asthma|n|آسم
+heartbeat|n|ضربان قلب
+immune system|n|سیستم ایمنی
+balanced diet|n|رژیم متعادل
+junk food|n|فست‌فود
+organic|adj|ارگانیک
+smoke free|adj|بدون دخانیات
+quit smoking|v|ترک سیگار
+lose weight|v|کم کردن وزن
+gain weight|v|اضافه وزن
+stay fit|v|تناسب نگه داشتن
+#cooking|آشپزی و خانه|a-chest|6,3
+recipe|n|دستور پخت
+ingredient|n|ماده اولیه
+kitchenware|n|ظروف آشپزخانه
+cutting board|n|تخته خردکن
+rolling pin|n|وردنه
+spatula|n|کفگیر
+whisk|n|هم‌زن
+grater|n|رنده
+peeler|n|پوست‌کن
+can opener|n|بازکن قوطی
+kettle|n|کتری
+teapot|n|قوری
+pitcher|n|پارچ
+tray|n|سینی
+napkin|n|دستمال سفره
+tablecloth|n|رومیزی
+apron|n|پیش‌بند
+mix|v|مخلوط کردن
+stir|v|هم زدن
+whip|v|خمیر هم زدن
+knead|v|ورز دادن
+chop|v|خرد کردن
+slice|v|ورقه کردن
+grate|v|رنده کردن
+peel|v|پوست کندن
+mash|v|کوبیدن
+grill|v|گریل کردن
+roast|v|برشته کردن
+steam|v|بخارپز کردن
+microwave verb|v|میکروویو کردن
+season food|v|چاشنی زدن
+add salt|v|نمک زدن
+melt|v|ذوب کردن
+freeze|v|فریز کردن
+defrost|v|یخ‌زدایی کردن
+taste food|v|مزه کردن
+seasoning|n|ادویه
+herb|n|سبزی معطر
+vinegar|n|سرکه
+mustard|n|خردل
+ketchup|n|سس گوجه
+mayonnaise|n|سس مایونز
+flour|n|آرد
+dough|n|خمیر
+yeast|n|مایه خمیر
+broth|n|آب‌گوشت
+stew|n|خورش
+omelette|n|املت
+pancake|n|پنکیک
+pudding|n|پودینگ
+leftover|n|باقی‌مانده غذا
+#work|کار و مشاغل|target|2
+job|n|شغل
+career|n|شغل و مسیر
+profession|n|حرفه
+occupation|n|شغل
+workplace|n|محل کار
+company|n|شرکت
+employer|n|کارفرما
+employee|n|کارمند
+staff|n|کارکنان
+manager|n|مدیر
+director|n|مدیرعامل
+supervisor|n|سرپرست
+colleague|n|همکار
+intern|n|کارآموز
+applicant|n|متقاضی
+interview|n|مصاحبه
+resume|n|رزومه
+application form|n|فرم درخواست
+promotion|n|ارتقا
+retirement|n|بازنشستگی
+shift|n|نوبت کاری
+overtime|n|اضافه‌کاری
+deadline|n|مهلت
+schedule work|n|برنامه کاری
+project|n|پروژه
+task|n|وظیفه
+duty|n|مسئولیت
+responsibility|n|مسئولیت‌پذیری
+skill|n|مهارت
+experience|n|تجربه
+qualification|n|صلاحیت
+unemployment|n|بیکاری
+business|n|کسب‌وکار
+startup|n|استارتاپ
+factory|n|کارخانه
+warehouse|n|انبار
+office work|n|دفتر کار
+meeting room|n|اتاق جلسه
+presentation|n|ارائه
+report|n|گزارش
+contract|n|قرارداد
+agreement|n|توافق‌نامه
+client|n|مشتری
+partner|n|شریک
+profit work|n|سود
+loss|n|زیان
+market work|n|بازار کار
+advertise|v|تبلیغ کردن
+negotiate|v|مذاکره کردن
+hire|v|استخدام کردن
+fire|v|اخراج کردن
+apply for job|v|درخواست کار دادن
+attend meeting|v|در جلسه شرکت کردن

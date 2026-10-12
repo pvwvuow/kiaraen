@@ -1,0 +1,132 @@
+#abstract|مفاهیم انتزاعی|g-gift|
+existence|n|وجود
+essence|n|جوهر
+substance|n|ذات
+reality|n|واقعیت
+truth|n|حقیقت
+falsity|n|کذب
+certainty|n|یقین
+uncertainty|n|عدم قطعیت
+possibility|n|امکان
+necessity|n|ضرورت
+contingency|n|اتفاقی بودن
+infinity|n|بی‌نهایت
+eternity|n|ازلیت
+temporality|n|زمانمند بودن
+causality|n|علّیت
+coincidence|n|تصادف
+chaos|n|آشوب
+orderliness|n|نظم
+harmony|n|هماهنگی
+equilibrium|n|تعادل
+duality|n|دوگانی
+paradox|n|تناقض‌نما
+contradiction|n|تناقض
+consistency|n|سازگاری
+integrity|n|درستکاری
+authenticity|n|اصالت
+legitimacy|n|مشروعیت
+validity|n|اعتبار
+reliability|n|پایایی
+credibility|n|اعتبار گفتاری
+reputation|n|اعتبار اجتماعی
+prestige|n|اعتبار جایگاه
+status|n|جایگاه
+hierarchy abstract|n|سلسله‌مراتب مفهومی
+magnitude|n|بزرگی
+dimension|n|بُعد
+scale|n|مقیاس
+scope|n|گستره
+breadth|n|گستردگی
+depth|n|ژرفا
+extent|n|میزان
+intensity|n|شدت
+frequency|n|بسامد
+duration|n|مدت
+momentum|n|شتاب حرکت
+velocity|n|سرعت برداری
+capacity|n|ظرفیت
+potential|n|پتانسیل
+#econ|اقتصاد و تجارت|a-coin|16,2
+economics|n|علم اقتصاد
+macroeconomics|n|کلان‌اقتصاد
+microeconomics|n|خرداقتصاد
+fiscal policy|n|سیاست مالی
+monetary policy|n|سیاست پولی
+central bank|n|بانک مرکزی
+money supply|n|عرضه پول
+devaluation|n|کاهش ارزش پول
+currency fluctuation|n|نوسان ارز
+subsidy|n|یارانه
+tariff barrier|n|موانع تعرفه‌ای
+import quota|n|سهمیه واردات
+export incentive|n|مشوق صادرات
+trade deficit|n|کسری تجاری
+trade surplus|n|مازاد تجاری
+balance of payments|n|تراز پرداخت‌ها
+gross domestic product|n|تولید ناخالص داخلی
+per capita|expr|سرانه
+purchasing power|n|قدرت خرید
+disposable income|n|درآمد قابل تصرف
+real estate|n|املاک
+mortgage|n|رهن و اجاره بانکی
+collateral|n|وثیقه
+default|n|ناتوانی از بازپرداخت
+insolvency|n|اعسار
+liquidity|n|نقدینگی
+volatility|n|نوسان‌پذیری
+speculation|n|سفته‌بازی
+arbitrage|n|آربیتراژ
+portfolio investment|n|سبد سرمایه‌گذاری
+diversification|n|سبدوارسازی
+risk assessment|n|ارزیابی ریسک
+hedging|n|پوشش ریسک
+derivative|n|دارایی مشتقه
+commodity|n|کالای پایه
+bond|n|اوراق قرضه
+treasury|n|خزانه
+fiscal deficit|n|کسری بودجه
+austerity|n|ریاضت اقتصادی
+deregulation|n|حذف مقررات
+privatization|n|خصوصی‌سازی
+nationalization|n|ملی‌سازی
+antitrust|n|ضد انحصار
+entrepreneurship|n|کارآفرینی
+#gov|سیاست و حکمرانی|target|
+governance|n|حکمرانی
+policy-making|n|سیاست‌گذاری
+bureaucracy|n|دیوان‌سالاری
+administrative|adj|اداری
+judicial|adj|قضایی
+legislative|adj|مقننه
+executive power|n|قوه اجرایی
+statute law|n|اساسنامه
+decree|n|فرمان
+executive order|n|فرمان اجرایی
+mandate|n|مأموریت رسمی
+incumbent|n|شاغل فعلی مقام
+successor|n|جانشین
+predecessor|n|پیشین
+term office|n|دوره تصدی
+impeachment|n|استیضاح
+coup|n|کودتا
+uprising|n|شورش
+insurgency|n|شورش مسلحانه
+civil war|n|جنگ داخلی
+ceasefire|n|آتش‌بس
+peace treaty|n|پیمان صلح
+diplomatic relations|n|روابط دیپلماتیک
+bilateral talks|n|مذاکرات دوجانبه
+mediation|n|میانجی‌گری
+humanitarian aid|n|کمک بشردوستانه
+foreign policy|n|سیاست خارجی
+domestic policy|n|سیاست داخلی
+immigration policy|n|سیاست مهاجرتی
+border control|n|کنترل مرزی
+national security|n|امنیت ملی
+intelligence agency|n|سرویس اطلاعاتی
+defense|n|دفاع
+military|n|نظامی
+troops|n|نیروهای نظامی
+alliance|n|اتحاد
+coalition|n|ائتلاف

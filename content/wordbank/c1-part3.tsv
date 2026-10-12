@@ -1,0 +1,133 @@
+#innov|علم و نوآوری|a-chest|15
+cutting-edge|adj|پیشرفته روز
+state-of-the-art|adj|به‌روزترین
+groundbreaking|adj|نقطه‌عطف‌ساز
+pioneering|adj|پیشگام
+experimental|adj|آزمایشی
+prototype|n|نمونه اولیه
+patent|n|ثبت اختراع
+trademark|n|علامت تجاری
+copyright|n|حق مؤلف
+intellectual property|n|مالکیت فکری
+research and development|n|تحقیق و توسعه
+laboratory experiment|n|آزمایش آزمایشگاهی
+clinical testing|n|آزمایش بالینی
+field test|n|آزمایش میدانی
+simulation|n|شبیه‌سازی
+modeling|n|مدل‌سازی
+optimization|n|بهینه‌سازی
+automation system|n|سیستم خودکار
+nanotechnology|n|نانوفناوری
+biotechnology|n|زیست‌فناوری
+bioengineering|n|مهندسی زیستی
+genetic engineering|n|مهندسی ژنتیک
+stem cell|n|سلول بنیادی
+gene therapy|n|ژن‌درمانی
+cloning|n|همانندسازی
+crispr|n|ویرایش ژن
+renewable tech|n|فناوری تجدیدپذیر
+battery innovation|n|فناوری باتری
+semiconductor|n|نیمه‌رسانا
+microchip|n|ریزتراشه
+quantum computing|n|رایانش کوانتومی
+superconductor|n|ابررسانا
+fusion energy|n|انرژی همجوشی
+fission|n|شکافت هسته‌ای
+propulsion|n|پیشرانش
+aerodynamics|n|آیرودینامیک
+hydroponics|n|کشت بدون خاک
+vertical farming|n|کشاورزی عمودی
+desalination|n|شیرین‌سازی آب
+carbon neutral tech|n|فناوری کربن‌خنثی
+#culture|فرهنگ و نقد|g-star|1
+cultural heritage|n|میراث فرهنگی
+cultural diversity|n|تنوع فرهنگی
+multiculturalism|n|چندفرهنگی‌گرایی
+assimilation|n|هم‌جوشی فرهنگی
+norm|n|هنجار
+etiquette|n|آیین رفتار
+convention culture|n|قرارداد اجتماعی
+ritual|n|آیین
+festival|n|جشنواره
+carnival|n|کارناوال
+parade|n|رژه
+exhibition culture|n|نمایشگاه فرهنگی
+heritage site|n|محوطه میراثی
+cultural identity|n|هویت فرهنگی
+cultural capital|n|سرمایه فرهنگی
+patronage|n|حمایت از هنر
+aesthetics|n|زیبایی‌شناسی
+taste|n|سلیقه
+refinement|n|ظرافت
+sophistication|n|فرهیختگی
+vulgarity|n|زنندگی
+censorship culture|n|سانسور فرهنگی
+criticism|n|نقد
+review|n|نقد و بررسی
+appraisal culture|n|ارزشیابی هنری
+acclaim|n|تحسین
+renown|n|شهرت
+notoriety|n|بدنامی
+legacy|n|میراث ماندگار
+#med|پزشکی و زیست|g-heart|8
+epidemiology|n|همه‌گیرشناسی
+etiology|n|سبب‌شناسی بیماری
+pathology|n|بیماری‌شناسی
+histology|n|بافت‌شناسی
+neurology|n|عصب‌شناسی
+oncology|n|سرطان‌شناسی
+cardiology|n|قلب‌وعروق‌شناسی
+endocrinology|n|درمان‌شناسی غدد
+immunology|n|ایمنی‌شناسی
+microbiology|n|میکروب‌شناسی
+virology|n|ویروس‌شناسی
+bacteriology|n|باکتری‌شناسی
+pharmacology|n|داروشناسی
+toxicology|n|سم‌شناسی
+radiology|n|پرتوشناسی
+anesthesiology|n|بی‌هوشی‌شناسی
+pediatrics|n|پزشکی کودکان
+geriatrics|n|پزشکی سالمندان
+obstetrics|n|زایمان
+gynecology|n|زنان‌شناسی
+dermatology|n|پوست‌شناسی
+orthopedics|n|استخوان‌شناسی
+psychiatry|n|روان‌پزشکی
+diagnostic|adj|تشخیصی
+prognostic|adj|پیش‌آگهی‌وار
+symptomatic|adj|علامت‌دار
+asymptomatic|adj|بی‌علامت
+chronic fatigue|n|خستگی مزمن
+autoimmune|adj|خودایمن
+metabolic|adj|متابولیک
+hormonal|adj|هورمونی
+neurotransmitter|n|ناقل عصبی
+cortisol|n|کورتیزول
+serotonin|n|سروتونین
+dopamine|n|دوپامین
+#clim|اقلیم و محیط‌زیست|globe|11
+anthropogenic|adj|انسانی‌منشأ
+biodegradable|adj|زیست‌تخریب‌پذیر
+carbon cycle|n|چرخه کربن
+nitrogen cycle|n|چرخه نیتروژن
+water cycle|n|چرخه آب
+photosynthesis|n|فتوسنتز
+respiration|n|تنفس سلولی
+decomposition|n|تجزیه
+erosion control|n|کنترل فرسایش
+reforestation|n|بازجنگل‌کاری
+afforestation|n|جنگل‌کاری
+wildlife corridor|n|کریدور حیات وحش
+rewilding|n|بازگشت طبیعت
+permaculture|n|کشاورزی پایدار
+agroecology|n|کشاورزی بوم‌شناختی
+food chain|n|زنجیره غذایی
+trophic level|n|سطح تغذیه‌ای
+carrying capacity|n|ظرفیت برد
+ecological footprint|n|ردپای بوم‌شناختی
+climate resilience|n|تاب‌آوری اقلیمی
+climate adaptation|n|سازگاری اقلیمی
+mitigation strategy|n|راهبرد کاستن
+carbon sequestration|n|به دام انداختن کربن
+greenwashing|n|سبزنمایی دروغین
+biodiversity loss|n|کاهش تنوع زیستی
