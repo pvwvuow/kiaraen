@@ -47,10 +47,10 @@ kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
 
-supabase-bom = { group = "io.github.supabase-community", name = "supabase-kt-bom", version.ref = "supabaseKt" }
-supabase-gotrue = { group = "io.github.supabase-community", name = "gotrue-kt" }
-supabase-postgrest = { group = "io.github.supabase-community", name = "postgrest-kt" }
-supabase-storage = { group = "io.github.supabase-community", name = "storage-kt" }
+supabase-bom = { group = "io.github.jan-tennert.supabase", name = "bom", version.ref = "supabaseKt" }
+supabase-gotrue = { group = "io.github.jan-tennert.supabase", name = "gotrue-kt" }
+supabase-postgrest = { group = "io.github.jan-tennert.supabase", name = "postgrest-kt" }
+supabase-storage = { group = "io.github.jan-tennert.supabase", name = "storage-kt" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }

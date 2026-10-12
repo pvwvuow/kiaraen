@@ -14,8 +14,8 @@ android {
         applicationId = "com.kiaraen.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${project.findProperty("kiara.supabase.url") ?: ""}\"")
@@ -25,9 +25,9 @@ android {
     signingConfigs {
         create("release") {
             // CI injects these as -P properties from GitHub Secrets; local builds fall back to debug.
-            val storeFile = project.findProperty("kiara.signing.storeFile")
-            if (storeFile != null) {
-                storeFile = file(storeFile as String)
+            val storeFilePath = project.findProperty("kiara.signing.storeFile") as String?
+            if (storeFilePath != null) {
+                storeFile = file(storeFilePath)
                 storePassword = project.findProperty("kiara.signing.storePassword") as String
                 keyAlias = project.findProperty("kiara.signing.keyAlias") as String
                 keyPassword = project.findProperty("kiara.signing.keyPassword") as String
