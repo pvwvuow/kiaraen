@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.work.Configuration
+import androidx.work.WorkManager
 import com.kiaraen.app.core.AppContainer
 import com.kiaraen.app.data.sync.SyncWorker
 import kotlinx.coroutines.CoroutineScope
@@ -29,25 +30,19 @@ class KiaraApplication : Application(), Configuration.Provider {
         super.onCreate()
         // session storage needs the app context BEFORE any client access
         com.kiaraen.app.data.remote.SupabaseProvider.init(this)
-
-        // Nothing heavy on the main thread: weak phones show the first frame
-        // sooner while Room, the Supabase client and the content pack warm up.
-        appScope.launch(Dispatchers.IO) {
-            runCatching { container.warmUp() }
-                .onFailure { Log.e(TAG, "warm-up failed (app stays usable)", it) }
-            // bundled content pack → the app is fully usable offline from first launch
+        // bundled content pack → the app is fully usable offline from first launch
+        appScope.launch {
             runCatching { container.bootstrap() }
                 .onFailure { Log.e(TAG, "content bootstrap failed (app stays usable)", it) }
         }
         // periodic catch-up sync (network-constrained; one-shots handle writes).
-        // WorkManager opens its own database on first use → also off-main.
-        // NEVER allowed to kill the app at launch — sync is optional by design.
-        appScope.launch(Dispatchers.IO) {
-            runCatching {
-                SyncWorker.enqueuePeriodic(this@KiaraApplication)
-                SyncWorker.enqueueOneShot(this@KiaraApplication, pull = true)
-            }.onFailure { Log.e(TAG, "WorkManager init failed (app stays usable)", it) }
-        }
+        // NEVER allowed to kill the app at launch — sync is optional by design
+        // and SyncEngine retries on the next trigger anyway.
+        runCatching {
+            SyncWorker.enqueuePeriodic(this)
+            SyncWorker.enqueueOneShot(this, pull = true)
+            WorkManager.getInstance(this) // warm-up initialization
+        }.onFailure { Log.e(TAG, "WorkManager init failed (app stays usable)", it) }
     }
 
     /**

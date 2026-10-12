@@ -4,11 +4,6 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
@@ -65,9 +60,6 @@ private val TABS = listOf(
     Tab("profile", "من", Icons.Filled.Person),
 )
 
-/** Navigation's default is a 700 ms crossfade — sluggish on weak phones. */
-private const val SCREEN_FADE_MS = 150
-
 private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
 /**
@@ -95,12 +87,7 @@ fun AppRoot(container: AppContainer) {
     CompositionLocalProvider(LocalAppContainer provides container) {
         val rootNav = rememberNavController()
 
-        NavHost(
-            navController = rootNav,
-            startDestination = Routes.AUTH,
-            enterTransition = { fadeIn(tween(SCREEN_FADE_MS)) },
-            exitTransition = { fadeOut(tween(SCREEN_FADE_MS)) },
-        ) {
+        NavHost(navController = rootNav, startDestination = Routes.AUTH) {
             composable(
                 route = Routes.AUTH,
                 arguments = listOf(
@@ -185,13 +172,10 @@ private fun MainTabs(rootNav: NavHostController) {
             }
         },
     ) { padding ->
-        // bottom tabs switch instantly: no animation work at all
         NavHost(
             navController = tabsNav,
             startDestination = "home",
             modifier = Modifier.padding(padding),
-            enterTransition = { EnterTransition.None },
-            exitTransition = { ExitTransition.None },
         ) {
             composable("home") {
                 HomeScreen(
