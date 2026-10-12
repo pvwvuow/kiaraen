@@ -39,7 +39,10 @@ class SyncEngine(
         // Key-less build (guest/offline): nothing to sync, and touching the
         // client would only produce DNS noise — exit cleanly instead.
         if (!SupabaseProvider.isConfigured) return true
-        val userId = auth.currentUserId() ?: return true   // not signed in → nothing to sync
+        // The worker usually starts right after a cold start, while supabase-kt
+        // is still loading the stored session → a plain currentUserId() was
+        // null and every startup sync silently did nothing. Wait for it.
+        val userId = auth.restoreSession() ?: return true   // not signed in → nothing to sync
         var ok = true
 
         // One-time (idempotent) hand-off: offline "local" progress becomes
@@ -143,6 +146,8 @@ class SyncEngine(
     private inline fun runStep(name: String, block: () -> Unit): Boolean =
         try {
             block(); true
+        } catch (c: kotlinx.coroutines.CancellationException) {
+            throw c
         } catch (t: Throwable) {
             Log.w(TAG, "sync step '$name' failed, will retry: ${t.message}")
             false

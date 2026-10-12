@@ -49,7 +49,11 @@ class SyncWorker(appContext: Context, params: WorkerParameters) :
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
 
-        /** Queue one sync soon (after any local write or app start). */
+        /**
+         * Queue one sync soon (after any local write or app start).
+         * APPEND_OR_REPLACE: a new request runs AFTER a running one instead of
+         * cancelling it (REPLACE killed the startup pull whenever a quiz ended).
+         */
         fun enqueueOneShot(context: Context, pull: Boolean = false) {
             val req = OneTimeWorkRequestBuilder<SyncWorker>()
                 .setConstraints(constraints)
@@ -57,7 +61,7 @@ class SyncWorker(appContext: Context, params: WorkerParameters) :
                 .setInputData(androidx.work.Data.Builder().putBoolean(KEY_PULL, pull).build())
                 .build()
             WorkManager.getInstance(context)
-                .enqueueUniqueWork(ONE_SHOT, ExistingWorkPolicy.REPLACE, req)
+                .enqueueUniqueWork(ONE_SHOT, ExistingWorkPolicy.APPEND_OR_REPLACE, req)
         }
 
         /** Safety net: periodic catch-up even if one-shots got lost. */

@@ -1,6 +1,5 @@
 package com.kiaraen.app.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -52,8 +51,13 @@ private val DarkColors = darkColorScheme(
     outlineVariant = Color(0xFF4A4436),
 )
 
+/**
+ * The approved design is LIGHT ONLY: several screens draw [Ink] text directly,
+ * which was invisible on the dark background whenever the phone used a dark
+ * system theme. [DarkColors] stays for a future, fully designed dark mode.
+ */
 @Composable
-fun KiaraTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun KiaraTheme(darkTheme: Boolean = false, content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = if (darkTheme) DarkColors else LightColors,
         content = content,

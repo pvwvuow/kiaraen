@@ -49,11 +49,24 @@ interface ProgressDao {
     @Query("DELETE FROM review_log WHERE pendingSync = 0 AND createdAt < :before")
     suspend fun pruneSyncedReviewLogs(before: Long)
 
-    @Query("SELECT DISTINCT createdAt / 86400000 AS day FROM review_log WHERE userId = :userId")
-    suspend fun activeDays(userId: String): List<Long>
+    /** Distinct LOCAL days (device UTC offset applied) — streaks follow the user's clock. */
+    @Query("SELECT DISTINCT (createdAt + :offsetMs) / 86400000 AS day FROM review_log WHERE userId = :userId")
+    suspend fun activeDays(userId: String, offsetMs: Long): List<Long>
 
     @Query("SELECT COALESCE(SUM(xp), 0) FROM review_log WHERE userId = :userId")
     suspend fun totalXp(userId: String): Int
+
+    @Query("SELECT COUNT(*) FROM review_log WHERE userId = :userId")
+    suspend fun reviewCount(userId: String): Int
+
+    @Query("SELECT COUNT(*) FROM review_log WHERE userId = :userId AND result IN ('correct','easy')")
+    suspend fun correctCount(userId: String): Int
+
+    @Query("SELECT COUNT(*) FROM word_progress WHERE userId = :userId AND status IN ('review','mastered') AND learnedAt IS NOT NULL")
+    suspend fun learnedCountOnce(userId: String): Int
+
+    @Query("SELECT COUNT(*) FROM word_progress WHERE userId = :userId AND status = 'mastered'")
+    suspend fun masteredCountOnce(userId: String): Int
 
     // ── quiz attempts ────────────────────────────────────────────────────────
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -65,6 +78,9 @@ interface ProgressDao {
     @Query("UPDATE quiz_attempts SET pendingSync = 0 WHERE id IN (:ids)")
     suspend fun markQuizAttemptsSynced(ids: List<Long>)
 
+    @Query("SELECT COUNT(*) FROM quiz_attempts WHERE userId = :userId")
+    suspend fun quizAttemptCount(userId: String): Int
+
     // ── stats cache (local; refreshed from review_log + server pull) ────────
     @Upsert
     suspend fun upsertStats(item: UserStatsEntity)
@@ -72,18 +88,28 @@ interface ProgressDao {
     @Query("SELECT * FROM user_stats WHERE userId = :userId")
     fun stats(userId: String): Flow<UserStatsEntity?>
 
+    /**
+     * Rebuilds the local stats row from local facts. Monotonic counters keep
+     * the larger of local vs. cached (a pulled server row may know history
+     * this device never saw); state counts (learned/mastered) come straight
+     * from word_progress.
+     */
     @Transaction
-    suspend fun recomputeLocalStats(userId: String, todayDay: Long) {
-        val days = activeDays(userId).toSet()
+    suspend fun recomputeLocalStats(userId: String, todayDay: Long, offsetMs: Long) {
+        val days = activeDays(userId, offsetMs).toSet()
         val s = com.kiaraen.app.domain.StreakCalculator.compute(days, todayDay)
-        val xp = totalXp(userId)
         val existing = statsOnce(userId) ?: UserStatsEntity(userId = userId)
         upsertStats(
             existing.copy(
+                totalReviews = maxOf(reviewCount(userId), existing.totalReviews),
+                totalCorrect = maxOf(correctCount(userId), existing.totalCorrect),
+                totalLearned = learnedCountOnce(userId),
+                totalMastered = masteredCountOnce(userId),
                 currentStreak = s.current,
                 longestStreak = maxOf(s.longest, existing.longestStreak),
                 lastActivityDay = days.maxOrNull(),
-                totalXp = xp,
+                totalXp = maxOf(totalXp(userId), existing.totalXp),
+                totalQuizAttempts = maxOf(quizAttemptCount(userId), existing.totalQuizAttempts),
             )
         )
     }

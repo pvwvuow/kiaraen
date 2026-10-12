@@ -3,6 +3,7 @@ package com.kiaraen.app.ui
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CollectionsBookmark
@@ -17,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -127,7 +129,18 @@ private fun NavHostController.openMain() {
 
 @Composable
 private fun MainTabs(rootNav: NavHostController) {
+    val container = LocalAppContainer.current
     val tabsNav = rememberNavController()
+
+    // Signed in → everything learned as a guest ("local") belongs to the
+    // account right away. Waiting for a network sync made guest progress look
+    // lost after login whenever the phone was offline.
+    LaunchedEffect(Unit) {
+        runCatching {
+            val uid = container.authRepository.currentUserId()
+            if (uid != null) container.progressRepository.linkLocalData(uid)
+        }.onFailure { Log.w("AppRoot", "guest hand-off failed (sync retries it)", it) }
+    }
 
     fun selectTab(route: String) {
         if (tabsNav.currentDestination?.route == route) return
