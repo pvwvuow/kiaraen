@@ -7,3 +7,6 @@
 
 # Keep BuildConfig (supabase url/key) intact — default is fine, listed for clarity.
 -keep class com.kiaraen.app.BuildConfig { *; }
+
+# ktor pulls slf4j-api; the optional StaticLoggerBinder lookup must not fail R8
+-dontwarn org.slf4j.**
