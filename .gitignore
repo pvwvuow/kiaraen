@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+app/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+local.properties
+
+# Signing (never commit real keystores)
+*.jks
+*.keystore
+!debug.keystore
+
+# Secrets & environment (secrets live in GitHub Secrets / CI env only)
+*.env
+secrets.properties
+**/service_role*.txt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
