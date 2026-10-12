@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- a simple gold-on-cream "K" mark -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,30 L45,30 L45,50 L62,30 L71,30 L54,52 L72,78 L63,78 L49,57 L45,62 L45,78 L38,78 Z" />
+</vector>
