@@ -30,10 +30,11 @@ class NavigationSmokeTest {
     fun `guest reaches every tab then auth then signup then quiz`() {
         tapText("ادامه بدون حساب", scroll = true)
 
-        listOf("levels", "collections", "progress", "profile").forEach { tapTag("tab_$it") }
+        listOf("words", "progress", "profile").forEach { tapTag("tab_$it") }
 
         // profile CTA must open the form even for a remembered guest
-        tapText("ورود یا ثبت")
+        // (sits below the profile card → may need scrolling into view)
+        tapText("ورود یا ثبت‌نام", scroll = true)
         waitText("خوش برگشتی")
 
         // signup link must switch the form
@@ -43,7 +44,12 @@ class NavigationSmokeTest {
         // back to the tabs, then the home review quiz
         compose.activityRule.scenario.onActivity { it.onBackPressedDispatcher.onBackPressed() }
         tapTag("tab_home")
-        tapText("شروع مرور امروز")
+        // the approved home has a «مرور» gold pill (test-tagged) for the review quiz
+        compose.waitUntil(TIMEOUT_MS) {
+            compose.onAllNodesWithTag("home_review_cta").fetchSemanticsNodes().isNotEmpty()
+        }
+        compose.onNodeWithTag("home_review_cta").performClick()
+        compose.waitForIdle()
         waitText("سوال")
     }
 

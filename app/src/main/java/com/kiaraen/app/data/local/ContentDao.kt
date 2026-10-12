@@ -120,6 +120,15 @@ interface ContentDao {
     @Query("SELECT COUNT(*) FROM collection_words WHERE collectionId = :collectionId")
     fun collectionSize(collectionId: Long): Flow<Int>
 
+    /** Words of a collection the user already knows (review/mastered) — home folder card. */
+    @Query(
+        "SELECT COUNT(*) FROM collection_words cw " +
+            "JOIN word_progress wp ON wp.wordId = cw.wordId " +
+            "AND wp.userId = :userId AND wp.status IN ('review','mastered') " +
+            "WHERE cw.collectionId = :collectionId",
+    )
+    fun learnedInCollection(collectionId: Long, userId: String): Flow<Int>
+
     @Query("SELECT wordId FROM collection_words WHERE collectionId = :collectionId")
     suspend fun wordIdsOfCollection(collectionId: Long): List<Long>
 

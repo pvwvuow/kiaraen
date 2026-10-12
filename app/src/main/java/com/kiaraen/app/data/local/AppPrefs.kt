@@ -2,6 +2,7 @@ package com.kiaraen.app.data.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -26,7 +27,15 @@ class AppPrefs(private val context: Context) {
         store.edit { it[KEY_GUEST] = on }
     }
 
+    /** Daily word goal (هدف روزانه) — shown in the «من» tab. */
+    val dailyGoal: Flow<Int> get() = store.data.map { it[KEY_GOAL] ?: 15 }
+
+    suspend fun setDailyGoal(n: Int) {
+        store.edit { it[KEY_GOAL] = n }
+    }
+
     private companion object {
         val KEY_GUEST = booleanPreferencesKey("guest_mode")
+        val KEY_GOAL = intPreferencesKey("daily_goal")
     }
 }

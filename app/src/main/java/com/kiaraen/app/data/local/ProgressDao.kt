@@ -53,6 +53,13 @@ interface ProgressDao {
     @Query("SELECT DISTINCT (createdAt + :offsetMs) / 86400000 AS day FROM review_log WHERE userId = :userId")
     suspend fun activeDays(userId: String, offsetMs: Long): List<Long>
 
+    /** Reviews per local day — the «فعالیت این هفته» chart. */
+    @Query(
+        "SELECT (createdAt + :offsetMs) / 86400000 AS day, COUNT(*) AS cnt " +
+            "FROM review_log WHERE userId = :userId GROUP BY day",
+    )
+    suspend fun reviewCountsByDay(userId: String, offsetMs: Long): List<ReviewDayCount>
+
     @Query("SELECT COALESCE(SUM(xp), 0) FROM review_log WHERE userId = :userId")
     suspend fun totalXp(userId: String): Int
 

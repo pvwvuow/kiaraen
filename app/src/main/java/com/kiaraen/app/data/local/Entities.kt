@@ -64,6 +64,12 @@ data class CollectionWordEntity(
     val wordId: Long,
 )
 
+/** POJO for [ProgressDao.reviewCountsByDay] — reviews per local epoch day. */
+data class ReviewDayCount(
+    val day: Long,
+    val cnt: Int,
+)
+
 @Entity(tableName = "content_meta")
 data class ContentMetaEntity(
     @PrimaryKey val id: Int = 1,

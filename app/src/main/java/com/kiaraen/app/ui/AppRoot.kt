@@ -4,25 +4,16 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CollectionsBookmark
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Insights
-import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -33,32 +24,31 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kiaraen.app.core.AppContainer
 import com.kiaraen.app.ui.auth.AuthScreen
-import com.kiaraen.app.ui.collections.CollectionsScreen
 import com.kiaraen.app.ui.common.LocalAppContainer
 import com.kiaraen.app.ui.home.HomeScreen
+import com.kiaraen.app.ui.kiara.KiaraBottomBar
 import com.kiaraen.app.ui.levels.LevelsScreen
 import com.kiaraen.app.ui.profile.ProfileScreen
 import com.kiaraen.app.ui.progress.ProgressScreen
 import com.kiaraen.app.ui.quiz.QuizScreen
+import com.kiaraen.app.ui.words.CollectionDetailScreen
+import com.kiaraen.app.ui.words.WordsScreen
 
 object Routes {
     /** fresh=true → opened on purpose (profile CTA): never auto-skip for guests. */
     const val AUTH = "auth?fresh={fresh}"
     const val MAIN = "main"
     const val QUIZ = "quiz/{quizRef}"
+    const val COLLECTION = "collection/{id}"
+    const val LEVELS = "levels?level={level}"
     fun auth(fresh: Boolean) = "auth?fresh=$fresh"
     fun quiz(ref: String) = "quiz/" + Uri.encode(ref)
+    fun collection(id: Long) = "collection/$id"
+    fun levels(level: String? = null) = if (level == null) "levels" else "levels?level=$level"
 }
 
-private data class Tab(val route: String, val label: String, val icon: ImageVector)
-
-private val TABS = listOf(
-    Tab("home", "خانه", Icons.Filled.Home),
-    Tab("levels", "سطح‌ها", Icons.Filled.MenuBook),
-    Tab("collections", "مجموعه‌ها", Icons.Filled.CollectionsBookmark),
-    Tab("progress", "پیشرفت", Icons.Filled.Insights),
-    Tab("profile", "من", Icons.Filled.Person),
-)
+/** The four approved tabs — bottom bar shows only on these routes. */
+private val TAB_ROUTES = setOf("home", "words", "progress", "profile")
 
 private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
@@ -74,13 +64,11 @@ private fun onMain(block: () -> Unit) {
 /**
  * Two-level navigation:
  *   root  → auth | main | quiz          (rootNav)
- *   main  → home | levels | ... tabs    (tabsNav, its OWN controller)
+ *   main  → home | words | ... + details (tabsNav, its OWN controller)
  *
  * ⚠️ Never hand the root controller to the inner NavHost: a NavController
- * can drive exactly one NavHost. Sharing it makes the inner host call
- * setViewModelStore() after setGraph() → IllegalStateException ("ViewModelStore
- * should be set before setGraph call") the moment MAIN opens, and replaces the
- * root graph so quiz/auth routes stop existing. That was the v0.2.1 crash.
+ * can drive exactly one NavHost. Sharing it made the inner host call
+ * setViewModelStore() after setGraph() → IllegalStateException (v0.2.1 crash).
  */
 @Composable
 fun AppRoot(container: AppContainer) {
@@ -155,51 +143,87 @@ private fun MainTabs(rootNav: NavHostController) {
         rootNav.navigate(Routes.quiz(ref)) { launchSingleTop = true }
     }
 
-    Scaffold(
-        bottomBar = {
-            val backStack by tabsNav.currentBackStackEntryAsState()
-            val current = backStack?.destination?.route
-            NavigationBar {
-                TABS.forEach { tab ->
-                    NavigationBarItem(
-                        selected = current == tab.route,
-                        onClick = { selectTab(tab.route) },
-                        icon = { Icon(tab.icon, contentDescription = tab.label) },
-                        label = { Text(tab.label) },
-                        modifier = Modifier.testTag("tab_${tab.route}"),
+    // The approved design is RTL (Persian-first).
+    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+        val backStack by tabsNav.currentBackStackEntryAsState()
+        val current = backStack?.destination?.route
+        val showBar = current in TAB_ROUTES
+
+        Box {
+            NavHost(
+                navController = tabsNav,
+                startDestination = "home",
+                modifier = Modifier.padding(bottom = if (showBar) 92.dp else 0.dp),
+            ) {
+                composable("home") {
+                    HomeScreen(
+                        onOpenQuiz = openQuiz,
+                        onOpenCollection = { id ->
+                            tabsNav.navigate(Routes.collection(id)) { launchSingleTop = true }
+                        },
+                        onSeeAllCollections = { selectTab("words") },
+                    )
+                }
+                composable("words") {
+                    WordsScreen(
+                        onOpenCollection = { id ->
+                            tabsNav.navigate(Routes.collection(id)) { launchSingleTop = true }
+                        },
+                        onOpenLevel = { levelId ->
+                            tabsNav.navigate(Routes.levels(levelId)) { launchSingleTop = true }
+                        },
+                    )
+                }
+                composable("progress") { ProgressScreen() }
+                composable("profile") {
+                    ProfileScreen(
+                        onGoAuth = {
+                            rootNav.navigate(Routes.auth(fresh = true)) { launchSingleTop = true }
+                        },
+                        onSignedOut = {
+                            onMain {
+                                rootNav.navigate(Routes.auth(fresh = false)) {
+                                    popUpTo(rootNav.graph.id) { inclusive = true }
+                                }
+                            }
+                        },
+                    )
+                }
+                composable(
+                    route = Routes.COLLECTION,
+                    arguments = listOf(navArgument("id") { type = NavType.LongType }),
+                ) { entry ->
+                    CollectionDetailScreen(
+                        collectionId = entry.arguments?.getLong("id") ?: 0L,
+                        onBack = { tabsNav.popBackStack() },
+                        onOpenQuiz = openQuiz,
+                    )
+                }
+                composable(
+                    route = Routes.LEVELS,
+                    arguments = listOf(
+                        navArgument("level") {
+                            type = NavType.StringType
+                            defaultValue = ""
+                        },
+                    ),
+                ) { entry ->
+                    LevelsScreen(
+                        onOpenQuiz = openQuiz,
+                        directLevel = entry.arguments?.getString("level")?.takeUnless { it.isEmpty() },
                     )
                 }
             }
-        },
-    ) { padding ->
-        NavHost(
-            navController = tabsNav,
-            startDestination = "home",
-            modifier = Modifier.padding(padding),
-        ) {
-            composable("home") {
-                HomeScreen(
-                    onOpenQuiz = openQuiz,
-                    onOpenLevels = { selectTab("levels") },
-                )
-            }
-            composable("levels") { LevelsScreen(onOpenQuiz = openQuiz) }
-            composable("collections") { CollectionsScreen(onOpenQuiz = openQuiz) }
-            composable("progress") { ProgressScreen() }
-            composable("profile") {
-                ProfileScreen(
-                    onGoAuth = {
-                        rootNav.navigate(Routes.auth(fresh = true)) { launchSingleTop = true }
-                    },
-                    onSignedOut = {
-                        onMain {
-                            rootNav.navigate(Routes.auth(fresh = false)) {
-                                popUpTo(rootNav.graph.id) { inclusive = true }
-                            }
-                        }
-                    },
+
+            if (showBar) {
+                KiaraBottomBar(
+                    currentRoute = current,
+                    onSelect = { selectTab(it) },
+                    modifier = Modifier
+                        .align(androidx.compose.ui.Alignment.BottomCenter),
                 )
             }
         }
     }
 }
+
