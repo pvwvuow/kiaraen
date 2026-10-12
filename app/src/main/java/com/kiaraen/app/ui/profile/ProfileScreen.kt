@@ -34,7 +34,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.content.Context
 import com.kiaraen.app.BuildConfig
+import com.kiaraen.app.KiaraApplication
 import com.kiaraen.app.R
 import com.kiaraen.app.data.remote.SupabaseProvider
 import com.kiaraen.app.ui.common.LocalAppContainer
@@ -57,6 +59,7 @@ fun ProfileScreen(
 ) {
     val container = LocalAppContainer.current
     val scope = rememberCoroutineScope()
+    val context = androidx.compose.ui.platform.LocalContext.current
     val userId = rememberUserId()
 
     var email by remember { mutableStateOf<String?>(null) }
@@ -154,6 +157,34 @@ fun ProfileScreen(
         Spacer(Modifier.height(28.dp))
         HorizontalDivider(color = Line)
         Spacer(Modifier.height(18.dp))
+
+        // Field debugging: after a crash the report is stored on-device; the
+        // user can forward it to us with two taps (only shown while it exists).
+        val crashReport = remember { (context as? KiaraApplication)?.lastCrashReport() }
+        if (crashReport != null) {
+            val share = remember {
+                android.content.Intent(android.content.Intent.ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(android.content.Intent.EXTRA_SUBJECT, "Kiaraen crash report")
+                    putExtra(android.content.Intent.EXTRA_TEXT, crashReport.take(4000))
+                }
+            }
+            OutlinedButton(
+                onClick = {
+                    runCatching {
+                        context.startActivity(
+                            android.content.Intent.createChooser(share, "گزارش خطا"),
+                        )
+                    }
+                    (context as? KiaraApplication)?.clearCrashReport()
+                },
+                shape = RoundedCornerShape(14.dp),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp),
+            ) {
+                Text("گزارش آخرین خطا — ارسال برای تیم", fontSize = 13.sp, fontWeight = FontWeight.Bold)
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp),

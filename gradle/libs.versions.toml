@@ -20,6 +20,9 @@ supabaseKt = "2.6.1"
 ktor = "2.3.12"
 
 junit = "4.13.2"
+robolectric = "4.13"
+androidxTestCore = "1.6.1"
+androidxTestJunit = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,6 +57,11 @@ supabase-storage = { group = "io.github.jan-tennert.supabase", name = "storage-k
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+
+# Robolectric - device-free smoke tests that run the REAL Application + Activity
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
+androidx-test-junit = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "androidxTestJunit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

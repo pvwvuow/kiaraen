@@ -90,7 +90,10 @@ fun AuthScreen(onAuthenticated: () -> Unit) {
     }
 
     LaunchedEffect(Unit) {
-        if (container.authRepository.restoreSession() != null) {
+        // A cold-start network/storage hiccup here must show the login form,
+        // never kill the app (guests can always continue offline).
+        val restored = runCatching { container.authRepository.restoreSession() }.getOrNull()
+        if (restored != null) {
             enter()
         } else if (container.appPrefs.isGuest()) {
             onAuthenticated()      // remembered guest → straight in

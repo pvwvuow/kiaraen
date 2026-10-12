@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    App-side copies of WorkManager's bool switches.
+
+    WorkManager 2.9.1 reads these from resources.getBoolean() inside
+    createWorkManager() on EVERY WorkManager.getInstance() call. Depending on
+    how AAPT2 merges library values, the entry can be unreachable through the
+    app resource space in some build environments (observed as
+    Resources$NotFoundException at startup). Declaring them in the app res
+    makes the lookup deterministic everywhere — values mirror the library
+    defaults exactly.
+-->
+<resources>
+    <bool name="enable_system_alarm_service_default">true</bool>
+    <bool name="enable_system_foreground_service_default">true</bool>
+    <bool name="enable_system_job_service_default">false</bool>
+    <bool name="workmanager_test_configuration">false</bool>
+</resources>
