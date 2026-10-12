@@ -117,6 +117,14 @@ interface ContentDao {
     @Query("SELECT * FROM collections ORDER BY sort")
     fun collections(): Flow<List<CollectionEntity>>
 
+    /** Collections + word counts in ONE observed query (was one Flow per card). */
+    @Query(
+        "SELECT collections.*, " +
+            "(SELECT COUNT(*) FROM collection_words WHERE collection_words.collectionId = collections.id) AS size " +
+            "FROM collections ORDER BY sort",
+    )
+    fun collectionsWithSize(): Flow<List<CollectionWithSize>>
+
     @Query("SELECT COUNT(*) FROM collection_words WHERE collectionId = :collectionId")
     fun collectionSize(collectionId: Long): Flow<Int>
 

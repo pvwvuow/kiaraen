@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.kiaraen.app.data.local.CollectionWithSize
 import com.kiaraen.app.data.local.WordEntity
 import com.kiaraen.app.ui.common.LocalAppContainer
 
@@ -38,8 +39,9 @@ fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var selected by rememberSaveable { mutableStateOf<Long?>(null) }
 
-    val allFlow = remember { contentDao.collections() }
-    val all by allFlow.collectAsState(initial = emptyList())
+    // one observed query for names + counts (was one Flow per card)
+    val allFlow = remember { contentDao.collectionsWithSize() }
+    val all by allFlow.collectAsState(initial = emptyList<CollectionWithSize>())
     val visible = if (expanded) all else all.take(3)
 
     // system back closes the detail view instead of leaving the tab
@@ -52,13 +54,11 @@ fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             item { Text("مجموعه‌ها", style = MaterialTheme.typography.titleLarge) }
-            items(visible, key = { it.id }) { col ->
-                Card(onClick = { selected = col.id }, modifier = Modifier.fillMaxWidth()) {
+            items(visible, key = { it.collection.id }) { row ->
+                Card(onClick = { selected = row.collection.id }, modifier = Modifier.fillMaxWidth()) {
                     Column(Modifier.padding(16.dp)) {
-                        Text(col.title, style = MaterialTheme.typography.titleMedium)
-                        val sizeFlow = remember(col.id) { contentDao.collectionSize(col.id) }
-                        val size by sizeFlow.collectAsState(initial = 0)
-                        Text("$size واژه", style = MaterialTheme.typography.bodySmall)
+                        Text(row.collection.title, style = MaterialTheme.typography.titleMedium)
+                        Text("${row.size} واژه", style = MaterialTheme.typography.bodySmall)
                     }
                 }
             }
@@ -72,19 +72,20 @@ fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
         }
     } else {
         // the list may still be loading (or a content refresh replaced it)
-        val col = all.firstOrNull { it.id == colId }
+        val col = all.firstOrNull { it.collection.id == colId }?.collection
         var words by remember(colId) { mutableStateOf<List<WordEntity>>(emptyList()) }
         LaunchedEffect(colId) {
             // JOIN query: an IN (:ids) list of a big collection can exceed
             // SQLite's 999-variable limit on Android 8-10 and crash
             words = runCatching { contentDao.wordsOfCollectionOnce(colId) }.getOrDefault(emptyList())
         }
+        // grouped once per word list, not on every recomposition/scroll
+        val byLevel = remember(words) { words.groupBy { it.levelId }.entries.sortedBy { it.key } }
 
         Column(Modifier.fillMaxSize().padding(16.dp)) {
             Text(col?.title.orEmpty(), style = MaterialTheme.typography.titleLarge)
             LazyColumn(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                val byLevel = words.groupBy { it.levelId }
-                byLevel.entries.sortedBy { it.key }.forEach { (lv, ws) ->
+                byLevel.forEach { (lv, ws) ->
                     item(key = "h_$lv") {
                         Text(
                             "سطح $lv · ${ws.size} واژه",
@@ -92,7 +93,7 @@ fun CollectionsScreen(onOpenQuiz: (String) -> Unit) {
                             fontWeight = FontWeight.Bold,
                         )
                     }
-                    items(ws, key = { it.id }) { w ->
+                    items(ws, key = { it.id }, contentType = { "word" }) { w ->
                         Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp)) {
                             Text("${w.word} — ${w.meaningFa ?: ""}")
                         }
