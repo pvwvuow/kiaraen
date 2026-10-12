@@ -11,6 +11,7 @@ import com.kiaraen.app.domain.ReviewResult
 import com.kiaraen.app.domain.SrsLite
 import kotlinx.coroutines.flow.first
 import java.time.Instant
+import java.util.TimeZone
 import java.util.UUID
 
 /**
@@ -68,7 +69,7 @@ class ProgressRepository(
                 clientEventId = UUID.randomUUID().toString(), createdAt = now,
             ),
         )
-        dao.recomputeLocalStats(userId, todayDay(now))
+        dao.recomputeLocalStats(userId, todayDay(now), offsetMs(now))
     }
 
     suspend fun recordQuizAttempt(
@@ -81,7 +82,7 @@ class ProgressRepository(
                 durationMs = durationMs, clientEventId = UUID.randomUUID().toString(), createdAt = now,
             ),
         )
-        dao.recomputeLocalStats(userId, todayDay(now))
+        dao.recomputeLocalStats(userId, todayDay(now), offsetMs(now))
     }
 
     suspend fun dueQueue(userId: String, limit: Int = 20): List<WordProgressEntity> =
@@ -138,12 +139,15 @@ class ProgressRepository(
      */
     suspend fun linkLocalData(userId: String) = dao.migrateLocalData(userId)
 
-    /* ── helpers ──────────────────────────────────────────────────────────── */
+    /* ── helpers ───────────────────────────────────────────────────────────────────── */
 
     private fun toEpoch(iso: String): Long =
         runCatching { Instant.parse(iso).toEpochMilli() }.getOrElse { 0L }
 
-    private fun todayDay(now: Long): Long = now / 86_400_000L
+    /** Device UTC offset (DST-aware) — Tehran is +3:30, so UTC days were wrong. */
+    private fun offsetMs(now: Long): Long = TimeZone.getDefault().getOffset(now).toLong()
+
+    private fun todayDay(now: Long): Long = (now + offsetMs(now)) / 86_400_000L
 
     companion object {
         const val XP_CORRECT = 10
