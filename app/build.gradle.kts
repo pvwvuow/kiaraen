@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,18 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
 }
+
+// Gradle does NOT expose local.properties as project properties (AGP only reads
+// sdk.dir from it) — load it explicitly so the documented workflow
+// (local.properties.example) actually takes effect. Command-line -P and
+// CI-provided properties still take precedence.
+val localProps = Properties().apply {
+    val f = rootProject.file("local.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
+}
+fun projectProp(name: String): String? =
+    (project.findProperty(name) as String?)?.trim()?.takeIf { it.isNotBlank() }
+        ?: localProps.getProperty(name)?.trim()?.takeIf { it.isNotBlank() }
 
 android {
     namespace = "com.kiaraen.app"
@@ -18,19 +32,19 @@ android {
         versionName = "0.2.0"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
-        buildConfigField("String", "SUPABASE_URL", "\"${project.findProperty("kiara.supabase.url") ?: ""}\"")
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${project.findProperty("kiara.supabase.anonKey") ?: ""}\"")
+        buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${projectProp("kiara.supabase.anonKey") ?: ""}\"")
     }
 
     signingConfigs {
         create("release") {
-            // CI injects these as -P properties from GitHub Secrets; local builds fall back to debug.
-            val storeFilePath = project.findProperty("kiara.signing.storeFile") as String?
+            // CI injects these as -P properties from GitHub Secrets; local builds may use local.properties.
+            val storeFilePath = projectProp("kiara.signing.storeFile")
             if (storeFilePath != null) {
                 storeFile = file(storeFilePath)
-                storePassword = project.findProperty("kiara.signing.storePassword") as String
-                keyAlias = project.findProperty("kiara.signing.keyAlias") as String
-                keyPassword = project.findProperty("kiara.signing.keyPassword") as String
+                storePassword = projectProp("kiara.signing.storePassword")!!
+                keyAlias = projectProp("kiara.signing.keyAlias")!!
+                keyPassword = projectProp("kiara.signing.keyPassword")!!
             }
         }
     }
@@ -40,7 +54,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            if (project.findProperty("kiara.signing.storeFile") != null) {
+            if (projectProp("kiara.signing.storeFile") != null) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
