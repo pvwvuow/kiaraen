@@ -11,6 +11,9 @@ name: Android Release
 #   SUPABASE_ANON_KEY         publishable anon key (public-safe behind RLS)
 # The keystore itself is NEVER committed (.gitignore blocks *.jks / *.keystore).
 
+permissions:
+  contents: write   # tag builds attach APK/AAB to the GitHub Release
+
 on:
   push:
     tags: ['v*']
