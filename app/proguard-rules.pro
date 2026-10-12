@@ -21,3 +21,10 @@
 -dontwarn org.slf4j.**
 # ktor's debug detector references JVM-only management APIs
 -dontwarn java.lang.management.**
+
+# Release builds: drop verbose/debug logging entirely (less work on weak phones).
+# Log.w / Log.e stay for field diagnostics.
+-assumenosideeffects class android.util.Log {
+    public static int v(...);
+    public static int d(...);
+}

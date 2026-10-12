@@ -37,6 +37,10 @@ android {
         versionCode = 4
         versionName = "0.2.2"
 
+        // Ship only the languages the app uses: library translations for ~80
+        // other locales are dead weight on low-storage phones.
+        resourceConfigurations += listOf("fa", "en")
+
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
         buildConfigField("String", "SUPABASE_ANON_KEY", "\"${projectProp("kiara.supabase.anonKey") ?: ""}\"")
@@ -77,6 +81,13 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    packaging {
+        resources {
+            // license/metadata files from dependencies — not needed at runtime
+            excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "/META-INF/*.kotlin_module", "DebugProbesKt.bin")
+        }
     }
 
     testOptions {
