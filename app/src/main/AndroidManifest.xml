@@ -23,11 +23,21 @@
             </intent-filter>
         </activity>
 
-        <!-- WorkManager: on-demand init via Configuration.Provider (KiaraApplication) -->
+        <!--
+            WorkManager: on-demand init via Configuration.Provider (KiaraApplication).
+            Remove ONLY the WorkManager initializer. Removing the whole
+            InitializationProvider also kills lifecycle-process, emoji2 and
+            profileinstaller initializers that other libraries rely on.
+        -->
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            tools:node="remove" />
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
     </application>
 </manifest>

@@ -110,8 +110,14 @@ interface ProgressDao {
     }
 
     // ── local-mode → account linking: keep everything the user did offline ──
-    @Query("UPDATE word_progress SET userId = :to WHERE userId = 'local'")
+    // OR IGNORE: a word the account already owns keeps the account's row
+    // (a plain UPDATE violated the (userId, wordId) primary key and failed
+    // the whole hand-off on every sync).
+    @Query("UPDATE OR IGNORE word_progress SET userId = :to WHERE userId = 'local'")
     suspend fun migrateProgressLocal(to: String)
+
+    @Query("DELETE FROM word_progress WHERE userId = 'local'")
+    suspend fun deleteLocalProgress()
 
     @Query("UPDATE review_log SET userId = :to WHERE userId = 'local'")
     suspend fun migrateReviewLogLocal(to: String)
@@ -119,7 +125,7 @@ interface ProgressDao {
     @Query("UPDATE quiz_attempts SET userId = :to WHERE userId = 'local'")
     suspend fun migrateQuizAttemptsLocal(to: String)
 
-    @Query("UPDATE user_stats SET userId = :to WHERE userId = 'local'")
+    @Query("UPDATE OR IGNORE user_stats SET userId = :to WHERE userId = 'local'")
     suspend fun migrateStatsLocal(to: String)
 
     @Query("DELETE FROM user_stats WHERE userId = 'local'")
@@ -128,6 +134,7 @@ interface ProgressDao {
     @Transaction
     suspend fun migrateLocalData(to: String) {
         migrateProgressLocal(to)
+        deleteLocalProgress()          // leftovers = words the account already had
         migrateReviewLogLocal(to)
         migrateQuizAttemptsLocal(to)
         migrateStatsLocal(to)
