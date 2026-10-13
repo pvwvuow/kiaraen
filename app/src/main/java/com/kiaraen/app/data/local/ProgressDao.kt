@@ -88,6 +88,54 @@ interface ProgressDao {
     @Query("SELECT COUNT(*) FROM quiz_attempts WHERE userId = :userId")
     suspend fun quizAttemptCount(userId: String): Int
 
+    // ── bookmarks (ذخیره‌شده‌ها) ─────────────────────────────────────────────
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addBookmark(item: WordBookmarkEntity)
+
+    @Query("DELETE FROM word_bookmarks WHERE userId = :userId AND wordId = :wordId")
+    suspend fun removeBookmark(userId: String, wordId: Long)
+
+    @Query("SELECT wordId FROM word_bookmarks WHERE userId = :userId")
+    fun bookmarkIds(userId: String): Flow<List<Long>>
+
+    @Query("SELECT COUNT(*) FROM word_bookmarks WHERE userId = :userId")
+    fun bookmarkCount(userId: String): Flow<Int>
+
+    @Query(
+        "SELECT words.* FROM word_bookmarks b " +
+            "JOIN words ON words.id = b.wordId " +
+            "WHERE b.userId = :userId ORDER BY b.createdAt DESC LIMIT 500",
+    )
+    suspend fun bookmarkedWords(userId: String): List<WordEntity>
+
+    // ── hero counters for the redesigned topic/level screens ────────────────
+    /** مرورشده‌های امروز داخل یک مجموعه — خط «۲۴ واژه این مجموعه مرور شد». */
+    @Query(
+        "SELECT COUNT(*) FROM collection_words cw " +
+            "JOIN word_progress wp ON wp.wordId = cw.wordId AND wp.userId = :userId " +
+            "AND wp.status != 'new' AND wp.dueAt <= :now " +
+            "WHERE cw.collectionId = :collectionId",
+    )
+    fun dueInCollection(collectionId: Long, userId: String, now: Long): Flow<Int>
+
+    /** واژه‌های آموخته‌شده یک سطح — هیرو «پکیج واژگان». */
+    @Query(
+        "SELECT COUNT(*) FROM words w " +
+            "JOIN word_progress wp ON wp.wordId = w.id AND wp.userId = :userId " +
+            "AND wp.status IN ('review','mastered') AND wp.learnedAt IS NOT NULL " +
+            "WHERE w.levelId = :levelId",
+    )
+    fun learnedInLevel(levelId: String, userId: String): Flow<Int>
+
+    /** تعداد آموخته per category — گرید دسته‌ها در صفحه سطح. */
+    @Query(
+        "SELECT w.categoryId AS catId, COUNT(*) AS cnt FROM words w " +
+            "JOIN word_progress wp ON wp.wordId = w.id AND wp.userId = :userId " +
+            "AND wp.status IN ('review','mastered') AND wp.learnedAt IS NOT NULL " +
+            "GROUP BY w.categoryId",
+    )
+    fun learnedPerCategory(userId: String): Flow<List<CatLearnedCount>>
+
     // ── stats cache (local; refreshed from review_log + server pull) ────────
     @Upsert
     suspend fun upsertStats(item: UserStatsEntity)

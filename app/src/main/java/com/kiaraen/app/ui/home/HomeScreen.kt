@@ -3,12 +3,14 @@ package com.kiaraen.app.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,55 +19,57 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kiaraen.app.R
 import com.kiaraen.app.data.local.CollectionEntity
 import com.kiaraen.app.ui.common.LocalAppContainer
 import com.kiaraen.app.ui.common.rememberUserId
-import com.kiaraen.app.ui.kiara.GoldPill
 import com.kiaraen.app.ui.kiara.KiaraLogotype
-import com.kiaraen.app.ui.kiara.KiaraDivider
-import com.kiaraen.app.ui.kiara.SoftCard
 import com.kiaraen.app.ui.kiara.faNum
-import com.kiaraen.app.ui.quiz.REVIEW_QUIZ
-import com.kiaraen.app.ui.theme.Gold
-import com.kiaraen.app.ui.theme.GoldDark
-import com.kiaraen.app.ui.theme.GoldLight
 import com.kiaraen.app.ui.theme.Ink
 import com.kiaraen.app.ui.theme.Muted
-import com.kiaraen.app.ui.theme.TrackBrown
 import java.time.LocalDate
-import kotlin.math.ceil
-import kotlin.math.roundToInt
+
+/** --dark of the prototype (#363535): folder button + progress track. */
+private val Dark = Color(0xFF363535)
+/** rgba(74,55,6,.8) — «درس ۳ از ۱۲» on the folder. */
+private val LessonInk = Color(0xCC4A3706)
+private val PanelCream = Color(0xFFFAF9F6)
+private val GoldGradient = Brush.verticalGradient(listOf(Color(0xFFFFCF35), Color(0xFFFFB700)))
 
 /**
- * صفحه خانه — دقیقاً مطابق طرح تأییدشده (kiara-home / kiara-app):
- * لوگوتایپ + دکمه شعله استریک، تیتر، چیپ‌های روز هفته، کارت پوشه «ادامه یادگیری»،
- * ردیف «وقت مرور رسیده»، بخش «چی دوست داری یاد بگیری؟».
+ * صفحه خانه — بازسازی یک‌به‌یک kiara-app.html (منبع: اسکرین #scr-home).
+ * همهٔ اندازه‌ها از فضای native 853 ÷ ۲٫۱۸۸ به dp تبدیل شده‌اند:
+ * لوگوتایپ + قرص شعلهٔ استریک، تیتر خوش‌آمد، چیپ‌های روز هفته (گذشته/امروز/آینده)،
+ * کارت پوشهٔ طلایی با تب «ادامه یادگیری»، کتاب، نوار پیشرفت زغالی و دکمهٔ «ادامه بده»،
+ * ردیف «وقت مرور رسیده» با پیل طلایی و دو کارت موضوعی با دایرهٔ شورون.
+ *
+ * ریسپانسیو: هیچ اندازهٔ مطلقی برای عرض وجود ندارد — همه‌چیز با وزن/نسبت رشد می‌کند
+ * و روی صفحه‌های پهن محتوا در ستون ۵۲۰dp وسط‌چین می‌شود.
  */
 @Composable
 fun HomeScreen(
     onOpenQuiz: (String) -> Unit,
+    onOpenReview: () -> Unit,
+    onOpenLearn: (String, String) -> Unit,
     onOpenCollection: (Long) -> Unit,
     onSeeAllCollections: () -> Unit,
 ) {
@@ -91,172 +95,199 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp),
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(Modifier.height(14.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .widthIn(max = 520.dp)
+                .padding(horizontal = 20.dp),
+        ) {
+            Spacer(Modifier.height(18.dp))
 
-        // header: streak button (right) + logotype (left) in RTL
-        Row(verticalAlignment = Alignment.CenterVertically) {
+            // ── header: streak (right) + logotype (left) ──
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Image(
-                    painterResource(R.drawable.ki_btn_fireb),
-                    null,
-                    modifier = Modifier.size(46.dp),
-                )
-                Text(
-                    faNum(stats?.currentStreak ?: 0),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Ink,
-                    modifier = Modifier.padding(start = 6.dp),
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Image(
+                        painterResource(R.drawable.ki_btn_fire),
+                        null,
+                        modifier = Modifier.height(48.dp),
+                    )
+                    Text(
+                        faNum(stats?.currentStreak ?: 0),
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = if ((stats?.currentStreak ?: 0) > 0) Ink else Muted,
+                        modifier = Modifier.padding(start = 7.dp),
+                    )
+                }
+                Spacer(Modifier.weight(1f))
+                KiaraLogotype(size = 35.sp)
             }
-            Spacer(Modifier.weight(1f))
-            KiaraLogotype(size = 32.sp)
-        }
 
-        Spacer(Modifier.height(20.dp))
-        Text(
-            "یه قدم جلوتر، هر روز",
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Black,
-            color = Ink,
-        )
-        Text(
-            "آموزش برای خودت وقت بذار",
-            fontSize = 13.sp,
-            color = Muted,
-            modifier = Modifier.padding(top = 4.dp),
-        )
-
-        Spacer(Modifier.height(16.dp))
-        WeekChips()
-
-        Spacer(Modifier.height(18.dp))
-        folder?.let { FolderCard(it, folderLearned) { onOpenCollection(it.id) } }
-
-        Spacer(Modifier.height(16.dp))
-        KiaraDivider()
-
-        Spacer(Modifier.height(14.dp))
-        // review row
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painterResource(R.drawable.ki_aacal),
-                null,
-                modifier = Modifier.size(52.dp),
-            )
-            Spacer(Modifier.width(12.dp))
-            Column(Modifier.weight(1f)) {
-                Text("وقت مرور رسیده", fontSize = 16.sp, fontWeight = FontWeight.Black, color = Ink)
-                Text(
-                    "${faNum(due)} لغت منتظرِ تو",
-                    fontSize = 12.sp,
-                    color = Muted,
-                    modifier = Modifier.padding(top = 2.dp),
-                )
-            }
-            GoldPill(
-                text = "مرور",
-                onClick = { onOpenQuiz(REVIEW_QUIZ) },
-                modifier = Modifier.testTag("home_review_cta"),
-            )
-        }
-
-        Spacer(Modifier.height(22.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text("چی دوست داری یاد بگیری؟", fontSize = 17.sp, fontWeight = FontWeight.Black, color = Ink)
-            Spacer(Modifier.weight(1f))
+            Spacer(Modifier.height(24.dp))
+            // ── greeting ──
             Text(
-                "دیدن همه",
-                fontSize = 12.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Muted,
-                modifier = Modifier.clickable { onSeeAllCollections() },
+                "یه قدم جلوتر، هر روز",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Black,
+                color = Ink,
+                modifier = Modifier.fillMaxWidth(),
             )
-        }
+            Text(
+                "امروز برای خودت وقت بذار",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium,
+                color = Muted,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 6.dp),
+            )
 
-        Spacer(Modifier.height(12.dp))
-        val explore = collections.drop(1).take(2)
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            explore.forEachIndexed { i, col ->
-                Box(Modifier.weight(1f)) {
-                    ExploreCard(
-                        col = col,
-                        iconRes = if (i == 0) R.drawable.ki_globe else R.drawable.ki_chat,
-                    ) { onOpenCollection(col.id) }
+            Spacer(Modifier.height(22.dp))
+            WeekChips()
+
+            Spacer(Modifier.height(24.dp))
+            folder?.let {
+                FolderCard(
+                    col = it,
+                    learned = folderLearned,
+                    onContinue = { onOpenLearn("collection:${it.id}", "flash") },
+                )
+            }
+
+            Spacer(Modifier.height(22.dp))
+            // separator (border-top 3px rgba(28,26,23,.06))
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(1.5.dp)
+                    .background(Ink.copy(alpha = 0.06f)),
+            )
+
+            Spacer(Modifier.height(16.dp))
+            // ── review row ──
+            Row(
+                Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painterResource(R.drawable.ki2_aacal),
+                    null,
+                    modifier = Modifier
+                        .height(74.dp)
+                        .padding(top = 2.dp),
+                )
+                Spacer(Modifier.width(14.dp))
+                Column(Modifier.weight(1f)) {
+                    Text(
+                        "وقت مرور رسیده",
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Ink,
+                    )
+                    Text(
+                        "${faNum(due)} واژه منتظره",
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Medium,
+                        color = Muted,
+                        modifier = Modifier.padding(top = 3.dp),
+                    )
+                }
+                Box(
+                    Modifier
+                        .shadow(10.dp, RoundedCornerShape(percent = 50), spotColor = Color(0x66FFB700))
+                        .background(GoldGradient, RoundedCornerShape(percent = 50))
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null,
+                        ) { onOpenReview() }
+                        .padding(horizontal = 24.dp, vertical = 9.dp)
+                        .testTag("home_review_cta"),
+                ) {
+                    Text("مرور", fontSize = 15.sp, fontWeight = FontWeight.ExtraBold, color = Ink)
                 }
             }
-        }
 
-        Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(30.dp))
+            // ── pick a topic ──
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    "چی دوست داری یاد بگیری؟",
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Ink,
+                )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    "دیدن همه",
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Muted,
+                    modifier = Modifier.clickable { onSeeAllCollections() },
+                )
+            }
+
+            Spacer(Modifier.height(16.dp))
+            val explore = collections.drop(1).take(2)
+            Row(horizontalArrangement = Arrangement.spacedBy(7.dp)) {
+                explore.forEachIndexed { i, col ->
+                    Box(Modifier.weight(1f)) {
+                        TopicCard(
+                            col = col,
+                            iconRes = if (i == 0) R.drawable.ki_globe else R.drawable.ki2_topic_chat,
+                            bigIcon = i == 0,
+                        ) { onOpenCollection(col.id) }
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(20.dp))
+        }
     }
 }
 
-/** هفت چیپ روز هفته: گذشته=نقطه، امروز=شعله با قاب، آینده=یخ‌زده. */
+/** هفت چیپ روز هفته — حرف بالای چیپ سه‌بعدی (گذشته=کرم/نقطه، امروز=شعله، آینده=یخی). */
 @Composable
 private fun WeekChips() {
     val today = LocalDate.now()
     val todayIdx = (today.dayOfWeek.value + 1) % 7 // Sat=0 .. Fri=6
     val labels = listOf("ش", "ی", "د", "س", "چ", "پ", "ج")
-    // RTL row: first day (شنبه) must be the RIGHT-most chip
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            labels.forEachIndexed { i, label ->
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+    ) {
+        labels.forEachIndexed { i, label ->
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
                 Text(
                     label,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Black,
-                    color = if (i == todayIdx) Ink else Muted,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.width(52.dp),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Ink,
                 )
-            }
-        }
-        Spacer(Modifier.height(4.dp))
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            labels.forEachIndexed { i, _ ->
+                Spacer(Modifier.height(4.dp))
                 val res = when {
                     i == todayIdx -> R.drawable.ki_btn_fireb
-                    i < todayIdx -> R.drawable.ki_chip_dot
-                    else -> R.drawable.ki_btn_ice
+                    i < todayIdx -> R.drawable.ki_btn_ice
+                    else -> R.drawable.ki2_chip_future
                 }
-                Box(
+                Image(
+                    painterResource(res),
+                    null,
                     modifier = Modifier
-                        .width(52.dp)
-                        .height(46.dp),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    if (i == todayIdx) {
-                        Box(
-                            Modifier
-                                .fillMaxSize()
-                                .background(Color.Transparent, RoundedCornerShape(14.dp))
-                                .padding(2.dp),
-                        )
-                    }
-                    Image(
-                        painterResource(res),
-                        null,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(12.dp)),
-                        contentScale = androidx.compose.ui.layout.ContentScale.Fit,
-                    )
-                }
+                        .fillMaxWidth()
+                        .aspectRatio(if (i == todayIdx) 95f / 106f else 95f / 82f),
+                )
             }
         }
     }
 }
 
-/** کارت پوشه «ادامه یادگیری» — تصویر پوشه طلایی + محتوای واقعی. */
+/** کارت پوشهٔ طلایی — یک‌به‌یک از طرح (تب، کتاب، متادیتا، نوار، دکمهٔ زغالی داخل پوشه). */
 @Composable
 private fun FolderCard(col: CollectionEntity, learned: Int, onContinue: () -> Unit) {
     val container = LocalAppContainer.current
@@ -265,146 +296,199 @@ private fun FolderCard(col: CollectionEntity, learned: Int, onContinue: () -> Un
 
     val total = size.coerceAtLeast(1)
     val progress = (learned.toFloat() / total).coerceIn(0f, 1f)
-    val lessons = ceil(total / 12.0).toInt().coerceAtLeast(1)
-    val lesson = ((progress * lessons).roundToInt()).coerceIn(0, lessons).let { if (it == 0) 1 else it }
+    val lessons = (total / 12).coerceAtLeast(1)
+    val lesson = (progress * lessons).toInt().coerceIn(0, lessons).let { if (it == 0) 1 else it }
 
-    Column {
-        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.TopStart) {
-            // tab (top-right in RTL): first child = right side under RTL
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .aspectRatio(765f / 494f)
+            .testTag("home_folder_card"),
+    ) {
+        Image(
+            painterResource(R.drawable.ki2_folder_bg),
+            null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds,
+        )
+        // floating books — left side, peeking above the folder pocket
+        Image(
+            painterResource(R.drawable.ki2_folder_books),
+            null,
+            modifier = Modifier
+                .align(Alignment.CenterStart)
+                .padding(start = 11.dp)
+                .fillMaxHeight(0.63f)
+                .aspectRatio(342f / 396f),
+        )
+        // meta (right side): title, lesson, progress tube
+        Column(
+            Modifier
+                .align(Alignment.CenterEnd)
+                .padding(end = 24.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                col.title,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Ink,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                "درس ${faNum(lesson)} از ${faNum(lessons)}",
+                fontSize = 13.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = LessonInk,
+                modifier = Modifier.padding(top = 10.dp),
+            )
+            // dark tube + gold segment (right-anchored — RTL fill)
             Box(
                 Modifier
-                    .background(Gold, RoundedCornerShape(topStart = 14.dp, topEnd = 14.dp))
-                    .padding(horizontal = 16.dp, vertical = 7.dp),
+                    .padding(top = 13.dp)
+                    .width(138.dp)
+                    .height(10.dp)
+                    .background(Dark, RoundedCornerShape(percent = 50)),
             ) {
-                Text(
-                    "ادامه یادگیری",
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Ink,
+                Box(
+                    Modifier
+                        .align(Alignment.CenterEnd)
+                        .fillMaxWidth(progress.coerceAtLeast(0.08f))
+                        .fillMaxHeight()
+                        .padding(horizontal = 2.dp)
+                        .background(
+                            Brush.verticalGradient(listOf(Color(0xFFFFD34D), Color(0xFFFFB700))),
+                            RoundedCornerShape(percent = 50),
+                        ),
                 )
             }
         }
+        // dark «ادامه بده» pill inside the folder (triangle at the right end)
         Box(
             Modifier
+                .align(Alignment.BottomCenter)
+                .padding(start = 20.dp, end = 22.dp, bottom = 14.dp)
                 .fillMaxWidth()
-                .aspectRatio(621f / 426f),
-        ) {
-            Image(
-                painterResource(R.drawable.ki_folder),
-                null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = androidx.compose.ui.layout.ContentScale.FillBounds,
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 10.dp, top = 26.dp, end = 20.dp, bottom = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(
-                    Modifier.weight(1f).height(150.dp),
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Text(
-                        col.title,
-                        fontSize = 19.sp,
-                        fontWeight = FontWeight.Black,
-                        color = Ink,
-                    )
-                    Text(
-                        "درس ${faNum(lesson)} از ${faNum(lessons)}",
-                        fontSize = 12.sp,
-                        color = Ink.copy(alpha = 0.75f),
-                        modifier = Modifier.padding(top = 4.dp),
-                    )
-                    Spacer(Modifier.height(10.dp))
-                    // progress: dark track + gold fill
-                    Box(
-                        Modifier
-                            .fillMaxWidth(0.9f)
-                            .height(10.dp)
-                            .background(TrackBrown, RoundedCornerShape(6.dp)),
-                    ) {
-                        Box(
-                            Modifier
-                                .fillMaxWidth(progress.coerceAtLeast(0.03f))
-                                .fillMaxHeight()
-                                .background(Gold, RoundedCornerShape(6.dp)),
-                        )
-                    }
-                }
-                Image(
-                    painterResource(R.drawable.ki_books),
-                    null,
-                    modifier = Modifier.size(92.dp),
-                )
-            }
-        }
-        Spacer(Modifier.height(10.dp))
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .height(50.dp)
-                .background(GoldLight.copy(alpha = 0.55f), RoundedCornerShape(25.dp))
-                .clickable { onContinue() },
+                .height(44.dp)
+                .shadow(10.dp, RoundedCornerShape(percent = 50), spotColor = Color(0x40281F0A))
+                .background(Dark, RoundedCornerShape(percent = 50))
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null,
+                ) { onContinue() },
             contentAlignment = Alignment.Center,
         ) {
             Text(
                 "ادامه بده",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Black,
-                color = Ink,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
             )
-            Text(
-                "▶",
-                color = GoldDark,
-                fontSize = 16.sp,
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .padding(start = 26.dp),
-            )
+            androidx.compose.foundation.Canvas(
+                Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(end = 22.dp)
+                    .size(width = 17.dp, height = 21.dp),
+            ) {
+                val w = 17.dp.toPx()
+                val h = 21.dp.toPx()
+                val tri = androidx.compose.ui.graphics.Path().apply {
+                    moveTo(0f, 0f)
+                    lineTo(w, h / 2f)
+                    lineTo(0f, h)
+                    close()
+                }
+                drawPath(tri, color = com.kiaraen.app.ui.theme.Gold)
+            }
         }
     }
 }
 
-/** کارت «سفر / مکالمه» با آیکون سه‌بعدی + تعداد واژه + شورون. */
+/** کارت موضوعی — آیکون سه‌بعدی چپ، عنوان+تعداد راست، دایرهٔ شورون طلایی پایین-راست. */
 @Composable
-private fun ExploreCard(col: CollectionEntity, iconRes: Int, onClick: () -> Unit) {
+private fun TopicCard(col: CollectionEntity, iconRes: Int, bigIcon: Boolean, onClick: () -> Unit) {
     val container = LocalAppContainer.current
     val sizeFlow = remember(col.id) { container.database.contentDao().collectionSize(col.id) }
     val size by sizeFlow.collectAsState(initial = 0)
 
-    SoftCard(modifier = Modifier.clickable { onClick() }, corner = 22.dp) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(1f)) {
-                Text(
-                    col.title,
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Ink,
-                    maxLines = 1,
-                )
-                Text(
-                    "${faNum(size)} واژه",
-                    fontSize = 11.sp,
-                    color = Muted,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-            }
-            Image(
-                painterResource(iconRes),
-                null,
-                modifier = Modifier.size(58.dp),
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .height(102.dp)
+            .shadow(
+                14.dp,
+                RoundedCornerShape(17.dp),
+                ambientColor = Color(0x24786946),
+                spotColor = Color(0x24786946),
+            )
+            .background(PanelCream, RoundedCornerShape(17.dp))
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { onClick() },
+    ) {
+        Image(
+            painterResource(iconRes),
+            null,
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = if (bigIcon) 7.dp else 15.dp, top = if (bigIcon) 5.dp else 13.dp)
+                .height(if (bigIcon) 81.dp else 67.dp),
+        )
+        Column(
+            Modifier
+                .align(Alignment.TopEnd)
+                .padding(end = 11.dp, top = 16.dp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Text(
+                col.title,
+                fontSize = 14.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Ink,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                "${faNum(size)} واژه",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Medium,
+                color = Muted,
+                modifier = Modifier.padding(top = 3.dp),
             )
         }
-        Spacer(Modifier.height(6.dp))
+        // gold chevron circle — bottom-right (approved position)
         Box(
             Modifier
-                .size(22.dp)
-                .background(Gold, CircleShape),
+                .align(Alignment.BottomEnd)
+                .padding(end = 15.dp, bottom = 15.dp)
+                .size(19.dp)
+                .shadow(6.dp, RoundedCornerShape(percent = 50), spotColor = Color(0x73FFB400))
+                .background(GoldGradient, RoundedCornerShape(percent = 50)),
             contentAlignment = Alignment.Center,
         ) {
-            Text("‹", fontSize = 13.sp, fontWeight = FontWeight.Black, color = Ink)
+            ChevronIcon(modifier = Modifier.size(9.dp), color = Color(0xFF2A2620))
         }
+    }
+}
+
+/** ‹ chevron (RTL «next») — vector clone of the prototype's svg. */
+@Composable
+fun ChevronIcon(modifier: Modifier = Modifier, color: Color) {
+    androidx.compose.foundation.Canvas(modifier) {
+        val w = size.width
+        val h = size.height
+        val stroke = size.width * 0.34f
+        val p = androidx.compose.ui.graphics.Path().apply {
+            moveTo(w * 0.72f, h * 0.18f)
+            lineTo(w * 0.28f, h * 0.5f)
+            lineTo(w * 0.72f, h * 0.82f)
+        }
+        drawPath(
+            p,
+            color = color,
+            style = androidx.compose.ui.graphics.drawscope.Stroke(width = stroke, cap = androidx.compose.ui.graphics.StrokeCap.Round, join = androidx.compose.ui.graphics.StrokeJoin.Round),
+        )
     }
 }

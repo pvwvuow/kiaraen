@@ -70,6 +70,18 @@ data class ReviewDayCount(
     val cnt: Int,
 )
 
+/** POJO for [ProgressDao.learnedPerCategory] — known words per category (level grid). */
+data class CatLearnedCount(
+    val catId: Long,
+    val cnt: Int,
+)
+
+/** POJO for [ProgressDao.levelProgress] — learned count grouped by level. */
+data class LevelLearnedCount(
+    val levelId: String,
+    val cnt: Int,
+)
+
 @Entity(tableName = "content_meta")
 data class ContentMetaEntity(
     @PrimaryKey val id: Int = 1,
@@ -145,6 +157,21 @@ data class QuizAttemptEntity(
     val clientEventId: String,
     val createdAt: Long,
     val pendingSync: Boolean = true,
+)
+
+/**
+ * ذخیره‌شده‌ها — نشانک واژه (ستاره طلایی در طرح). Local-only for now;
+ * a `word_bookmarks` table on Supabase can adopt it later (same shape).
+ */
+@Entity(
+    tableName = "word_bookmarks",
+    primaryKeys = ["userId", "wordId"],
+    indices = [Index("userId", "createdAt")],
+)
+data class WordBookmarkEntity(
+    val userId: String,
+    val wordId: Long,
+    val createdAt: Long,
 )
 
 @Entity(

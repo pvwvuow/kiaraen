@@ -5,6 +5,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -31,6 +32,21 @@ val GoldLight = Color(0xFFFFE68A)
 val CardCream = Color(0xFFFFFBF0)
 /** Progress-bar track (dark) from the approved folder card. */
 val TrackBrown = Color(0xFF3B2F1B)
+/** Dark charcoal clay button («ادامه بده» روی پوشه + هیرو راهنما). */
+val Charcoal = Color(0xFF3A362F)
+/** Charcoal pressed base (کف دکمه زغالی). */
+val CharcoalShade = Color(0xFF232019)
+/** Frozen chip background (روزهای آینده). */
+val IceCream = Color(0xFFF1EDE4)
+/** Destructive row text. */
+val Danger = Color(0xFFB3261E)
+
+/** The capsule fill of the approved progress tube (sampled from pr-fill). */
+val CapsuleGradient = Brush.verticalGradient(
+    listOf(Color(0xFFFEF7CC), Color(0xFFFDCE23), Color(0xFFE7A902)),
+)
+/** Cream-outlined pill for secondary actions («بازگشت» outline buttons). */
+val OutlineInk = Color(0xFF8D8779)
 
 private val LightColors = lightColorScheme(
     primary = Gold,
@@ -78,6 +94,12 @@ val Estedad = FontFamily(
 
 /** Baloo 2 ExtraBold — only for the Latin «kiara» logotype. */
 val Baloo = FontFamily(Font(R.font.baloo2_800, FontWeight.Black))
+
+/**
+ * Lalezar — the approved display face for the big friendly headlines
+ * (یه قدم جلوتر…، وقت مرور رسیده، تیترهای پیشرفت). Single weight (400).
+ */
+val Lalezar = FontFamily(Font(R.font.lalezar_regular, FontWeight.Normal))
 
 private val KiaraTypography = Typography(
     displaySmall = TextStyle(

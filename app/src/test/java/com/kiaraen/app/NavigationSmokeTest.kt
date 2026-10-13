@@ -41,15 +41,24 @@ class NavigationSmokeTest {
         tapText("حساب نداری", scroll = true)
         waitText("کیارات رو بساز")
 
-        // back to the tabs, then the home review quiz
+        // back to the tabs, then the home review page (approved «مرور روزانه»)
         compose.activityRule.scenario.onActivity { it.onBackPressedDispatcher.onBackPressed() }
         tapTag("tab_home")
-        // the approved home has a «مرور» gold pill (test-tagged) for the review quiz
+        // the approved home has a «مرور» gold pill (test-tagged) for the review screen
         compose.waitUntil(TIMEOUT_MS) {
             compose.onAllNodesWithTag("home_review_cta").fetchSemanticsNodes().isNotEmpty()
         }
         compose.onNodeWithTag("home_review_cta").performClick()
         compose.waitForIdle()
+        waitText("مرور روزانه")
+
+        // back from the review page to the tabs (the bar only lives on the 4 tabs)
+        compose.activityRule.scenario.onActivity { it.onBackPressedDispatcher.onBackPressed() }
+        compose.waitForIdle()
+
+        // quiz regression: progress tab's dark «آزمون سریع» shortcut (below the fold)
+        tapTag("tab_progress")
+        tapText("آزمون سریع", scroll = true)
         waitText("سوال")
     }
 

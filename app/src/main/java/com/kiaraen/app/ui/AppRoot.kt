@@ -24,13 +24,23 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.kiaraen.app.core.AppContainer
 import com.kiaraen.app.ui.auth.AuthScreen
+import com.kiaraen.app.ui.awards.AwardsScreen
+import com.kiaraen.app.ui.colls.CollsScreen
 import com.kiaraen.app.ui.common.LocalAppContainer
+import com.kiaraen.app.ui.goal.GoalScreen
+import com.kiaraen.app.ui.help.HelpScreen
 import com.kiaraen.app.ui.home.HomeScreen
 import com.kiaraen.app.ui.kiara.KiaraBottomBar
+import com.kiaraen.app.ui.learn.LearnScreen
 import com.kiaraen.app.ui.levels.LevelsScreen
+import com.kiaraen.app.ui.profile.EditProfileScreen
 import com.kiaraen.app.ui.profile.ProfileScreen
 import com.kiaraen.app.ui.progress.ProgressScreen
 import com.kiaraen.app.ui.quiz.QuizScreen
+import com.kiaraen.app.ui.remind.RemindScreen
+import com.kiaraen.app.ui.review.ReviewScreen
+import com.kiaraen.app.ui.settings.SavedWordsScreen
+import com.kiaraen.app.ui.settings.SettingsScreen
 import com.kiaraen.app.ui.words.CollectionDetailScreen
 import com.kiaraen.app.ui.words.WordsScreen
 
@@ -41,10 +51,22 @@ object Routes {
     const val QUIZ = "quiz/{quizRef}"
     const val COLLECTION = "collection/{id}"
     const val LEVELS = "levels?level={level}"
+    const val LEARN = "learn/{ref}?mode={mode}"
+    const val REVIEW = "review"
+    const val AWARDS = "awards"
+    const val GOAL = "goal"
+    const val REMIND = "remind"
+    const val SETTINGS = "settings"
+    const val HELP = "help"
+    const val EDIT = "edit"
+    const val COLLS = "colls"
+    const val SAVED = "saved"
+
     fun auth(fresh: Boolean) = "auth?fresh=$fresh"
     fun quiz(ref: String) = "quiz/" + Uri.encode(ref)
     fun collection(id: Long) = "collection/$id"
     fun levels(level: String? = null) = if (level == null) "levels" else "levels?level=$level"
+    fun learn(ref: String, mode: String = "flash") = "learn/" + Uri.encode(ref) + "?mode=$mode"
 }
 
 /** The four approved tabs — bottom bar shows only on these routes. */
@@ -63,7 +85,7 @@ private fun onMain(block: () -> Unit) {
 
 /**
  * Two-level navigation:
- *   root  → auth | main | quiz          (rootNav)
+ *   root  → auth | main | quiz | learn | review      (rootNav)
  *   main  → home | words | ... + details (tabsNav, its OWN controller)
  *
  * ⚠️ Never hand the root controller to the inner NavHost: a NavController
@@ -93,7 +115,10 @@ fun AppRoot(container: AppContainer) {
             composable(Routes.MAIN) {
                 MainTabs(rootNav)
             }
-            composable(Routes.QUIZ) { entry ->
+            composable(
+                route = Routes.QUIZ,
+                arguments = listOf(navArgument("quizRef") { type = NavType.StringType }),
+            ) { entry ->
                 QuizScreen(
                     quizRef = entry.arguments?.getString("quizRef").orEmpty(),
                     onExit = {
@@ -101,6 +126,26 @@ fun AppRoot(container: AppContainer) {
                         if (rootNav.currentDestination?.route == Routes.QUIZ) rootNav.popBackStack()
                     },
                 )
+            }
+            composable(
+                route = Routes.LEARN,
+                arguments = listOf(
+                    navArgument("ref") { type = NavType.StringType },
+                    navArgument("mode") {
+                        type = NavType.StringType
+                        defaultValue = "flash"
+                    },
+                ),
+            ) { entry ->
+                LearnScreen(
+                    ref = entry.arguments?.getString("ref").orEmpty(),
+                    mode = entry.arguments?.getString("mode") ?: "flash",
+                    onExit = { if (rootNav.currentDestination?.route?.startsWith("learn/") == true) rootNav.popBackStack() },
+                    onOpenQuiz = { ref -> rootNav.navigate(Routes.quiz(ref)) { launchSingleTop = true } },
+                )
+            }
+            composable(Routes.REVIEW) {
+                ReviewScreen(onExit = { if (rootNav.currentDestination?.route == Routes.REVIEW) rootNav.popBackStack() })
             }
         }
     }
@@ -142,6 +187,9 @@ private fun MainTabs(rootNav: NavHostController) {
     val openQuiz: (String) -> Unit = { ref ->
         rootNav.navigate(Routes.quiz(ref)) { launchSingleTop = true }
     }
+    val openLearn: (String, String) -> Unit = { ref, mode ->
+        rootNav.navigate(Routes.learn(ref, mode)) { launchSingleTop = true }
+    }
 
     // The approved design is RTL (Persian-first).
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
@@ -158,6 +206,8 @@ private fun MainTabs(rootNav: NavHostController) {
                 composable("home") {
                     HomeScreen(
                         onOpenQuiz = openQuiz,
+                        onOpenReview = { rootNav.navigate(Routes.REVIEW) { launchSingleTop = true } },
+                        onOpenLearn = openLearn,
                         onOpenCollection = { id ->
                             tabsNav.navigate(Routes.collection(id)) { launchSingleTop = true }
                         },
@@ -172,9 +222,18 @@ private fun MainTabs(rootNav: NavHostController) {
                         onOpenLevel = { levelId ->
                             tabsNav.navigate(Routes.levels(levelId)) { launchSingleTop = true }
                         },
+                        onOpenColls = {
+                            tabsNav.navigate(Routes.COLLS) { launchSingleTop = true }
+                        },
+                        onOpenSaved = {
+                            tabsNav.navigate(Routes.SAVED) { launchSingleTop = true }
+                        },
+                        onOpenHelp = {
+                            tabsNav.navigate(Routes.HELP) { launchSingleTop = true }
+                        },
                     )
                 }
-                composable("progress") { ProgressScreen() }
+                composable("progress") { ProgressScreen(onOpenQuiz = openQuiz) }
                 composable("profile") {
                     ProfileScreen(
                         onGoAuth = {
@@ -187,6 +246,12 @@ private fun MainTabs(rootNav: NavHostController) {
                                 }
                             }
                         },
+                        onOpenGoal = { tabsNav.navigate(Routes.GOAL) { launchSingleTop = true } },
+                        onOpenRemind = { tabsNav.navigate(Routes.REMIND) { launchSingleTop = true } },
+                        onOpenSettings = { tabsNav.navigate(Routes.SETTINGS) { launchSingleTop = true } },
+                        onOpenHelp = { tabsNav.navigate(Routes.HELP) { launchSingleTop = true } },
+                        onOpenEdit = { tabsNav.navigate(Routes.EDIT) { launchSingleTop = true } },
+                        onOpenAwards = { tabsNav.navigate(Routes.AWARDS) { launchSingleTop = true } },
                     )
                 }
                 composable(
@@ -197,6 +262,7 @@ private fun MainTabs(rootNav: NavHostController) {
                         collectionId = entry.arguments?.getLong("id") ?: 0L,
                         onBack = { tabsNav.popBackStack() },
                         onOpenQuiz = openQuiz,
+                        onOpenLearn = openLearn,
                     )
                 }
                 composable(
@@ -210,9 +276,42 @@ private fun MainTabs(rootNav: NavHostController) {
                 ) { entry ->
                     LevelsScreen(
                         onOpenQuiz = openQuiz,
+                        onOpenLearn = openLearn,
                         directLevel = entry.arguments?.getString("level")?.takeUnless { it.isEmpty() },
+                        onBack = { tabsNav.popBackStack() },
                     )
                 }
+                composable(Routes.COLLS) {
+                    CollsScreen(
+                        onBack = { tabsNav.popBackStack() },
+                        onOpenCollection = { id ->
+                            tabsNav.navigate(Routes.collection(id)) { launchSingleTop = true }
+                        },
+                    )
+                }
+                composable(Routes.GOAL) { GoalScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.REMIND) { RemindScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.SETTINGS) {
+                    SettingsScreen(
+                        onBack = { tabsNav.popBackStack() },
+                        onOpenEditProfile = { tabsNav.navigate(Routes.EDIT) { launchSingleTop = true } },
+                        onOpenSavedWords = { tabsNav.navigate(Routes.SAVED) { launchSingleTop = true } },
+                        onSignOut = {
+                            onMain {
+                                rootNav.navigate(Routes.auth(fresh = false)) {
+                                    popUpTo(rootNav.graph.id) { inclusive = true }
+                                }
+                            }
+                        },
+                        onGoAuth = {
+                            rootNav.navigate(Routes.auth(fresh = true)) { launchSingleTop = true }
+                        },
+                    )
+                }
+                composable(Routes.HELP) { HelpScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.EDIT) { EditProfileScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.AWARDS) { AwardsScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.SAVED) { SavedWordsScreen(onBack = { tabsNav.popBackStack() }) }
             }
 
             if (showBar) {
@@ -226,4 +325,3 @@ private fun MainTabs(rootNav: NavHostController) {
         }
     }
 }
-

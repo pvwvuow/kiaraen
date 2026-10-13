@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 @Database(
     entities = [
@@ -17,15 +19,34 @@ import androidx.room.RoomDatabase
         ReviewLogEntity::class,
         QuizAttemptEntity::class,
         UserStatsEntity::class,
+        WordBookmarkEntity::class,
     ],
-    version = 1,
-    exportSchema = true,   // schemas/ is committed → migration tests in CI (docs/07)
+    version = 2,
+    exportSchema = true,   // schemas/ is committed (docs/07)
 )
 abstract class KiaraDatabase : RoomDatabase() {
     abstract fun contentDao(): ContentDao
     abstract fun progressDao(): ProgressDao
 
     companion object {
+        /**
+         * v2: word_bookmarks (ذخیره‌شده‌ها). User data must survive — an
+         * explicit migration, NOT destructive fallback.
+         */
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `word_bookmarks` (" +
+                        "`userId` TEXT NOT NULL, `wordId` INTEGER NOT NULL, `createdAt` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`userId`, `wordId`))",
+                )
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_word_bookmarks_userId_createdAt` " +
+                        "ON `word_bookmarks` (`userId`, `createdAt`)",
+                )
+            }
+        }
+
         @Volatile private var instance: KiaraDatabase? = null
 
         fun get(context: Context): KiaraDatabase =
@@ -33,9 +54,7 @@ abstract class KiaraDatabase : RoomDatabase() {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext, KiaraDatabase::class.java, "kiaraen.db",
                 )
-                    // content tables are rebuilt from packs; destructive fallback keeps
-                    // schema migrations simple until version 2 (docs/06-ci-cd.md)
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                     .also { instance = it }
             }
