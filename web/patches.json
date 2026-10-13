@@ -1,0 +1,82 @@
+[
+  {
+    "name": "back",
+    "find": "function back(){ go(stack.pop() || 'home', false); }",
+    "replace": "function back(){ go(stack.pop() || 'home', false); }\n  /* kiara-live: Android back button */\n  window.kiaraBack = function(){\n    var ov = document.getElementById('lvload');\n    if (ov && ov.classList.contains('on')) return true;\n    if (window.KL && KL.onBack && KL.onBack()) return true;\n    var cur = document.querySelector('.scr.on');\n    var id = cur ? cur.id.replace('scr-', '') : 'home';\n    if (['home', 'words', 'progress', 'profile'].indexOf(id) >= 0){\n      if (id === 'home') return false;\n      stack.length = 0;\n      go('home', false);\n      return true;\n    }\n    back();\n    return true;\n  };"
+  },
+  {
+    "name": "go-before",
+    "find": "function go(scr, push){",
+    "replace": "function go(scr, push){\n    if (window.KL && KL.beforeGo){ var _kr = KL.beforeGo(scr, push); if (_kr === false) return; if (_kr) scr = _kr; }"
+  },
+  {
+    "name": "go-after",
+    "find": "if (sc) sc.scrollTop = 0;",
+    "replace": "if (sc) sc.scrollTop = 0;\n    if (window.KL && KL.afterGo) KL.afterGo(scr);"
+  },
+  {
+    "name": "say",
+    "find": "function say(t){",
+    "replace": "function say(t){\n    if (window.KL && KL.say){ KL.say(t); return; }"
+  },
+  {
+    "name": "learn-next",
+    "find": "function lNext(){",
+    "replace": "function lNext(){\n    if (window.KL && KL.onLearn) KL.onLearn(LWORDS[li], li, LWORDS.length);"
+  },
+  {
+    "name": "learn-card",
+    "find": "lfcard.classList.remove('flip');",
+    "replace": "lfcard.classList.remove('flip');\n    if (window.KL && KL.afterCard) KL.afterCard('l', w, lfcard);"
+  },
+  {
+    "name": "review-next",
+    "find": "function rNext(){",
+    "replace": "function rNext(){\n    if (window.KL && KL.onReview) KL.onReview(RWORDS[ri % RWORDS.length], rv, TOTAL_R);"
+  },
+  {
+    "name": "review-card",
+    "find": "rfcard.classList.remove('flip');",
+    "replace": "rfcard.classList.remove('flip');\n    if (window.KL && KL.afterCard) KL.afterCard('r', w, rfcard);"
+  },
+  {
+    "name": "quiz-answer",
+    "find": "function answer(btn, isOk){",
+    "replace": "function answer(btn, isOk){\n    if (!qlock && window.KL && KL.onAnswer) KL.onAnswer(QS[qi], isOk);"
+  },
+  {
+    "name": "quiz-done",
+    "find": "document.getElementById('q-done').classList.add('on');",
+    "replace": "document.getElementById('q-done').classList.add('on');\n        if (window.KL && KL.onQuizDone) KL.onQuizDone(qok, QS.length, qcoin);"
+  },
+  {
+    "name": "quiz-pool",
+    "find": "QS = (words && words.length >= 4) ? buildQuiz(words, 5) : QSBASE;",
+    "replace": "if ((!words || words.length < 4) && window.KL && KL.quizPool) words = KL.quizPool();\n    QS = (words && words.length >= 4) ? buildQuiz(words, (window.KL && KL.quizSize) ? KL.quizSize(words) : 5) : QSBASE;"
+  },
+  {
+    "name": "topic-bookmark",
+    "find": "'<button class=\"tbm\"",
+    "replace": "'<button class=\"tbm' + ((window.KL && KL.isBm && KL.isBm(w[0])) ? ' on' : '') + '\""
+  },
+  {
+    "name": "level-progress",
+    "find": "var pct = Math.round(m.done / words.length * 100);",
+    "replace": "var done = (window.KL && KL.levelDone) ? KL.levelDone(code) : m.done;\n    var pct = Math.round(done / words.length * 100);"
+  },
+  {
+    "name": "level-progress-text",
+    "find": "fa(m.done)",
+    "replace": "fa(done)"
+  },
+  {
+    "name": "exports",
+    "find": "if (hpill && hday){",
+    "replace": "/* kiara-live: internals for the live layer (real data + native shell) */\n  window.KIARA = {\n    go: go, back: back, toast: toast, fa: fa, fitAll: fitAll,\n    openTopic: openTopic, openLevel: openLevel, startQuiz: startQuiz,\n    renderMy: renderMy, renderColls: renderColls,\n    KBW: KBW, KBC: KBC, KBCOLLS: KBCOLLS, DISCOVER: DISCOVER, MYCOLLS: MYCOLLS,\n    stack: stack,\n    topic: function(){ return {words: curTopicWords, title: curTopicTitle}; },\n    level: function(){ return LVCUR; },\n    learnWord: function(){ return LWORDS[li]; },\n    setLearn: function(arr){\n      LWORDS = arr; li = 0; ldone = false;\n      lfcard.style.display = '';\n      document.getElementById('l-dots').style.display = '';\n      document.getElementById('l-acts').style.display = '';\n      document.getElementById('l-done').classList.remove('on');\n      renderL();\n    },\n    setReview: function(arr, total){ RWORDS = arr; TOTAL_R = total; rv = 0; ri = 0; renderR(); }\n  };\n  /* the streak pill now opens the goal screen (kiara-live); demo toggle off */\n  if (false){"
+  },
+  {
+    "name": "fill-demo-off",
+    "find": "var els = Array.prototype.slice.call(document.querySelectorAll('[data-fill]'));",
+    "replace": "var els = [];"
+  }
+]

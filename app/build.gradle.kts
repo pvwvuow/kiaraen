@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+import java.util.Base64
 import java.util.Properties
 
 plugins {
@@ -34,8 +36,8 @@ android {
         applicationId = "com.kiaraen.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 7
-        versionName = "0.4.0"
+        versionCode = 8
+        versionName = "0.5.0"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
@@ -82,6 +84,104 @@ android {
     testOptions {
         // Robolectric UI tests render real resources (khead.png, strings, themes)
         unitTests.isIncludeAndroidResources = true
+    }
+}
+
+// ── kiara web UI ────────────────────────────────────────────────────────────
+// The approved design, exported as ONE self-contained file (web/kiara-app.html),
+// IS the app UI. At build time it is unpacked into assets/web/: every inline
+// base64 image/font becomes a real file (deduplicated, decoded lazily by the
+// WebView instead of parsing a 16 MB page), the hooks in web/patches.json are
+// applied and the shell files (kiara-shell.css, kiara-fit.js, kiara-live.js)
+// are added. No web/kiara-app.html → nothing is packed and the native Compose
+// UI runs as before. Preview the same output: python3 scripts/web/build_web.py
+abstract class PrepareKiaraWeb : DefaultTask() {
+    @get:InputDirectory
+    @get:PathSensitive(PathSensitivity.RELATIVE)
+    abstract val webDir: DirectoryProperty
+
+    @get:OutputDirectory
+    abstract val outputDir: DirectoryProperty
+
+    @TaskAction
+    fun pack() {
+        val out = outputDir.get().asFile
+        out.deleteRecursively()
+        out.mkdirs()
+        val src = webDir.get().asFile
+        val page = src.resolve("kiara-app.html")
+        if (!page.isFile) {
+            logger.lifecycle("kiara web: web/kiara-app.html not found, the native UI is used")
+            return
+        }
+        val dest = out.resolve("web")
+        dest.resolve("m").mkdirs()
+        var html = page.readText(Charsets.UTF_8).replace("\r\n", "\n")
+
+        val patchFile = src.resolve("patches.json")
+        if (patchFile.isFile) {
+            @Suppress("UNCHECKED_CAST")
+            val patches = groovy.json.JsonSlurper().parse(patchFile) as List<Map<String, Any?>>
+            for (p in patches) {
+                val name = p["name"]?.toString() ?: "?"
+                val find = p["find"]?.toString() ?: continue
+                val replace = p["replace"]?.toString() ?: ""
+                val at = html.indexOf(find)
+                if (at < 0) {
+                    logger.warn("kiara web: hook '$name' not found in kiara-app.html (skipped)")
+                    continue
+                }
+                html = html.substring(0, at) + replace + html.substring(at + find.length)
+            }
+        }
+
+        val types = mapOf(
+            "image/png" to "png", "image/jpeg" to "jpg", "image/jpg" to "jpg", "image/webp" to "webp",
+            "image/gif" to "gif", "image/svg+xml" to "svg", "font/woff2" to "woff2", "font/woff" to "woff",
+            "font/ttf" to "ttf", "font/otf" to "otf", "application/font-woff2" to "woff2",
+            "application/x-font-ttf" to "ttf",
+        )
+        val names = HashMap<String, String>()
+        val sha1 = MessageDigest.getInstance("SHA-1")
+        val dataUri = Regex("data:([a-zA-Z0-9.+/-]+);base64,([A-Za-z0-9+/=]+)")
+        html = dataUri.replace(html) { m ->
+            val ext = types[m.groupValues[1].lowercase()]
+            if (ext == null) {
+                m.value
+            } else {
+                val b64 = m.groupValues[2]
+                names.getOrPut(b64) {
+                    val bytes = Base64.getMimeDecoder().decode(b64)
+                    val id = sha1.digest(bytes).joinToString("") { b -> "%02x".format(b) }.take(16)
+                    val file = "m/$id.$ext"
+                    dest.resolve(file).writeBytes(bytes)
+                    file
+                }
+            }
+        }
+
+        val head = "<link rel=\"stylesheet\" href=\"kiara-shell.css\">\n<script src=\"kiara-fit.js\"></script>\n"
+        html = html.replaceFirst("</head>", head + "</head>")
+        val tail = "<script src=\"kiara-live.js\"></script>\n"
+        val end = html.lastIndexOf("</body>")
+        html = if (end >= 0) html.substring(0, end) + tail + html.substring(end) else html + tail
+        dest.resolve("index.html").writeText(html, Charsets.UTF_8)
+        for (n in listOf("kiara-shell.css", "kiara-fit.js", "kiara-live.js")) {
+            val f = src.resolve(n)
+            if (f.isFile) f.copyTo(dest.resolve(n), overwrite = true)
+        }
+        logger.lifecycle("kiara web: ${html.length / 1024} KB page, ${names.size} media files")
+    }
+}
+
+androidComponents {
+    onVariants { variant ->
+        val prep = tasks.register<PrepareKiaraWeb>(
+            "prepareKiaraWeb" + variant.name.replaceFirstChar { it.uppercase() },
+        ) {
+            webDir.set(rootProject.layout.projectDirectory.dir("web"))
+        }
+        variant.sources.assets?.addGeneratedSourceDirectory(prep, PrepareKiaraWeb::outputDir)
     }
 }
 
