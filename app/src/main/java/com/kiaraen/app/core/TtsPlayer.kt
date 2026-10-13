@@ -15,6 +15,11 @@ object TtsPlayer {
     @Volatile private var tts: TextToSpeech? = null
     @Volatile private var ready = false
 
+    /** Start the engine early so the very first «بلندگو» tap already speaks. */
+    fun warmUp(context: Context) {
+        runCatching { obtain(context) }
+    }
+
     fun speakWord(context: Context, word: String, rate: String = "normal") {
         speak(context, word, Locale.US, rate)
     }

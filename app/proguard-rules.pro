@@ -21,3 +21,9 @@
 -dontwarn org.slf4j.**
 # ktor's debug detector references JVM-only management APIs
 -dontwarn java.lang.management.**
+
+# The web UI calls window.KiaraNative.* by name — keep the bridge methods.
+-keepattributes JavascriptInterface
+-keepclassmembers class com.kiaraen.app.web.KiaraWebHost$Bridge {
+    @android.webkit.JavascriptInterface <methods>;
+}
