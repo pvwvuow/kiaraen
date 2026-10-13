@@ -1,3 +1,5 @@
+import java.security.MessageDigest
+import java.util.Base64
 import java.util.Properties
 
 plugins {
@@ -140,7 +142,7 @@ abstract class PrepareKiaraWeb : DefaultTask() {
             "application/x-font-ttf" to "ttf",
         )
         val names = HashMap<String, String>()
-        val sha1 = java.security.MessageDigest.getInstance("SHA-1")
+        val sha1 = MessageDigest.getInstance("SHA-1")
         val dataUri = Regex("data:([a-zA-Z0-9.+/-]+);base64,([A-Za-z0-9+/=]+)")
         html = dataUri.replace(html) { m ->
             val ext = types[m.groupValues[1].lowercase()]
@@ -149,8 +151,8 @@ abstract class PrepareKiaraWeb : DefaultTask() {
             } else {
                 val b64 = m.groupValues[2]
                 names.getOrPut(b64) {
-                    val bytes = java.util.Base64.getMimeDecoder().decode(b64)
-                    val id = sha1.digest(bytes).joinToString("") { "%02x".format(it) }.take(16)
+                    val bytes = Base64.getMimeDecoder().decode(b64)
+                    val id = sha1.digest(bytes).joinToString("") { b -> "%02x".format(b) }.take(16)
                     val file = "m/$id.$ext"
                     dest.resolve(file).writeBytes(bytes)
                     file
