@@ -67,6 +67,7 @@
     var j = JSON.stringify(ST);
     try { localStorage.setItem(KEY, j); } catch (e) {}
     if (N && N.saveBackup) { try { N.saveBackup(j); } catch (e) {} }
+    if (window.KiaraSync) { try { window.KiaraSync.onStateSaved(j); } catch (e) {} }
   }
   function save() { clearTimeout(saveT); saveT = setTimeout(flushSave, 250); }
   var cache = null;

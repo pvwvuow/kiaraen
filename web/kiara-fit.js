@@ -1,15 +1,23 @@
-/* kiara shell: scale the fixed 390x843 design to the screen before the first paint */
+/* kiara shell: scale the fixed 390x843 design so it FILLS the real screen.
+   Portrait phones are narrower than the design's aspect, so we fill the full
+   height (the bottom nav sits on the true bottom edge, no floating gap) and
+   allow up to 8% of horizontal crop (4% per side, split evenly). Landscape
+   keeps the width-fill letterbox. The status-bar inset still pushes the
+   stage down when the real bar is taller than the design's 44px status row. */
 (function () {
   var W = 390, H = 843, lastW = 0, lastH = 0;
+  function fitFor(w, h) {
+    var portrait = w <= h;
+    return portrait ? Math.min(h / H, (w / W) * 1.08) : Math.min(w / W, h / H);
+  }
   function fit() {
     var w = window.innerWidth, h = window.innerHeight;
     if (!w || !h) return;
     var de = document.documentElement;
     var top = window.__kiaraInsetTop || 0;
-    var s = Math.min(w / W, h / H);
-    // the status row of the design is ~44px; push the stage down only if the real bar is taller
-    var extra = Math.max(0, top - 44 * s);
-    if (extra) s = Math.min(w / W, (h - extra) / H);
+    var s0 = fitFor(w, h);
+    var extra = Math.max(0, top - 44 * s0);
+    var s = fitFor(w, h - extra);
     de.style.setProperty('--ks', String(s));
     de.style.setProperty('--kt', extra + 'px');
   }

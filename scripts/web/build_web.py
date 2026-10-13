@@ -20,7 +20,26 @@ TYPES = {
     "application/x-font-ttf": "ttf",
 }
 URI = re.compile(r"data:([a-zA-Z0-9.+/-]+);base64,([A-Za-z0-9+/=]+)")
-SHELL = ("kiara-shell.css", "kiara-fit.js", "kiara-live.js")
+SHELL = ("kiara-shell.css", "kiara-dark.css", "kiara-fit.js", "kiara-auth.js", "kiara-live.js")
+
+
+def supabase_cfg() -> dict:
+    """Publishable values for window.KIARA_CFG (env > local.properties)."""
+    import os
+    url = os.environ.get("KIARA_URL", "").strip()
+    anon = os.environ.get("KIARA_ANON", "").strip()
+    lp = ROOT / "local.properties"
+    if lp.is_file():
+        for line in lp.read_text(encoding="utf-8").splitlines():
+            if "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            k, v = k.strip(), v.strip()
+            if k == "kiara.supabase.url" and not url:
+                url = v
+            elif k == "kiara.supabase.anonKey" and not anon:
+                anon = v
+    return {"url": url, "anon": anon}
 
 
 def main() -> int:
@@ -53,9 +72,19 @@ def main() -> int:
         return names[b64]
 
     html = URI.sub(unpack, html)
-    head = '<link rel="stylesheet" href="kiara-shell.css">\n<script src="kiara-fit.js"></script>\n'
+    cfg = supabase_cfg()
+    esc = lambda s: s.replace("\\", "\\\\").replace('"', '\\"')
+    cfg_js = ("window.KIARA_CFG={url:\"%s\",anon:\"%s\"};" % (esc(cfg["url"]), esc(cfg["anon"]))
+              if cfg["url"] and cfg["anon"] else "")
+    head = ("<script>" + cfg_js + "</script>\n"
+            "<script>try{var d=localStorage.getItem('kiara.dark');"
+            "if(d!=='0'&&d!=='1')d=matchMedia('(prefers-color-scheme: dark)').matches?'1':'0';"
+            "if(d==='1')document.documentElement.classList.add('kdark')}catch(e){}</script>\n"
+            '<link rel="stylesheet" href="kiara-shell.css">\n'
+            '<link rel="stylesheet" href="kiara-dark.css">\n'
+            '<script src="kiara-fit.js"></script>\n')
     html = html.replace("</head>", head + "</head>", 1)
-    tail = '<script src="kiara-live.js"></script>\n'
+    tail = '<script src="kiara-auth.js"></script>\n<script src="kiara-live.js"></script>\n'
     end = html.rfind("</body>")
     html = html[:end] + tail + html[end:] if end >= 0 else html + tail
     (dest / "index.html").write_text(html, encoding="utf-8")

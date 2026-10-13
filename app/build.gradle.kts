@@ -1,6 +1,7 @@
 import java.security.MessageDigest
 import java.util.Base64
 import java.util.Properties
+import org.gradle.api.provider.Property
 
 plugins {
     alias(libs.plugins.android.application)
@@ -36,8 +37,8 @@ android {
         applicationId = "com.kiaraen.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.5.0"
+        versionCode = 9
+        versionName = "0.6.0"
 
         // Publishable Supabase values only (anon key is public-safe behind RLS).
         buildConfigField("String", "SUPABASE_URL", "\"${projectProp("kiara.supabase.url") ?: ""}\"")
@@ -100,6 +101,12 @@ abstract class PrepareKiaraWeb : DefaultTask() {
     @get:PathSensitive(PathSensitivity.RELATIVE)
     abstract val webDir: DirectoryProperty
 
+    @get:Input
+    abstract val supabaseUrl: Property<String>
+
+    @get:Input
+    abstract val supabaseAnon: Property<String>
+
     @get:OutputDirectory
     abstract val outputDir: DirectoryProperty
 
@@ -160,13 +167,28 @@ abstract class PrepareKiaraWeb : DefaultTask() {
             }
         }
 
-        val head = "<link rel=\"stylesheet\" href=\"kiara-shell.css\">\n<script src=\"kiara-fit.js\"></script>\n"
+        val head = buildString {
+            append("<script>")
+            if (supabaseUrl.get().isNotBlank() && supabaseAnon.get().isNotBlank()) {
+                val esc: (String) -> String = { it.replace("\\\\", "\\\\\\\\").replace("\"", "\\\\\"") }
+                append("window.KIARA_CFG={url:\"").append(esc(supabaseUrl.get()))
+                append("\",anon:\"").append(esc(supabaseAnon.get())).append("\"};")
+            }
+            append("</script>\n")
+            // dark theme class before first paint (no flash)
+            append("<script>try{var d=localStorage.getItem('kiara.dark');")
+            append("if(d!=='0'&&d!=='1')d=matchMedia('(prefers-color-scheme: dark)').matches?'1':'0';")
+            append("if(d==='1')document.documentElement.classList.add('kdark')}catch(e){}</script>\n")
+            append("<link rel=\"stylesheet\" href=\"kiara-shell.css\">\n")
+            append("<link rel=\"stylesheet\" href=\"kiara-dark.css\">\n")
+            append("<script src=\"kiara-fit.js\"></script>\n")
+        }
         html = html.replaceFirst("</head>", head + "</head>")
-        val tail = "<script src=\"kiara-live.js\"></script>\n"
+        val tail = "<script src=\"kiara-auth.js\"></script>\n<script src=\"kiara-live.js\"></script>\n"
         val end = html.lastIndexOf("</body>")
         html = if (end >= 0) html.substring(0, end) + tail + html.substring(end) else html + tail
         dest.resolve("index.html").writeText(html, Charsets.UTF_8)
-        for (n in listOf("kiara-shell.css", "kiara-fit.js", "kiara-live.js")) {
+        for (n in listOf("kiara-shell.css", "kiara-dark.css", "kiara-fit.js", "kiara-auth.js", "kiara-live.js")) {
             val f = src.resolve(n)
             if (f.isFile) f.copyTo(dest.resolve(n), overwrite = true)
         }
@@ -180,6 +202,8 @@ androidComponents {
             "prepareKiaraWeb" + variant.name.replaceFirstChar { it.uppercase() },
         ) {
             webDir.set(rootProject.layout.projectDirectory.dir("web"))
+            supabaseUrl.set(projectProp("kiara.supabase.url") ?: "")
+            supabaseAnon.set(projectProp("kiara.supabase.anonKey") ?: "")
         }
         variant.sources.assets?.addGeneratedSourceDirectory(prep, PrepareKiaraWeb::outputDir)
     }

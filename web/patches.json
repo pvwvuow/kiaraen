@@ -2,7 +2,7 @@
   {
     "name": "back",
     "find": "function back(){ go(stack.pop() || 'home', false); }",
-    "replace": "function back(){ go(stack.pop() || 'home', false); }\n  /* kiara-live: Android back button */\n  window.kiaraBack = function(){\n    var ov = document.getElementById('lvload');\n    if (ov && ov.classList.contains('on')) return true;\n    if (window.KL && KL.onBack && KL.onBack()) return true;\n    var cur = document.querySelector('.scr.on');\n    var id = cur ? cur.id.replace('scr-', '') : 'home';\n    if (['home', 'words', 'progress', 'profile'].indexOf(id) >= 0){\n      if (id === 'home') return false;\n      stack.length = 0;\n      go('home', false);\n      return true;\n    }\n    back();\n    return true;\n  };"
+    "replace": "function back(){ go(stack.pop() || (window.KL && KL.homeScr ? KL.homeScr() : 'home'), false); }\n  /* kiara-live: Android back button */\n  window.kiaraBack = function(){\n    var ov = document.getElementById('lvload');\n    if (ov && ov.classList.contains('on')) return true;\n    if (window.KL && KL.onBack && KL.onBack()) return true;\n    var cur = document.querySelector('.scr.on');\n    var id = cur ? cur.id.replace('scr-', '') : 'home';\n    /* auth screens: back leaves the app until the user signs in or goes guest */\n    if ((id === 'login' || id === 'signup') && window.KL && KL.canLeave && !KL.canLeave()) return false;\n    if (['home', 'words', 'progress', 'profile'].indexOf(id) >= 0){\n      if (id === 'home') return false;\n      stack.length = 0;\n      go((window.KL && KL.homeScr ? KL.homeScr() : 'home'), false);\n      return true;\n    }\n    back();\n    return true;\n  };"
   },
   {
     "name": "go-before",
@@ -78,5 +78,10 @@
     "name": "fill-demo-off",
     "find": "var els = Array.prototype.slice.call(document.querySelectorAll('[data-fill]'));",
     "replace": "var els = [];"
+  },
+  {
+    "name": "screens-auth",
+    "find": "var SCREENS = ['home','words','progress','profile','learn','quiz','review','topic','awards',\n    'goal','remind','settings','help','edit','colls','level']",
+    "replace": "var SCREENS = ['home','words','progress','profile','learn','quiz','review','topic','awards',\n    'goal','remind','settings','help','edit','colls','level','login','signup']"
   }
 ]
