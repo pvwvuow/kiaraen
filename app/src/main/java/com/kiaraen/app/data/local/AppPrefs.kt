@@ -93,6 +93,13 @@ class AppPrefs(private val context: Context) {
         return added
     }
 
+    // ── تم تاریک (WebView UI) — persisted so cold start paints the right chrome ──
+    suspend fun isWebDark(): Boolean = store.data.first().let { it[KEY_WEB_DARK] ?: false }
+
+    suspend fun setWebDark(on: Boolean) {
+        store.edit { it[KEY_WEB_DARK] = on }
+    }
+
     private companion object {
         val KEY_GUEST = booleanPreferencesKey("guest_mode")
         val KEY_GOAL = intPreferencesKey("daily_goal")
@@ -107,6 +114,7 @@ class AppPrefs(private val context: Context) {
         val KEY_RATE = stringPreferencesKey("speech_rate")
         val KEY_MEANING_FIRST = booleanPreferencesKey("meaning_first")
         val KEY_MARKED = stringSetPreferencesKey("marked_collections")
+        val KEY_WEB_DARK = booleanPreferencesKey("web_dark")
 
         val DEFAULT_DAYS = java.time.DayOfWeek.entries.map { it.name }.toSet()
     }

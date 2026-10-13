@@ -22,6 +22,8 @@ import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -53,6 +55,9 @@ class KiaraWebHost(private val activity: ComponentActivity) {
         private const val BACKUP = "kiara-web-state.json"
         val BG: Int = Color.parseColor("#F7F6F3")
 
+        /** Warm-charcoal page background of the dark theme (kiara-dark.css). */
+        val DARK_BG: Int = Color.parseColor("#161411")
+
         /** True when the build packed the web UI (and we are not in a JVM unit test). */
         fun isAvailable(context: Context): Boolean {
             if (Build.FINGERPRINT == "robolectric") return false
@@ -63,6 +68,7 @@ class KiaraWebHost(private val activity: ComponentActivity) {
     private var webView: WebView? = null
     private var pageReady = false
     private var insetTopCss = 0f
+    private var darkTheme = false
     private var onPermission: ((Boolean) -> Unit)? = null
     private val prefs by lazy { AppPrefs(activity.applicationContext) }
 
@@ -130,6 +136,14 @@ class KiaraWebHost(private val activity: ComponentActivity) {
             wv,
             FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT),
         )
+        // Restore the persisted theme before the page paints (chrome + surface).
+        darkTheme = runCatching {
+            kotlinx.coroutines.runBlocking { prefs.isWebDark() }
+        }.getOrDefault(false)
+        if (darkTheme) {
+            wv.setBackgroundColor(DARK_BG)
+            root.setBackgroundColor(DARK_BG)
+        }
         // Draw under the status bar (the design has its own status row there),
         // keep clear of the navigation bar and side cutouts.
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
@@ -192,6 +206,24 @@ class KiaraWebHost(private val activity: ComponentActivity) {
     private fun pushInsets() {
         if (!pageReady) return
         webView?.evaluateJavascript("window.kiaraSetInsetTop && kiaraSetInsetTop($insetTopCss)", null)
+    }
+
+    /**
+     * Switch the Android chrome to match the page's dark class: light status
+     * icons on the dark surface, matching nav-bar color, and the persisted
+     * flag so the next cold start paints the right chrome immediately.
+     */
+    fun applyTheme(dark: Boolean) {
+        darkTheme = dark
+        val bg = if (dark) DARK_BG else BG
+        webView?.setBackgroundColor(bg)
+        (webView?.parent as? View)?.setBackgroundColor(bg)
+        activity.enableEdgeToEdge(
+            statusBarStyle = if (dark) SystemBarStyle.dark(Color.TRANSPARENT)
+            else SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+            navigationBarStyle = if (dark) SystemBarStyle.dark(bg) else SystemBarStyle.light(bg, bg),
+        )
+        activity.lifecycleScope.launch { runCatching { prefs.setWebDark(dark) } }
     }
 
     private fun openExternal(uri: Uri) {
@@ -292,6 +324,11 @@ class KiaraWebHost(private val activity: ComponentActivity) {
 
         @JavascriptInterface
         fun appVersion(): String = BuildConfig.VERSION_NAME
+
+        @JavascriptInterface
+        fun setStatusBarTheme(dark: Boolean) {
+            activity.runOnUiThread { applyTheme(dark) }
+        }
 
         @JavascriptInterface
         fun saveBackup(json: String?) {

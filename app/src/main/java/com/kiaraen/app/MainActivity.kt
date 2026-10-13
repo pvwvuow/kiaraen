@@ -31,13 +31,25 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         val useWeb = KiaraWebHost.isAvailable(this)
         // targetSdk 35 → Android 15 is ALWAYS edge-to-edge. Opt in explicitly on
-        // every version (consistent look) with dark status-bar icons, because
-        // the design is light-only (cream background).
+        // every version. The design is cream (light) by default, but the dark
+        // theme toggle (v0.6.0) persists — restore the matching chrome at once.
+        val dark = useWeb && runCatching {
+            kotlinx.coroutines.runBlocking {
+                com.kiaraen.app.data.local.AppPrefs(applicationContext).isWebDark()
+            }
+        }.getOrDefault(false)
         if (useWeb) {
-            enableEdgeToEdge(
-                statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
-                navigationBarStyle = SystemBarStyle.light(KiaraWebHost.BG, KiaraWebHost.BG),
-            )
+            if (dark) {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+                    navigationBarStyle = SystemBarStyle.dark(KiaraWebHost.DARK_BG),
+                )
+            } else {
+                enableEdgeToEdge(
+                    statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
+                    navigationBarStyle = SystemBarStyle.light(KiaraWebHost.BG, KiaraWebHost.BG),
+                )
+            }
         } else {
             enableEdgeToEdge(
                 statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
