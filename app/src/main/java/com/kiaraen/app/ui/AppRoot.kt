@@ -33,6 +33,7 @@ import com.kiaraen.app.ui.home.HomeScreen
 import com.kiaraen.app.ui.kiara.KiaraBottomBar
 import com.kiaraen.app.ui.learn.LearnScreen
 import com.kiaraen.app.ui.levels.LevelsScreen
+import com.kiaraen.app.ui.mistakes.MistakesScreen
 import com.kiaraen.app.ui.profile.EditProfileScreen
 import com.kiaraen.app.ui.profile.ProfileScreen
 import com.kiaraen.app.ui.progress.ProgressScreen
@@ -61,6 +62,7 @@ object Routes {
     const val EDIT = "edit"
     const val COLLS = "colls"
     const val SAVED = "saved"
+    const val MISTAKES = "mistakes"
 
     fun auth(fresh: Boolean) = "auth?fresh=$fresh"
     fun quiz(ref: String) = "quiz/" + Uri.encode(ref)
@@ -212,6 +214,10 @@ private fun MainTabs(rootNav: NavHostController) {
                             tabsNav.navigate(Routes.collection(id)) { launchSingleTop = true }
                         },
                         onSeeAllCollections = { selectTab("words") },
+                        onOpenMistakes = {
+                            tabsNav.navigate(Routes.MISTAKES) { launchSingleTop = true }
+                        },
+                        onOpenProgress = { selectTab("progress") },
                     )
                 }
                 composable("words") {
@@ -312,6 +318,12 @@ private fun MainTabs(rootNav: NavHostController) {
                 composable(Routes.EDIT) { EditProfileScreen(onBack = { tabsNav.popBackStack() }) }
                 composable(Routes.AWARDS) { AwardsScreen(onBack = { tabsNav.popBackStack() }) }
                 composable(Routes.SAVED) { SavedWordsScreen(onBack = { tabsNav.popBackStack() }) }
+                composable(Routes.MISTAKES) {
+                    MistakesScreen(
+                        onBack = { tabsNav.popBackStack() },
+                        onOpenQuiz = openQuiz,
+                    )
+                }
             }
 
             if (showBar) {

@@ -88,6 +88,46 @@ interface ProgressDao {
     @Query("SELECT COUNT(*) FROM quiz_attempts WHERE userId = :userId")
     suspend fun quizAttemptCount(userId: String): Int
 
+    // ── mistakes (اشتباهات — one place) ──────────────────────────────────────
+    @Query("SELECT * FROM word_mistakes WHERE userId = :userId AND wordId = :wordId")
+    suspend fun mistakeOf(userId: String, wordId: Long): WordMistakeEntity?
+
+    @Upsert
+    suspend fun upsertMistake(item: WordMistakeEntity)
+
+    /** Append a wrong answer: insert or increment (minSdk 26 → no ON CONFLICT DO UPDATE). */
+    @Transaction
+    suspend fun recordMistake(userId: String, wordId: Long, now: Long) {
+        val existing = mistakeOf(userId, wordId)
+        upsertMistake(
+            if (existing == null) {
+                WordMistakeEntity(userId = userId, wordId = wordId, wrongCount = 1, firstWrongAt = now, lastWrongAt = now)
+            } else {
+                existing.copy(wrongCount = existing.wrongCount + 1, lastWrongAt = now)
+            },
+        )
+    }
+
+    /** Answered correctly inside a COMPLETED quiz → the mistake is cleared. */
+    @Query("DELETE FROM word_mistakes WHERE userId = :userId AND wordId = :wordId")
+    suspend fun resolveMistake(userId: String, wordId: Long)
+
+    /** Newest mistakes first — the quiz queue («مرور اشتباهات»). */
+    @Query("SELECT wordId FROM word_mistakes WHERE userId = :userId ORDER BY lastWrongAt DESC LIMIT :limit")
+    suspend fun mistakeWordIds(userId: String, limit: Int): List<Long>
+
+    /** The one-place list screen — word info joined with the mistake counters. */
+    @Query(
+        "SELECT m.wordId AS wordId, w.word AS word, w.pos AS pos, w.meaningFa AS meaningFa, " +
+            "m.wrongCount AS wrongCount, m.lastWrongAt AS lastWrongAt " +
+            "FROM word_mistakes m JOIN words w ON w.id = m.wordId " +
+            "WHERE m.userId = :userId ORDER BY m.lastWrongAt DESC LIMIT 500",
+    )
+    suspend fun mistakeWords(userId: String): List<MistakeRow>
+
+    @Query("SELECT COUNT(*) FROM word_mistakes WHERE userId = :userId")
+    fun mistakeCount(userId: String): Flow<Int>
+
     // ── bookmarks (ذخیره‌شده‌ها) ─────────────────────────────────────────────
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addBookmark(item: WordBookmarkEntity)
@@ -185,9 +225,12 @@ interface ProgressDao {
     @Query("DELETE FROM user_stats WHERE userId = :userId")
     suspend fun clearStats(userId: String)
 
+    @Query("DELETE FROM word_mistakes WHERE userId = :userId")
+    suspend fun clearMistakes(userId: String)
+
     @Transaction
     suspend fun clearUserData(userId: String) {
-        clearProgress(userId); clearReviewLog(userId); clearQuizAttempts(userId); clearStats(userId)
+        clearProgress(userId); clearReviewLog(userId); clearQuizAttempts(userId); clearStats(userId); clearMistakes(userId)
     }
 
     // ── local-mode → account linking: keep everything the user did offline ──
@@ -212,6 +255,12 @@ interface ProgressDao {
     @Query("DELETE FROM user_stats WHERE userId = 'local'")
     suspend fun deleteLocalStats()
 
+    @Query("UPDATE OR IGNORE word_mistakes SET userId = :to WHERE userId = 'local'")
+    suspend fun migrateMistakesLocal(to: String)
+
+    @Query("DELETE FROM word_mistakes WHERE userId = 'local'")
+    suspend fun deleteLocalMistakes()
+
     @Transaction
     suspend fun migrateLocalData(to: String) {
         migrateProgressLocal(to)
@@ -220,5 +269,7 @@ interface ProgressDao {
         migrateQuizAttemptsLocal(to)
         migrateStatsLocal(to)
         deleteLocalStats()
+        migrateMistakesLocal(to)
+        deleteLocalMistakes()
     }
 }

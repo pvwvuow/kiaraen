@@ -160,6 +160,35 @@ data class QuizAttemptEntity(
 )
 
 /**
+ * اشتباهات — every wrong answer (flashcard «یادآوری», review «فردا», quiz ✗)
+ * lands here in ONE place. The row is removed only when the word is answered
+ * correctly inside a COMPLETED quiz (the same gate that grants «learned»).
+ * Local-only for now, like word_bookmarks; a Supabase mirror can adopt it later.
+ */
+@Entity(
+    tableName = "word_mistakes",
+    primaryKeys = ["userId", "wordId"],
+    indices = [Index("userId", "lastWrongAt")],
+)
+data class WordMistakeEntity(
+    val userId: String,
+    val wordId: Long,
+    val wrongCount: Int = 0,
+    val firstWrongAt: Long,
+    val lastWrongAt: Long,
+)
+
+/** POJO for [ProgressDao.mistakeWords] — the one-place mistakes list. */
+data class MistakeRow(
+    val wordId: Long,
+    val word: String,
+    val pos: String?,
+    val meaningFa: String?,
+    val wrongCount: Int,
+    val lastWrongAt: Long,
+)
+
+/**
  * ذخیره‌شده‌ها — نشانک واژه (ستاره طلایی در طرح). Local-only for now;
  * a `word_bookmarks` table on Supabase can adopt it later (same shape).
  */

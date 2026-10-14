@@ -61,6 +61,7 @@ private val GoldGradient = Brush.verticalGradient(listOf(Color(0xFFFFCF35), Colo
  * لوگوتایپ + قرص شعلهٔ استریک، تیتر خوش‌آمد، چیپ‌های روز هفته (گذشته/امروز/آینده)،
  * کارت پوشهٔ طلایی با تب «ادامه یادگیری»، کتاب، نوار پیشرفت زغالی و دکمهٔ «ادامه بده»،
  * ردیف «وقت مرور رسیده» با پیل طلایی و دو کارت موضوعی با دایرهٔ شورون.
+ * + ردیف «یادگرفته‌ها» (تعداد کل واژه‌های یادگرفته) و ردیف «مرور اشتباهات» (v0.7.0).
  *
  * ریسپانسیو: هیچ اندازهٔ مطلقی برای عرض وجود ندارد — همه‌چیز با وزن/نسبت رشد می‌کند
  * و روی صفحه‌های پهن محتوا در ستون ۵۲۰dp وسط‌چین می‌شود.
@@ -72,6 +73,8 @@ fun HomeScreen(
     onOpenLearn: (String, String) -> Unit,
     onOpenCollection: (Long) -> Unit,
     onSeeAllCollections: () -> Unit,
+    onOpenMistakes: () -> Unit,
+    onOpenProgress: () -> Unit,
 ) {
     val container = LocalAppContainer.current
     val uid = rememberUserId()
@@ -80,9 +83,13 @@ fun HomeScreen(
 
     val statsFlow = remember(uid) { progressDao.stats(uid) }
     val dueFlow = remember(uid) { progressDao.dueCount(uid, System.currentTimeMillis()) }
+    val learnedFlow = remember(uid) { progressDao.learnedCount(uid) }
+    val mistakesFlow = remember(uid) { progressDao.mistakeCount(uid) }
     val collectionsFlow = remember { contentDao.collections() }
     val stats by statsFlow.collectAsState(initial = null)
     val due by dueFlow.collectAsState(initial = 0)
+    val learned by learnedFlow.collectAsState(initial = 0)
+    val mistakes by mistakesFlow.collectAsState(initial = 0)
     val collections by collectionsFlow.collectAsState(initial = emptyList())
 
     val folder = collections.firstOrNull()
@@ -167,6 +174,16 @@ fun HomeScreen(
             )
 
             Spacer(Modifier.height(16.dp))
+            // ── learned total («تعداد لغات کلی یادگرفته») ──
+            StatRow(
+                iconRes = R.drawable.ki_g_star,
+                title = "یادگرفته‌ها",
+                subtitle = "تا حالا ${faNum(learned)} واژه یاد گرفتی",
+                badge = "${faNum(learned)} واژه",
+                onClick = onOpenProgress,
+            )
+
+            Spacer(Modifier.height(14.dp))
             // ── review row ──
             Row(
                 Modifier.fillMaxWidth(),
@@ -210,6 +227,19 @@ fun HomeScreen(
                 }
             }
 
+            Spacer(Modifier.height(14.dp))
+            // ── mistakes review («مرور اشتباهات») ──
+            StatRow(
+                iconRes = R.drawable.ki_g_quiz,
+                title = "مرور اشتباهات",
+                subtitle = if (mistakes > 0) "${faNum(mistakes)} واژه اشتباه داشتی" else "هنوز اشتباهی ثبت نشده",
+                badge = if (mistakes > 0) "مرور" else null,
+                onClick = onOpenMistakes,
+                onBadge = if (mistakes > 0) {
+                    { onOpenQuiz("mistakes") }
+                } else null,
+            )
+
             Spacer(Modifier.height(30.dp))
             // ── pick a topic ──
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -244,6 +274,65 @@ fun HomeScreen(
             }
 
             Spacer(Modifier.height(20.dp))
+        }
+    }
+}
+
+/** ردیف آمار/دسترسی خانه — آیکون سه‌بعدی + عنوان/زیرنویس + پیل طلایی اختیاری. */
+@Composable
+private fun StatRow(
+    iconRes: Int,
+    title: String,
+    subtitle: String,
+    badge: String?,
+    onClick: () -> Unit,
+    onBadge: (() -> Unit)? = null,
+) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { onClick() },
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Image(
+            painterResource(iconRes),
+            null,
+            modifier = Modifier
+                .height(56.dp)
+                .padding(top = 2.dp),
+        )
+        Spacer(Modifier.width(14.dp))
+        Column(Modifier.weight(1f)) {
+            Text(
+                title,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Ink,
+            )
+            Text(
+                subtitle,
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Medium,
+                color = Muted,
+                modifier = Modifier.padding(top = 3.dp),
+            )
+        }
+        if (badge != null) {
+            Box(
+                Modifier
+                    .shadow(10.dp, RoundedCornerShape(percent = 50), spotColor = Color(0x66FFB700))
+                    .background(GoldGradient, RoundedCornerShape(percent = 50))
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                    ) { (onBadge ?: onClick)() }
+                    .padding(horizontal = 24.dp, vertical = 9.dp),
+            ) {
+                Text(badge, fontSize = 15.sp, fontWeight = FontWeight.ExtraBold, color = Ink)
+            }
         }
     }
 }
