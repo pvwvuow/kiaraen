@@ -121,17 +121,27 @@ html.kdark #scr-home .gobtn:active{transform:scale(.98)}
 html.kdark #scr-home .gobtn span{font-size:44px;font-weight:800;color:#232019}
 html.kdark #scr-home .gobtn .tri{position:absolute;right:49px;top:50%;transform:translateY(-50%);width:40px;height:48px}
 html.kdark #scr-home .sep{position:absolute;top:1062px;left:47px;right:41px; border:none;border-top:3px solid rgba(28,26,23,.06)}
-html.kdark #scr-home .review{position:absolute;top:1080px;left:47px;right:41px;height:170px}
+html.kdark #scr-home .review{position:absolute;top:1250px;left:47px;right:41px;height:170px}
 html.kdark #scr-home .review .aacal{position:absolute;right:12px;top:-4px;height:170px;width:auto}
 html.kdark #scr-home .rmeta{position:absolute;right:182px;top:42px;text-align:right}
 html.kdark #scr-home .rmeta b{font-family:'Lalezar','Estedad',sans-serif;font-weight:400; font-size:38px;color:var(--ink);line-height:1.2}
 html.kdark #scr-home .rmeta span{display:block;font-size:28px;font-weight:500;color:var(--mut);margin-top:8px}
 html.kdark #scr-home .pill{position:absolute;left:15px;top:51px;width:167px;height:66px; background:linear-gradient(180deg,#ffcf35,#ffb700); color:var(--ink);border:none;border-radius:999px; font-size:34px;font-weight:800; box-shadow:0 12px 24px rgba(255,183,0,0.28), inset 0 2px 0 rgba(240,237,229,0.11); transition:transform .12s ease}
 html.kdark #scr-home .pill:active{transform:scale(.96)}
-html.kdark #scr-home .phead{position:absolute;top:1285px;left:47px;right:41px; display:flex;align-items:baseline;justify-content:space-between}
+html.kdark #scr-home .phead{position:absolute;top:1610px;left:47px;right:41px; display:flex;align-items:baseline;justify-content:space-between}
 html.kdark #scr-home .phead h3{font-family:'Lalezar','Estedad',sans-serif;font-weight:400; font-size:38px;color:var(--ink)}
 html.kdark #scr-home .phead a{font-size:29px;font-weight:600;color:var(--mut);cursor:pointer}
-html.kdark #scr-home .cards{position:absolute;top:1370px;left:40px;right:41px;height:222px; display:flex;gap:16px}
+html.kdark #scr-home .cards{position:absolute;top:1695px;left:40px;right:41px;height:222px; display:flex;gap:16px}
+  /* v0.8.0 — learned counter + mistakes review rows (same visual language as .review);
+     the home artboard grows, .scr-native scrolls, the shared bottom nav stays fixed */
+  html.kdark #scr-home .scr-native{overflow-y:auto;overflow-x:hidden}
+  html.kdark #scr-home .hend{position:absolute;top:0;left:0;width:1px;height:2168px;pointer-events:none}
+  html.kdark #scr-home .hrow{position:absolute;top:1080px;left:47px;right:41px;height:150px;cursor:pointer}
+  html.kdark #scr-home .hrow.hm{top:1440px}
+  html.kdark #scr-home .hrow .hlic{position:absolute;right:10px;top:-6px;height:150px;width:auto;pointer-events:none}
+  html.kdark #scr-home .hrow .rmeta{position:absolute;right:174px;top:30px;text-align:right}
+  html.kdark #scr-home .hrow .pill{top:42px}
+  html.kdark #scr-home .hrow:active .pill{transform:scale(.96)}
 html.kdark #scr-home .card{position:relative;flex:1;background:var(--panel);border-radius:36px; box-shadow:0 20px 40px rgba(0,0,0,0.25), 0 3px 8px rgba(0,0,0,0.13), inset 0 2px 4px rgba(42,38,31,0.90); transition:transform .12s ease}
 html.kdark #scr-home .card:active{transform:scale(.985)}
 html.kdark #scr-home .card .cicon{position:absolute;left:34px;top:30px;height:147px;width:auto}

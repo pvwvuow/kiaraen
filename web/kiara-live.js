@@ -43,7 +43,7 @@
       name: '', phone: '', av: 0,
       rem: {on: true, t: '20:00', days: [1, 1, 1, 1, 1, 1, 0], smart: false},
       set: {sound: true, rate: 1, auto: true},
-      my: null, bm: {}, w: {}, d: {}};
+      my: null, bm: {}, w: {}, d: {}, m: {}};
   }
   function load() {
     var raw = null, s = null;
@@ -72,6 +72,21 @@
   function save() { clearTimeout(saveT); saveT = setTimeout(flushSave, 250); }
   var cache = null;
   function dirty() { cache = null; save(); }
+
+  /* ── mistakes — every wrong answer lands here, one list (v0.8.0) ── */
+  function addMistake(en) {
+    if (!en) return;
+    var m = ST.m[en] || (ST.m[en] = {n: 0, t: 0});
+    m.n++; m.t = today();
+  }
+  function mistakeList() {
+    return Object.keys(ST.m).sort(function (a, b) { return ST.m[b].t - ST.m[a].t || ST.m[b].n - ST.m[a].n; })
+      .map(function (en) {
+        var fa = (IX[en] && IX[en].e[2]) || (ST.w[en] && ST.w[en].f) || '';
+        return [en, ST.m[en], fa];
+      });
+  }
+  function mistakeCount() { return Object.keys(ST.m).length; }
 
   function day(d) { var k = String(d == null ? today() : d); return ST.d[k] || (ST.d[k] = {l: 0, r: 0, q: 0, s: 0}); }
   function dayGet(d) { return ST.d[String(d)] || null; }
@@ -161,7 +176,7 @@
 
   /* ── learn (lessons from the word bank) ── */
   var lastAct = '';
-  var sess = {known: 0, coins: 0, practice: false};
+  var sess = {known: 0, coins: 0, practice: false, words: null};
   function lessonPick(lv) {
     var out = [], list = K.KBW[lv] || [];
     for (var i = 0; i < list.length && out.length < LESSON; i++) if (!ST.w[list[i][0]]) out.push(card(list[i], lv));
@@ -197,30 +212,35 @@
       title = li.title + ' · درس ' + fa(li.no);
     }
     if (!arr.length) { K.toast('همه‌ی واژه‌ها رو دیدی! حالا وقت مروره'); return false; }
-    sess = {known: 0, coins: 0, practice: false};
+    sess = {known: 0, coins: 0, practice: false, words: arr};
     setDots('#l-dots', arr.length);
     txt($('#scr-learn .shead b'), title);
     K.setLearn(arr);
     dirty();
     return true;
   }
+  /* v0.8.0: reading never grants «learned» — the card is only marked as seen
+     (b:0). The word becomes «learned» when its quiz is completed (onQuizDone). */
   KL.onLearn = function (w, idx, total) {
     if (!w) return;
     var act = lastAct || 'know', t = today(), en = w[0], cur = ST.w[en];
     lastAct = '';
     if (act === 'know') {
-      if (!cur || cur.b < 1) {
-        ST.w[en] = {b: 1, d: t + IV[1], l: w[4] || ST.lvl, f: w[1], t: t};
+      if (!cur) {
+        ST.w[en] = {b: 0, d: t + 1, l: w[4] || ST.lvl, f: w[1], t: t};
         day().l++; ST.coins += 3; sess.known++; sess.coins += 3;
         goalCheck();
+      } else if (cur.b < 1) {
+        cur.d = t + 1;
       }
-    } else if (!cur) {
-      ST.w[en] = {b: 0, d: t + 1, l: w[4] || ST.lvl, f: w[1], t: t};
     } else {
-      cur.d = t + 1;
+      /* «بلد نیستم» — a wrong signal: the word lands in the mistakes list */
+      if (!cur) ST.w[en] = {b: 0, d: t + 1, l: w[4] || ST.lvl, f: w[1], t: t};
+      else cur.d = t + 1;
+      addMistake(en);
     }
     if (idx + 1 >= total) {
-      txt($('#l-done p'), fa(sess.known) + ' واژه یاد گرفتی و ' + fa(sess.coins) + ' سکه گرفتی');
+      txt($('#l-done p'), fa(sess.known) + ' واژه خوندی و ' + fa(sess.coins) + ' سکه گرفتی — حالا آزمونشو بزن');
       levelCheck();
     }
     dirty();
@@ -250,9 +270,16 @@
     lastAct = '';
     if (x) {
       if (act === 'ok') {
-        if (!sess.practice) { x.b = Math.min(x.b + 1, IV.length - 1); x.d = t + IV[x.b]; ST.coins += 1; }
+        /* review keeps an un-learned word (b:0) at «learning»; only a completed
+           quiz promotes it (v0.8.0) */
+        if (!sess.practice) {
+          if (x.b >= 1) { x.b = Math.min(x.b + 1, IV.length - 1); x.d = t + IV[x.b]; }
+          else x.d = t + 1;
+          ST.coins += 1;
+        }
       } else {
         x.b = x.b >= 1 ? 1 : 0; x.d = t + 1;
+        addMistake(w[0]);
       }
     }
     day().r++;
@@ -280,9 +307,14 @@
     qlog.push({w: q.w, ok: ok});
     var x = ST.w[q.w];
     if (x && !ok) { x.d = today(); x.b = Math.min(x.b, 1); }
+    /* placement is a diagnostic — unseen bank words are not «mistakes» to review */
+    if (!ok && !placement) addMistake(q.w);
     fx(ok ? 'ok' : 'bad');
     dirty();
   };
+  /* v0.8.0 — the learning gate: only a COMPLETED quiz (hearts not exhausted)
+     pays out «learned» for its correct answers and clears their mistakes;
+     every wrong answer is already in the mistakes list (onAnswer). */
   KL.onQuizDone = function (okN, total, coins) {
     ST.coins += coins || 0;
     ST.quizzes++;
@@ -290,9 +322,84 @@
     var h = new Date().getHours();
     if (h >= 22 || h < 4) ST.night++;
     day().q++;
-    if (placement) finishPlacement();
+    var hs = $$('#q-hearts img'), dim = $$('#q-hearts img.dim');
+    var completed = hs.length ? dim.length < hs.length : true;
+    var fresh = 0, t = today();
+    if (placement) { finishPlacement(); refreshSoon(); qlog = []; dirty(); return; }
+    qlog.forEach(function (r) {
+      if (!completed || !r || !r.w || !r.ok) return;
+      var x = ST.w[r.w];
+      if (!x) x = ST.w[r.w] = {b: 0, d: t, l: (IX[r.w] && IX[r.w].lv) || ST.lvl,
+        f: (IX[r.w] && IX[r.w].e[2]) || '', t: t};
+      if (x.b < 1) { x.b = 1; fresh++; x.d = t + IV[1]; }
+      else { x.b = Math.min(x.b + 1, IV.length - 1); x.d = t + IV[x.b]; }
+      if (ST.m[r.w]) delete ST.m[r.w];
+    });
+    if (completed) {
+      if (fresh > 0) later(fa(fresh) + ' واژه به یادگرفته‌ها اضافه شد', 500);
+    } else {
+      later('آزمون کامل نشد؛ واژه‌ای به یادگرفته‌ها اضافه نشد', 500);
+    }
+    refreshSoon();
     qlog = [];
     dirty();
+  };
+
+  /* ── mistakes review (v0.8.0) ── */
+  var mquiz = false;
+  function openMistakes() {
+    var list = mistakeList();
+    if (!list.length) { K.toast('هنوز اشتباهی ثبت نشده'); return; }
+    var ws = list.map(function (x) { return [x[0], x[2] || '', 'A1']; });
+    K.openTopic('اشتباه‌های من', IMG.xmark, fa(ws.length) + ' واژه که جوابشون رو اشتباه زدی؛ با آزمون ازشون بگذر', ws);
+    setTimeout(function () {
+      $$('#t-list .trowi').forEach(function (row) {
+        var b = row.querySelector('.tw b');
+        if (!b) return;
+        var m = ST.m[b.textContent.trim()];
+        if (!m) return;
+        var chip = document.createElement('i');
+        chip.className = 'mchip';
+        chip.textContent = '×' + fa(m.n);
+        var sb = row.querySelector('.tsb');
+        if (sb) row.insertBefore(chip, sb); else row.appendChild(chip);
+      });
+    }, 0);
+  }
+  function startMistakesQuiz() {
+    if (!mistakeCount()) { K.toast('هنوز اشتباهی ثبت نشده'); return; }
+    mquiz = true;
+    K.startQuiz(null, 'مرور اشتباهات');
+  }
+  function startLessonQuiz() {
+    var ws = (sess.words || []).map(function (w) { return [w[0], w[1]]; });
+    if (ws.length < 4) { K.toast('اول درس رو کامل ببین، بعد آزمونش'); return; }
+    K.startQuiz(ws, 'آزمون درس');
+  }
+  /* called by the quiz-override patch inside startQuiz: builds the whole
+     mistakes-only quiz (targets = mistakes, distractors = level bank) */
+  KL.quizOverride = function () {
+    if (!mquiz) return null;
+    mquiz = false;
+    var targets = mistakeList().slice(0, 10).map(function (x) { return [x[0], x[2]]; })
+      .filter(function (t2) { return t2[1]; });
+    if (!targets.length) return null;
+    var seenM = {};
+    targets.forEach(function (t2) { seenM[t2[1]] = 1; });
+    var extra = [];
+    (K.KBW[ST.lvl] || []).forEach(function (e) {
+      if (extra.length < 24 && !ST.m[e[0]] && !seenM[e[2]]) { seenM[e[2]] = 1; extra.push([e[0], e[2]]); }
+    });
+    var pool = targets.concat(extra);
+    return targets.map(function (t2) {
+      var wrong = [];
+      pool.forEach(function (o) {
+        if (o[0] !== t2[0] && o[1] !== t2[1] && wrong.length < 3 && wrong.indexOf(o[1]) < 0) wrong.push(o[1]);
+      });
+      var opts = [[t2[1], 1]];
+      wrong.forEach(function (x) { opts.push([x, 0]); });
+      return {w: t2[0], opts: opts};
+    });
   };
   function startPlacement() {
     var pool = [];
@@ -480,6 +587,10 @@
       if (N && N.testReminder) { try { N.testReminder(); } catch (x) {} }
       K.toast('یادآور آزمایشی فرستاده شد');
     }
+    else if (hit('#h-learned')) { stop(); K.go('progress'); }
+    else if (hit('#h-mistakes-pill')) { stop(); startMistakesQuiz(); }
+    else if (hit('#h-mistakes')) { stop(); openMistakes(); }
+    else if (hit('#l-toquiz')) { stop(); startLessonQuiz(); }
     else if (hit('#h-streak')) { stop(); K.go('goal'); }
     else if (hit('#scr-words .vguide')) { stop(); startPlacement(); }
     else if (hit('#scr-words .vadd')) { stop(); K.go('colls'); }
@@ -516,6 +627,8 @@
   KL.beforeGo = function (scr, push) {
     if (push === false) return undefined;
     var cur = $('.scr.on'), from = cur ? cur.id.replace('scr-', '') : '';
+    /* leaving the quiz mid-way cancels a pending placement (v0.8.0 guard) */
+    if (from === 'quiz' && scr !== 'quiz' && placement) { placement = false; qlog = []; }
     if (scr === 'learn') return startLearn(from === 'topic' ? 'topic' : from === 'level' ? 'level' : 'main') ? undefined : false;
     if (scr === 'review') return startReview() ? undefined : false;
     return undefined;
@@ -543,6 +656,16 @@
   }
   var refT = 0;
   function refreshSoon() { clearTimeout(refT); refT = setTimeout(refresh, 0); }
+  /* style for the ×N counter chip shown on the mistakes topic list */
+  safe(function () {
+    var st = document.createElement('style');
+    st.textContent =
+      '#scr-topic .trowi .mchip{flex:none;align-self:center;min-width:64px;height:52px;padding:0 16px;' +
+      'border-radius:999px;background:rgba(226,74,54,.12);color:#C4402C;font-size:26px;font-weight:800;' +
+      'display:flex;align-items:center;justify-content:center}' +
+      'html.kdark #scr-topic .trowi .mchip{background:rgba(255,120,100,.14);color:#FF9A87}';
+    document.head.appendChild(st);
+  });
   function refresh() {
     cache = null;
     var s = stats(), t = today(), wk = weekInfo(), x = dayGet(t) || {l: 0, r: 0, q: 0, s: 0};
@@ -576,6 +699,13 @@
       setFill($('#h-folder [data-fill]'), work / ST.goal * 100);
       txt($('#scr-home .review .rmeta b'), s.due ? 'وقت مرور رسیده' : 'مرورت به‌روزه');
       txt($('#scr-home .review .rmeta span'), s.due ? fa(s.due) + ' واژه منتظره' : 'فعلاً واژه‌ای منتظر نیست');
+      /* learned total + mistakes rows (v0.8.0) */
+      txt($('#h-learned-sub'), 'تا حالا ' + faN(s.learned) + ' واژه یاد گرفتی');
+      txt($('#h-learned-pill'), faN(s.learned) + ' واژه');
+      var mc = mistakeCount();
+      txt($('#h-mistakes-sub'), mc ? fa(mc) + ' واژه اشتباه داشتی' : 'هنوز اشتباهی ثبت نشده');
+      var mp = $('#h-mistakes-pill');
+      if (mp) mp.style.display = mc ? '' : 'none';
     });
     safe(function () { /* words */
       txt($('#w-saved div span'), fa(Object.keys(ST.bm).length) + ' واژه');
@@ -645,6 +775,11 @@
     IMG.future = hd.length ? hd[hd.length - 1].src : IMG.done;
     IMG.missed = gd[0] ? gd[0].src : IMG.future;
     IMG.today = gd[3] ? gd[3].src : IMG.done;
+    /* 3D icons for the two new home rows (already in the page — no extra bytes) */
+    IMG.star = ($('#l-done img.big') || {}).src || '';
+    IMG.xmark = ($('#ic-mxs') || {}).src || '';
+    var hic = $('#h-learned-ic'); if (hic) hic.src = IMG.star;
+    var mic = $('#h-mistakes-ic'); if (mic) mic.src = IMG.xmark;
     var pava = $('#scr-profile .pava'), eava = $('#scr-edit .eava2');
     if (pava) AV0['#scr-profile .pava'] = pava.src;
     if (eava) AV0['#scr-edit .eava2'] = eava.src;

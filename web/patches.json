@@ -83,5 +83,10 @@
     "name": "screens-auth",
     "find": "var SCREENS = ['home','words','progress','profile','learn','quiz','review','topic','awards',\n    'goal','remind','settings','help','edit','colls','level']",
     "replace": "var SCREENS = ['home','words','progress','profile','learn','quiz','review','topic','awards',\n    'goal','remind','settings','help','edit','colls','level','login','signup']"
+  },
+  {
+    "name": "quiz-override",
+    "find": "function startQuiz(words, title){",
+    "replace": "function startQuiz(words, title){\n    /* kiara-live: a mistakes-review quiz brings its own prepared questions */\n    if (window.KL && KL.quizOverride){ var _kq = KL.quizOverride(words, title);\n      if (_kq && _kq.length){\n        QS = _kq;\n        document.querySelector('#scr-quiz .shead b').textContent = title || 'آزمون سریع';\n        qi = 0; qok = 0; qheart = 3; qcoin = 12;\n        document.getElementById('q-done').classList.remove('on');\n        document.querySelector('#scr-quiz .qcard').style.display = 'flex';\n        document.getElementById('q-opts').style.display = 'flex';\n        document.querySelector('#scr-quiz .qmeta').style.display = 'flex';\n        renderQ(); go('quiz'); return;\n      } }"
   }
 ]
