@@ -626,6 +626,7 @@
       $$('#scr-goal .gday img').forEach(function (im, i) {
         var d = wk.start + i;
         im.src = d > t ? IMG.future : goalMet(d) ? IMG.done : d === t ? IMG.today : IMG.missed;
+        im.classList.toggle('ktoday', d === t); // dark theme keeps the gold today chip
       });
       txt($('#scr-goal .gweek .cap'), fa(wk.goalDays) + ' روز از ۷ روز این هفته کامل شده' +
         (goalMet(t) ? '' : '؛ با کامل کردن امروز می‌شود ' + fa(Math.min(7, wk.goalDays + 1)) + '!'));

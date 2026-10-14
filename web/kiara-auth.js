@@ -245,37 +245,49 @@
 
   window.KiaraSync = Sync;
 
-  /* ── auth screens (settings-screen archetype, 853-unit design space) ── */
+  /* ── auth screens (settings-screen archetype, 853-unit design space) ──
+     every rule is prefixed with the screen id: the dark theme re-issues the
+     design's `*` reset as `html.kdark *` (0,1,1) which would otherwise beat
+     bare class selectors (0,1,0) and flatten the whole layout in dark mode */
   var CSS = [
     '#scr-login,#scr-signup{direction:rtl}',
-    '.kwrap{padding:20px 46px 60px}',
-    '.khero{text-align:center;padding:44px 10px 10px}',
-    '.khero .klogo{width:190px;height:190px;margin:0 auto;display:block}',
-    '.khero b{display:block;font-size:46px;font-weight:800;color:var(--ink);margin-top:22px;font-family:\'Lalezar\',\'Estedad\',sans-serif;font-weight:400}',
-    '.khero span{display:block;font-size:27px;color:var(--mut);margin-top:12px;line-height:1.7}',
-    '.kform{background:var(--panel);border-radius:36px;padding:40px 38px;margin-top:44px;',
+    '#scr-login .vtop,#scr-signup .vtop{position:sticky;top:0;z-index:30;',
+    '  background:rgba(248,247,244,.97);backdrop-filter:blur(30px)}',
+    '#scr-login .vrow,#scr-signup .vrow{height:96px;display:flex;align-items:center;',
+    '  justify-content:space-between;padding:0 46px}',
+    '#scr-login .mtxt,#scr-signup .mtxt{font-size:50px;font-weight:800;color:var(--ink);line-height:1}',
+    '#scr-login .kwrap,#scr-signup .kwrap{padding:20px 46px 60px}',
+    '#scr-login .khero,#scr-signup .khero{text-align:center;padding:44px 10px 10px}',
+    '#scr-login .khero .klogo,#scr-signup .khero .klogo{width:190px;height:190px;margin:0 auto;display:block}',
+    '#scr-login .khero b,#scr-signup .khero b{display:block;font-size:46px;color:var(--ink);margin-top:22px;',
+    "  font-family:'Lalezar','Estedad',sans-serif;font-weight:400}",
+    '#scr-login .khero span,#scr-signup .khero span{display:block;font-size:27px;color:var(--mut);margin-top:12px;line-height:1.7}',
+    '#scr-login .kform,#scr-signup .kform{background:var(--panel);border-radius:36px;padding:40px 38px;margin-top:44px;',
     '  box-shadow:0 24px 44px rgba(120,105,70,.12)}',
-    '.klab{font-size:26px;font-weight:700;color:var(--mut);margin:0 8px 14px}',
-    '.kin{width:100%;height:118px;border-radius:32px;border:3px solid rgba(120,105,70,.25);',
+    '#scr-login .klab,#scr-signup .klab{font-size:26px;font-weight:700;color:var(--mut);margin:0 8px 14px}',
+    '#scr-login .kin,#scr-signup .kin{width:100%;height:118px;border-radius:32px;border:3px solid rgba(120,105,70,.25);',
     '  background:var(--bg);padding:0 40px;font-size:31px;font-family:inherit;color:var(--ink);',
     '  outline:none;box-sizing:border-box;margin-bottom:30px;direction:ltr;text-align:left}',
-    '.kin::placeholder{color:var(--mut);opacity:.75}',
-    '.kin:focus{border-color:var(--gold-d)}',
-    '.kbtn{width:100%;height:124px;border:0;border-radius:999px;background:var(--gold);',
+    '#scr-login .kin::placeholder,#scr-signup .kin::placeholder{color:var(--mut);opacity:.75}',
+    '#scr-login .kin:focus,#scr-signup .kin:focus{border-color:var(--gold-d)}',
+    '#scr-login .kbtn,#scr-signup .kbtn{width:100%;height:124px;border:0;border-radius:999px;background:var(--gold);',
     '  color:#29261F;font-size:33px;font-weight:800;font-family:inherit;cursor:pointer;',
     '  box-shadow:0 16px 30px rgba(255,183,0,.35);transition:transform .12s ease;margin-top:8px}',
-    '.kbtn:active{transform:scale(.97)}',
-    '.kbtn[disabled]{opacity:.6}',
-    '.kalt{text-align:center;margin-top:36px}',
-    '.kalt a,.kalt button{background:none;border:0;padding:0;font-family:inherit;cursor:pointer;',
-    '  font-size:27px;font-weight:700;color:var(--gold-d);text-decoration:underline;text-underline-offset:6px}',
-    '.kalt p{font-size:25px;color:var(--mut);margin:0 0 10px}',
-    '.kguest{display:block;width:100%;text-align:center;background:none;border:0;padding:26px 0 0;',
+    '#scr-login .kbtn:active,#scr-signup .kbtn:active{transform:scale(.97)}',
+    '#scr-login .kbtn[disabled],#scr-signup .kbtn[disabled]{opacity:.6}',
+    '#scr-login .kalt,#scr-signup .kalt{text-align:center;margin-top:36px}',
+    '#scr-login .kalt a,#scr-signup .kalt a,#scr-login .kalt button,#scr-signup .kalt button{background:none;border:0;padding:0;',
+    '  font-family:inherit;cursor:pointer;font-size:27px;font-weight:700;color:var(--gold-d);text-decoration:underline;text-underline-offset:6px}',
+    '#scr-login .kalt p,#scr-signup .kalt p{font-size:25px;color:var(--mut);margin:0 0 10px}',
+    '#scr-login .kguest,#scr-signup .kguest{display:block;width:100%;text-align:center;background:none;border:0;padding:26px 0 0;',
     '  font-family:inherit;font-size:26px;font-weight:700;color:var(--mut);cursor:pointer;margin-top:30px;text-decoration:underline;text-underline-offset:6px}',
-    '.kerr{font-size:25px;color:#C4402F;background:rgba(196,64,47,.08);border-radius:24px;',
+    '#scr-login .kerr,#scr-signup .kerr{font-size:25px;color:#C4402F;background:rgba(196,64,47,.08);border-radius:24px;',
     '  padding:20px 28px;margin-bottom:26px;display:none;line-height:1.7}',
-    '.kerr.on{display:block}',
-    'html.kdark .kerr{color:#FF8A70;background:rgba(255,138,112,.1)}'
+    '#scr-login .kerr.on,#scr-signup .kerr.on{display:block}',
+    'html.kdark #scr-login .vtop,html.kdark #scr-signup .vtop{background:rgba(22,20,17,.97)}',
+    'html.kdark #scr-login .kform,html.kdark #scr-signup .kform{box-shadow:0 24px 44px rgba(0,0,0,.4)}',
+    'html.kdark #scr-login .kin,html.kdark #scr-signup .kin{background:#26221B;border-color:rgba(160,140,90,.28)}',
+    'html.kdark #scr-login .kerr,html.kdark #scr-signup .kerr{color:#FF8A70;background:rgba(255,138,112,.1)}'
   ].join('\n');
   var MOON = '<svg class="mic" viewBox="0 0 24 24" fill="#1C1A17"><path d="M20.7 15.1A8.8 8.8 0 0 1 9 3.4 9.3 9.3 0 1 0 20.7 15.1z"/></svg>';
   var USER = '<svg class="mic" viewBox="0 0 24 24" fill="#1C1A17"><path d="M12 12.4a4.4 4.4 0 1 0 0-8.8 4.4 4.4 0 0 0 0 8.8zm0 2.2c-4.1 0-7.6 2.4-7.6 5.4 0 .8.7 1.4 1.5 1.4h12.2c.8 0 1.5-.6 1.5-1.4 0-3-3.5-5.4-7.6-5.4z"/></svg>';
@@ -297,7 +309,7 @@
       '<section class="scr" id="scr-login"><div class="scroll0"><div class="spacer0"><div class="stage0">' +
         '<header class="vtop">' + status +
           '<div class="vrow" style="direction:rtl">' + backHtml +
-            '<div class="mtxt" style="font-size:38px;font-weight:800;color:var(--ink)">ورود به کیارا</div>' +
+            '<div class="mtxt">ورود به کیارا</div>' +
             '<span style="width:88px;flex:none"></span>' +
           '</div>' +
         '</header>' +
@@ -318,7 +330,7 @@
       '<section class="scr" id="scr-signup"><div class="scroll0"><div class="spacer0"><div class="stage0">' +
         '<header class="vtop">' + status +
           '<div class="vrow" style="direction:rtl">' + backHtml +
-            '<div class="mtxt" style="font-size:38px;font-weight:800;color:var(--ink)">' + 'ساخت حساب کیارا' + '</div>' +
+            '<div class="mtxt">ساخت حساب کیارا</div>' +
             '<span style="width:88px;flex:none"></span>' +
           '</div>' +
         '</header>' +

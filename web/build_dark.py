@@ -30,6 +30,7 @@ SURF = {  # backgrounds / panels / borders (bg-map)
     "#e7e3d9": "#2e2a23", "#e5e2da": "#35312a", "#e0ddd5": "#36322b",
     "#dcd9d1": "#383329", "#d2d0c8": "#3b362d", "#cfcbc2": "#3b362d",
     "#d8d5cd": "#3b362d", "#ffffff": "#232019",
+    "#f5f1e7": "#221e18", "#f1ede2": "#1e1a15", "#ebe5d8": "#2b2721",
     "#fef7cc": "#3a3117", "#ffe9a8": "#3d3418", "#fff6d8": "#383016",
     "#8a6d1f": "#e7b93c",
 }
@@ -87,13 +88,27 @@ def map_rgba(m: re.Match, surf: bool) -> str:
 HEX = re.compile(r"#[0-9a-fA-F]{3,8}\b")
 RGBA = re.compile(r"rgba?\([^)]*\)")
 
+# a rule that paints a gold surface must keep its dark text: gold carries the
+# brand in dark mode too, and light ink on gold is unreadable
+GOLD_BG = re.compile(
+    r"background[^;]*(?:fec60d|ffcf35|ffd34d|ffc24b|ff9a1f|f0a900|ffb700|"
+    r"fdce23|e7a902|ff6a00|255,\s*207,\s*53|255,\s*195,\s*0|255,\s*183,\s*0)", re.I)
+
+
+def gold_kept(body: str) -> bool:
+    for decl in body.split(";"):
+        if ":" in decl and BG_PROP.match(decl.split(":", 1)[0].strip()):
+            if GOLD_BG.search(decl):
+                return True
+    return False
+
 
 def map_value(val: str, surf: bool) -> str:
     val = RGBA.sub(lambda m: map_rgba(m, surf), val)
     return HEX.sub(lambda m: map_hex(m.group(0), surf), val)
 
 
-def map_body(body: str) -> str:
+def map_body(body: str, keep_ink: bool = False) -> str:
     out, buf, depth = [], "", 0
     for ch in body:
         if ch == ";" and depth == 0:
@@ -124,7 +139,10 @@ def map_body(body: str) -> str:
         elif BG_PROP.match(pname):
             parts.append(prop + ":" + map_value(val, True))
         elif FG_PROP.match(pname):
-            parts.append(prop + ":" + map_value(val, False))
+            if keep_ink:  # gold surface: dark text stays dark
+                parts.append(decl)
+            else:
+                parts.append(prop + ":" + map_value(val, False))
         else:
             parts.append(decl)
     return ";".join(parts)
@@ -202,7 +220,7 @@ def transform(css: str) -> str:
         body = css[j + 1:k]
         sel = sel.strip()
         if sel:
-            out.append(prefix_sel(sel) + "{" + map_body(body) + "}")
+            out.append(prefix_sel(sel) + "{" + map_body(body, gold_kept(body)) + "}")
         else:
             out.append(css[i:k + 1])
         i = k + 1
@@ -214,17 +232,40 @@ MANUAL = """
 html.kdark { color-scheme: dark; }
 html.kdark, html.kdark body { background: #161411 !important; }
 html.kdark img { -webkit-user-drag: none; }
-/* mono UI glyphs become light silhouettes (nav icons, row icons, arrows) */
-html.kdark .nic .ic, html.kdark .mic, html.kdark .chev {
-  filter: brightness(0) invert(.87);
-}
-/* active tab glyph sits on the gold pill: keep it dark for contrast */
-html.kdark .nitem.active .nic .ic { filter: brightness(0); }
+/* mono arrows become light; nav + row icons keep their colorful 3D art */
+html.kdark .chev { filter: brightness(0) invert(.87); }
 html.kdark .nitem.active span { color: var(--gold) !important; }
-/* subtle dim on big decorative illustrations so they sit in the dark UI */
-html.kdark .stage img { image-rendering: auto; }
+/* gold surfaces keep dark ink (their color comes from var(--ink), which the
+   theme turns light at the root — restore it on the gold elements) */
+html.kdark #scr-home .pill, html.kdark .gbtn, html.kdark #scr-quiz .qcoin,
+html.kdark .mseg button.on, html.kdark #scr-remind .mtime.on,
+html.kdark #scr-remind .mdays button.on { color: #29261F !important; }
 /* inline SVG glyphs authored with the light ink get the dark ink */
 html.kdark svg[fill="#1C1A17"] { fill: #F0EDE5; }
+/* baked light surfaces (white pills, cream cards) get a smart invert:
+   lightness flips, hue survives, so the warm identity stays intact */
+html.kdark #scr-words .vsearch .vbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.55) brightness(.88) drop-shadow(rgba(0,0,0,.5) 0 12px 16px);
+}
+html.kdark #scr-words .vfolder .vfac {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 16px 18px);
+}
+html.kdark #scr-words .vboard { filter: invert(.9) hue-rotate(180deg) brightness(.8); }
+html.kdark #scr-progress .phero .pbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 18px 30px);
+}
+html.kdark #scr-progress .tile .tbg, html.kdark #scr-progress .wcard .tbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 16px 26px);
+}
+html.kdark #scr-progress .discwrap .disc {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8);
+}
+html.kdark #scr-home .week .day img.chip:not(#h-daytoday) {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.85);
+}
+html.kdark #scr-goal .gday img:not(.ktoday) {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.85);
+}
 """
 
 

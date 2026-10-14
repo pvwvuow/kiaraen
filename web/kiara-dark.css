@@ -447,7 +447,7 @@ html.kdark #scr-profile .nitem.active .nic .nl{position:absolute;left:0;right:0;
   html.kdark .hearts img.dim{filter:grayscale(1);opacity:.32}
 
   /* shared bits */
-  html.kdark .pbar{position:relative;height:23px;border-radius:999px;background:#ebe5d8;overflow:hidden}
+  html.kdark .pbar{position:relative;height:23px;border-radius:999px;background:#2b2721;overflow:hidden}
   html.kdark .pbar i{position:absolute;top:0;bottom:0;right:0;border-radius:999px;
     background:linear-gradient(180deg,#ffd34d,#ffb700)}
   html.kdark .spanel{background:var(--panel);border-radius:36px;
@@ -608,9 +608,9 @@ html.kdark #scr-profile .nitem.active .nic .nl{position:absolute;left:0;right:0;
   html.kdark .spk img.si{position:relative;z-index:1;height:62px;width:auto}
   html.kdark .spk:active{transform:scale(.94)}
   html.kdark #scr-learn .ghost, html.kdark #scr-review .ghost{position:absolute;left:44px;width:765px;height:520px;
-    border-radius:48px;background:#f1ede2;box-shadow:0 14px 28px rgba(0,0,0,0.18)}
+    border-radius:48px;background:#1e1a15;box-shadow:0 14px 28px rgba(0,0,0,0.18)}
   html.kdark #scr-review .ghost.g1{top:284px;transform:rotate(-4deg)}
-  html.kdark #scr-review .ghost.g2{top:266px;transform:rotate(3deg);background:#f5f1e7}
+  html.kdark #scr-review .ghost.g2{top:266px;transform:rotate(3deg);background:#221e18}
   html.kdark #scr-learn .dots, html.kdark #scr-review .dots{position:absolute;left:0;right:0;display:flex;
     align-items:center;justify-content:center;gap:14px}
   html.kdark #scr-learn .dots{top:1196px}
@@ -1008,14 +1008,37 @@ html.kdark #scr-profile .nitem.active .nic .nl{position:absolute;left:0;right:0;
 html.kdark { color-scheme: dark; }
 html.kdark, html.kdark body { background: #161411 !important; }
 html.kdark img { -webkit-user-drag: none; }
-/* mono UI glyphs become light silhouettes (nav icons, row icons, arrows) */
-html.kdark .nic .ic, html.kdark .mic, html.kdark .chev {
-  filter: brightness(0) invert(.87);
-}
-/* active tab glyph sits on the gold pill: keep it dark for contrast */
-html.kdark .nitem.active .nic .ic { filter: brightness(0); }
+/* mono arrows become light; nav + row icons keep their colorful 3D art */
+html.kdark .chev { filter: brightness(0) invert(.87); }
 html.kdark .nitem.active span { color: var(--gold) !important; }
-/* subtle dim on big decorative illustrations so they sit in the dark UI */
-html.kdark .stage img { image-rendering: auto; }
+/* gold surfaces keep dark ink (their color comes from var(--ink), which the
+   theme turns light at the root — restore it on the gold elements) */
+html.kdark #scr-home .pill, html.kdark .gbtn, html.kdark #scr-quiz .qcoin,
+html.kdark .mseg button.on, html.kdark #scr-remind .mtime.on,
+html.kdark #scr-remind .mdays button.on { color: #29261F !important; }
 /* inline SVG glyphs authored with the light ink get the dark ink */
 html.kdark svg[fill="#1C1A17"] { fill: #F0EDE5; }
+/* baked light surfaces (white pills, cream cards) get a smart invert:
+   lightness flips, hue survives, so the warm identity stays intact */
+html.kdark #scr-words .vsearch .vbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.55) brightness(.88) drop-shadow(rgba(0,0,0,.5) 0 12px 16px);
+}
+html.kdark #scr-words .vfolder .vfac {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 16px 18px);
+}
+html.kdark #scr-words .vboard { filter: invert(.9) hue-rotate(180deg) brightness(.8); }
+html.kdark #scr-progress .phero .pbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 18px 30px);
+}
+html.kdark #scr-progress .tile .tbg, html.kdark #scr-progress .wcard .tbg {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8) drop-shadow(rgba(0,0,0,.5) 0 16px 26px);
+}
+html.kdark #scr-progress .discwrap .disc {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.8);
+}
+html.kdark #scr-home .week .day img.chip:not(#h-daytoday) {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.85);
+}
+html.kdark #scr-goal .gday img:not(.ktoday) {
+  filter: invert(.9) hue-rotate(180deg) saturate(.5) brightness(.85);
+}
